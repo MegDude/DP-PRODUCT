@@ -1013,6 +1013,24 @@ html {
     box-shadow: var(--dp-shadow-glow);
   }
 
+  .dp-section-light {
+    animation: dp-light-drift 12s ease-in-out infinite;
+  }
+
+  @keyframes dp-light-drift {
+    0% {
+      transform: translateX(0) translateY(0);
+    }
+
+    50% {
+      transform: translateX(30px) translateY(-20px);
+    }
+
+    100% {
+      transform: translateX(0) translateY(0);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

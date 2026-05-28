@@ -1,62 +1,20 @@
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
   Building2,
-  CheckCircle2,
-  CreditCard,
   MapPin,
-  Navigation,
   QrCode,
   Sparkles,
 } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 
 const VIDEO_SRC = "/videos/downtown-austin-drone-cinematic.mp4";
 
 const signalPoints = [
-  { label: "Resident access", value: "Card + map", icon: CreditCard },
-  { label: "Partner readout", value: "QR + RSVPs", icon: QrCode },
-  { label: "Local context", value: "Live nearby", icon: Building2 },
-];
-
-const pathCards = [
-  {
-    id: "resident-card",
-    label: "Resident card",
-    detail: "Access active",
-    icon: CreditCard,
-    x: "17%",
-    y: "24%",
-    variant: "light",
-  },
-  {
-    id: "perks",
-    label: "Perks nearby",
-    detail: "Show card",
-    icon: MapPin,
-    x: "54%",
-    y: "22%",
-    variant: "dark",
-  },
-  {
-    id: "partner-readout",
-    label: "Partner readout",
-    detail: "Scans + RSVPs",
-    icon: Building2,
-    x: "68%",
-    y: "62%",
-    variant: "light",
-  },
-  {
-    id: "route",
-    label: "Walkable route",
-    detail: "4 min walk",
-    icon: Navigation,
-    x: "36%",
-    y: "70%",
-    variant: "light",
-  },
+  { label: "Launch", value: "Map + card", icon: MapPin },
+  { label: "Measure", value: "Scans + RSVPs", icon: QrCode },
+  { label: "Decide", value: "Act on what works", icon: Building2 },
 ];
 
 const lifestyleTiles = [
@@ -87,105 +45,56 @@ const lifestyleTiles = [
   },
 ];
 
-const storyboardSteps = ["load", "resident", "perks", "route", "partner", "resolve"];
-
-const activePathByStep = {
-  resident: "resident-card",
-  perks: "perks",
-  route: "route",
-  partner: "partner-readout",
-  resolve: "perks",
-};
-
-const activeSignalByStep = {
-  resident: 0,
-  partner: 1,
-  resolve: 2,
-};
-
-function FlowChip({ card, active }) {
-  const Icon = card.icon;
-  const isDark = card.variant === "dark";
+function EditorialReveal({ children, className = "", delay = 0, amount = 0.22 }) {
+  const reduceMotion = useReducedMotion();
 
   return (
     <motion.div
-      className={`absolute z-20 flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 px-2 py-1.5 shadow-[0_14px_34px_rgba(11,31,51,0.14)] sm:gap-2 sm:px-2.5 sm:py-2 ${
-        isDark ? "bg-[#0B1F33] text-white" : "bg-white/94 text-[#0B1F33]"
-      }`}
-      style={{ left: card.x, top: card.y }}
-      initial={{ opacity: 0, y: 14, scale: 0.94 }}
-      animate={{
-        opacity: 1,
-        y: active ? -4 : 0,
-        scale: active ? 1.035 : 1,
-        boxShadow: active
-          ? "0 0 0 3px rgba(179, 143, 79, 0.08), 0 18px 40px rgba(11,31,51,0.18)"
-          : "0 0 0 1px rgba(11,31,51,0.05), 0 14px 34px rgba(11,31,51,0.10)",
-      }}
-      transition={{ duration: 0.42, ease: "easeOut" }}
+      className={className}
+      initial={reduceMotion ? false : { opacity: 0, y: 12, filter: "blur(5px)" }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, amount, margin: "0px 0px -8% 0px" }}
+      transition={{ duration: 0.56, delay: reduceMotion ? 0 : delay, ease: [0.22, 1, 0.36, 1] }}
     >
-      <Icon className="h-3.5 w-3.5 shrink-0 text-[#B38F4F] sm:h-4 sm:w-4" />
-      <div>
-        <span className="block whitespace-nowrap text-[10px] font-semibold leading-none sm:text-[11px]">{card.label}</span>
-        <span className={`mt-1 block whitespace-nowrap text-[8px] leading-none sm:text-[9px] ${isDark ? "text-white/45" : "text-[#0B1F33]/42"}`}>{card.detail}</span>
-      </div>
-      {active && <CheckCircle2 className="h-3 w-3 shrink-0 text-[#B38F4F] sm:h-3.5 sm:w-3.5" />}
+      {children}
     </motion.div>
   );
 }
 
 function ChoosePathStoryboard() {
-  const [step, setStep] = useState(0);
-  const current = storyboardSteps[step];
-
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setStep((prev) => (prev + 1) % storyboardSteps.length);
-    }, 1800);
-
-    return () => window.clearInterval(timer);
-  }, []);
+  const ref = useRef(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const imageY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [0, -40]);
 
   return (
-    <>
+    <motion.section
+      ref={ref}
+      initial={reduceMotion ? false : { opacity: 0, y: 24, filter: "blur(8px)" }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+    >
       <div className="relative min-h-[380px] overflow-hidden rounded-md bg-white/90 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_18px_54px_rgba(11,31,51,0.06)] sm:min-h-[330px]">
         <div className="absolute inset-0">
-          <motion.div
-            className="absolute left-[10%] top-[18%] h-32 w-32 bg-white/70 blur-2xl"
-            animate={{ opacity: [0.32, 0.54, 0.32], scale: [1, 1.08, 1] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute bottom-[8%] right-[14%] h-40 w-40 bg-[#0B1F33]/7 blur-2xl"
-            animate={{ opacity: [0.26, 0.44, 0.26], scale: [1, 1.06, 1] }}
-            transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
-          />
+          <div className="dp-section-light absolute left-[12%] top-[16%] h-40 w-40 bg-white/76 blur-3xl" />
+          <div className="dp-section-light absolute bottom-[8%] right-[14%] h-44 w-44 bg-[#0B1F33]/7 blur-3xl [animation-delay:-5s]" />
 
-          {lifestyleTiles.map((tile, index) => (
-            <motion.div
-              key={tile.label}
-              className={`absolute z-0 overflow-hidden bg-white/70 shadow-[0_18px_42px_rgba(11,31,51,0.13),0_0_34px_rgba(179, 143, 79, 0.08)] ${tile.className}`}
-              initial={{ opacity: 0, y: 10, scale: 0.96 }}
-              animate={{
-                opacity: tile.drift.opacity,
-                x: tile.drift.x,
-                y: tile.drift.y,
-                scale: [0.98, 1.035, 1],
-              }}
-              transition={{
-                delay: index * 0.12,
-                duration: 7 + index * 0.7,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              aria-hidden="true"
-            >
-              <img src={tile.image} alt="" loading="eager" decoding="async" className="h-full w-full object-cover" />
-              <div className="absolute bottom-0 left-0 right-0 bg-white/66 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.12em] text-[#0B1F33]/60">
-                {tile.label}
-              </div>
-            </motion.div>
-          ))}
+          <motion.div className="absolute inset-0" style={{ y: imageY }} aria-hidden="true">
+            {lifestyleTiles.map((tile) => (
+              <motion.div
+                key={tile.label}
+                className={`absolute z-0 overflow-hidden bg-white/70 opacity-70 shadow-[0_18px_42px_rgba(11,31,51,0.10),0_0_34px_rgba(179,143,79,0.08)] ${tile.className}`}
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <img src={tile.image} alt="" loading="eager" decoding="async" className="h-full w-full object-cover" />
+                <div className="absolute bottom-0 left-0 right-0 bg-white/66 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.12em] text-[#0B1F33]/60">
+                  {tile.label}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
 
         <svg className="absolute inset-0 z-10 h-full w-full" viewBox="0 0 720 360" preserveAspectRatio="none" aria-hidden="true">
@@ -195,8 +104,8 @@ function ChoosePathStoryboard() {
             stroke="#B38F4F"
             strokeWidth="2"
             strokeDasharray="8 10"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: current === "load" ? 0.18 : 1, opacity: 0.65 }}
+            initial={false}
+            animate={{ pathLength: 1, opacity: 0.52 }}
             transition={{ duration: 1.1, ease: "easeInOut" }}
           />
         </svg>
@@ -204,12 +113,8 @@ function ChoosePathStoryboard() {
         <div className="pointer-events-none absolute left-1/2 top-[47%] z-[15] w-[min(74vw,330px)] -translate-x-1/2 -translate-y-1/2 sm:top-[46%] sm:w-[340px]">
           <motion.div
             className="bg-white/76 px-3 py-2.5 text-center shadow-[0_18px_46px_rgba(11,31,51,0.10),0_0_34px_rgba(179,143,79,0.10)] sm:px-4 sm:py-3"
-            initial={{ opacity: 0, y: 8, scale: 0.98 }}
-            animate={{
-              opacity: current === "resolve" ? 0.78 : 0.94,
-              y: current === "load" ? 4 : 0,
-              scale: current === "load" ? 0.98 : 1,
-            }}
+            initial={false}
+            animate={{ opacity: 0.94, y: 0, scale: 1 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
           >
             <div className="flex items-center justify-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50 sm:text-[9px]">
@@ -220,74 +125,24 @@ function ChoosePathStoryboard() {
               The map, the card, and what is happening nearby.
             </div>
             <div className="mt-2 flex flex-wrap justify-center gap-x-2.5 gap-y-1 text-[8px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/42 sm:text-[9px]">
-              <span>Places</span>
-              <span className="text-[#B38F4F]">Perks</span>
-              <span>Events</span>
-              <span className="text-[#B38F4F]">Listings</span>
+              <span>Launch</span>
+              <span className="text-[#B38F4F]">Measure</span>
+              <span>Decide</span>
             </div>
           </motion.div>
         </div>
-
-        {current !== "load" &&
-          pathCards.map((card) => (
-            <FlowChip
-              key={card.id}
-              card={card}
-              active={activePathByStep[current] === card.id}
-            />
-          ))}
-
-        <AnimatePresence>
-          {current === "resolve" && (
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 8 }}
-              transition={{ duration: 0.5 }}
-              className="absolute bottom-4 left-3 right-3 z-30 bg-white/92 p-3 text-[#0B1F33] shadow-[0_18px_44px_rgba(11,31,51,0.14),0_0_0_1px_rgba(179, 143, 79, 0.08)] backdrop-blur-md sm:bottom-5 sm:left-5 sm:right-5 sm:p-4"
-            >
-              <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
-                <div>
-                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#B38F4F]">
-                    <Sparkles className="h-3.5 w-3.5" />
-                    Map readout
-                  </div>
-                  <div className="mt-1 text-[13px] font-semibold sm:text-[14px]">
-                    Resident access active · Perk nearby · Route ready
-                  </div>
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-center">
-                  <div className="bg-[#F7F8FB] px-3 py-2 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
-                    <div className="text-[13px] font-bold text-[#0B1F33]">4m</div>
-                    <div className="text-[8px] font-bold uppercase tracking-[0.12em] text-[#0B1F33]/38">Walk</div>
-                  </div>
-                  <div className="bg-[#F7F8FB] px-3 py-2 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
-                    <div className="text-[13px] font-bold text-[#0B1F33]">1</div>
-                    <div className="text-[8px] font-bold uppercase tracking-[0.12em] text-[#0B1F33]/38">Perk</div>
-                  </div>
-                  <div className="bg-[#F7F8FB] px-3 py-2 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
-                    <div className="text-[13px] font-bold text-[#0B1F33]">Live</div>
-                    <div className="text-[8px] font-bold uppercase tracking-[0.12em] text-[#0B1F33]/38">Nearby</div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
 
       <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-        {signalPoints.map((point, index) => {
+        {signalPoints.map((point) => {
           const Icon = point.icon;
-          const isActive = activeSignalByStep[current] === index;
 
           return (
             <motion.div
               key={point.label}
-              animate={{ y: isActive ? -2 : 0 }}
-              className={`min-w-[150px] shrink-0 bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition sm:min-w-0 sm:flex-1 ${
-                isActive ? "shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_12px_28px_rgba(11,31,51,0.08)]" : ""
-              }`}
+              whileHover={{ y: -1, backgroundColor: "rgba(255,255,255,0.94)" }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="min-w-[150px] shrink-0 bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_12px_30px_rgba(11,31,51,0.04)] sm:min-w-0 sm:flex-1"
             >
               <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/45">
                 <Icon className="h-3.5 w-3.5 text-[#B38F4F]" />
@@ -299,16 +154,16 @@ function ChoosePathStoryboard() {
         })}
         <Link
           to="/map?mode=resident&tab=map"
-          className="min-w-[150px] shrink-0 bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_12px_28px_rgba(11,31,51,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:min-w-0 sm:flex-1"
+          className="min-w-[150px] shrink-0 bg-[linear-gradient(90deg,#0B1F33,#132b45,#0B1F33)] bg-[length:200%_100%] p-3 text-white shadow-[0_12px_30px_rgba(11,31,51,0.10)] transition-[background-position,box-shadow] duration-300 hover:bg-[position:100%_0] hover:shadow-[0_24px_60px_rgba(11,31,51,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:min-w-0 sm:flex-1"
         >
-          <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/45">
+          <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-white/58">
             <ArrowRight className="h-3.5 w-3.5 text-[#B38F4F]" />
             Open map
           </div>
-          <div className="mt-1 text-[13px] font-semibold text-[#0B1F33]">Resident map</div>
+          <div className="mt-1 text-[13px] font-semibold text-white">Resident map</div>
         </Link>
       </div>
-    </>
+    </motion.section>
   );
 }
 
@@ -434,27 +289,20 @@ export default function SplashPage() {
       <section className="relative bg-[#F7F8FB] px-5 py-12 md:px-8 md:py-16">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179, 143, 79, 0.08),transparent)]" aria-hidden="true" />
         <div className="relative mx-auto max-w-[760px] text-left">
-          <motion.div
-            initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
+          <EditorialReveal amount={0.28}>
             <h2 className="font-heading text-[48px] font-medium leading-[0.92] tracking-[-0.045em] text-[#0B1F33] md:text-[92px] md:leading-[0.9]">
               More charm than a biscuit with honey.
             </h2>
             <p className="mt-3 max-w-[620px] font-heading text-[24px] font-medium leading-[1.08] text-[#0B1F33]/70 md:text-[34px]">
               Downtown Perks brings the heat — and the hospitality.
             </p>
-          </motion.div>
+          </EditorialReveal>
 
           <div className="mt-6 max-w-[640px] text-[17px] leading-[1.66] text-[#0B1F33]/70 md:text-[18px] md:leading-[1.68]">
-            <motion.div
+            <EditorialReveal
               className="max-w-[620px] space-y-3"
-              initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.45, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+              delay={0.04}
+              amount={0.24}
             >
               <p>
                 Built for the folks who still call it Town Lake, know the shortcut through the alley off South Congress, and somehow always know where happy hour starts before everyone else gets there.
@@ -462,13 +310,11 @@ export default function SplashPage() {
               <p>
                 For the people planning around rooftop weather, happy hour, workout classes, taco runs, live music, and “just one drink” that turns into the whole night.
               </p>
-            </motion.div>
-            <motion.div
+            </EditorialReveal>
+            <EditorialReveal
               className="mt-8"
-              initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.45, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+              delay={0.06}
+              amount={0.2}
             >
               <p className="max-w-[720px] font-heading text-[42px] font-medium leading-[0.98] tracking-[-0.03em] text-[#0B1F33] md:text-[58px]">
                 Downtown should feel easier than it does.
@@ -483,31 +329,27 @@ export default function SplashPage() {
                   “Wait — you’ve never been there?”
                 </p>
               </div>
-            </motion.div>
-            <motion.div
+            </EditorialReveal>
+            <EditorialReveal
               className="mt-8 max-w-[640px]"
-              initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              viewport={{ once: true, amount: 0.45 }}
-              transition={{ duration: 0.45, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
+              delay={0.04}
+              amount={0.2}
             >
               <p className="text-[18px] leading-[1.62] text-[#0B1F33]/76 md:text-[19px]">
                 Most things already exist. They’re just scattered across too many apps, group chats, tabs, feeds, newsletters, screenshots, and half-finished plans.
               </p>
-            </motion.div>
-            <motion.div
+            </EditorialReveal>
+            <EditorialReveal
               className="mt-8 max-w-[660px] space-y-2.5"
-              initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              viewport={{ once: true, amount: 0.45 }}
-              transition={{ duration: 0.45, delay: 0.36, ease: [0.22, 1, 0.36, 1] }}
+              delay={0.04}
+              amount={0.18}
             >
-	              <p className="font-heading text-[34px] font-medium leading-[1] tracking-[-0.025em] text-[#0B1F33] md:text-[48px]">
-	                So we built one map to bring everything together.
-	              </p>
-	              <p>
-	                Not another app to manage. Not another feed to scroll. Just a better way to figure out what’s nearby, what’s happening, and what feels worth getting out for.
-	              </p>
+              <p className="font-heading text-[34px] font-medium leading-[1] tracking-[-0.025em] text-[#0B1F33] md:text-[48px]">
+                So we built one map to bring everything together.
+              </p>
+              <p>
+                Not another app to manage. Not another feed to scroll. Just a better way to figure out what’s nearby, what’s happening, and what feels worth getting out for.
+              </p>
               <p className="pt-1">People usually go with what feels familiar, nearby, and easy to say yes to:</p>
               <p className="text-[19px] leading-[1.36] text-[#0B1F33]/76 md:text-[21px]">
                 Coffee before work.<br />
@@ -519,15 +361,13 @@ export default function SplashPage() {
                 <p>Downtown Perks helps residents make better plans faster — while helping local businesses stay relevant in the moments that actually matter.</p>
                 <p>And when people choose local, they unlock perks, offers, rewards, and little extras from the places that keep downtown interesting.</p>
               </div>
-            </motion.div>
+            </EditorialReveal>
           </div>
 
-          <motion.div
+          <EditorialReveal
             className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"
-            initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, amount: 0.55 }}
-            transition={{ duration: 0.45, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            delay={0.04}
+            amount={0.2}
           >
             <Link
               to="/residents"
@@ -541,7 +381,7 @@ export default function SplashPage() {
             >
               Enter Partner View
             </Link>
-          </motion.div>
+          </EditorialReveal>
         </div>
       </section>
     </main>

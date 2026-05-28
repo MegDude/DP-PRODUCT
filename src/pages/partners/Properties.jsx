@@ -1,38 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, useInView, animate } from "framer-motion";
 import { Link } from "react-router-dom";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { ArrowLeft, ArrowRight, X, Building2, Star, Waves, Dumbbell, Car, Bell } from "lucide-react";
-import L from "leaflet";
-
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-});
-
-function buildingIcon(active) {
-  return L.divIcon({
-    className: "",
-    html: `<div style="width:12px;height:12px;border-radius:4px;background:${active ? "#B38F4F" : "#132238"};border:2px solid rgba(255,255,255,0.8);box-shadow:0 4px 12px rgba(11,31,51,0.18)"></div>`,
-    iconSize: [12, 12], iconAnchor: [6, 6],
-  });
-}
-
-function nearbyIcon() {
-  return L.divIcon({
-    className: "",
-    html: `<div style="width:8px;height:8px;border-radius:3px;background:#B38F4F;border:2px solid rgba(255,255,255,0.7);box-shadow:0 4px 10px rgba(11,31,51,0.14)"></div>`,
-    iconSize: [8, 8], iconAnchor: [4, 4],
-  });
-}
-
-function MapFly({ center }) {
-  const map = useMap();
-  useEffect(() => { if (center) map.flyTo(center, 14, { duration: 1.1 }); }, [center]);
-  return null;
-}
+import PartnerMapIntelligenceLayer from "@/components/partner/PartnerMapIntelligenceLayer";
 
 function CountUp({ to, duration = 1.2 }) {
   const [val, setVal] = useState(0);
@@ -66,7 +36,7 @@ const BUILDINGS = [
     dist: "0.4 mi to Seaholm", interactions: 167, saves: 28, unlocks: 15, scans: 29, rsvps: 5,
     trend: "+11% this week", top: "Dinner near Congress",
     amenities: ["Pool", "Parking", "Gym"],
-    nearby: ["Dinner near Congress", "Public Art Walk", "Fine Eyewear offer"],
+    nearby: ["Dinner near Congress", "Public Art Walk", "Legends listing request"],
   },
   {
     id: "hanover", name: "Hanover Republic Square", address: "115 W 3rd St", lat: 30.2660, lng: -97.7420,
@@ -128,7 +98,6 @@ const PROMPTS = [
 export default function PropertiesPartner() {
   const [mapFilter, setMapFilter] = useState("all");
   const [activeBuilding, setActiveBuilding] = useState(null);
-  const [mapCenter, setMapCenter] = useState([30.2680, -97.7470]);
   const [formType, setFormType] = useState("Property");
   const [formText, setFormText] = useState("");
 
@@ -136,7 +105,6 @@ export default function PropertiesPartner() {
 
   function selectBuilding(b) {
     setActiveBuilding(b.id);
-    setMapCenter([b.lat, b.lng]);
   }
 
   return (
@@ -219,22 +187,16 @@ export default function PropertiesPartner() {
             ))}
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div className="lg:col-span-2 rounded-xl border border-border/50 overflow-hidden" style={{ height: 480 }}>
-              <MapContainer center={mapCenter} zoom={14} style={{ height: "100%", width: "100%" }} zoomControl={false} scrollWheelZoom={false}>
-                <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" attribution="&copy; CARTO" />
-                <MapFly center={mapCenter} />
-                {BUILDINGS.map(b => (
-                  <Marker key={b.id} position={[b.lat, b.lng]} icon={buildingIcon(activeBuilding === b.id)}
-                    eventHandlers={{ click: () => selectBuilding(b) }}>
-                    <Popup><div className="text-xs font-semibold">{b.name}</div></Popup>
-                  </Marker>
-                ))}
-                {NEARBY.map(n => (
-                  <Marker key={n.name} position={[n.lat, n.lng]} icon={nearbyIcon()}>
-                    <Popup><div className="text-xs">{n.name}</div></Popup>
-                  </Marker>
-                ))}
-              </MapContainer>
+            <div className="lg:col-span-2 overflow-hidden" style={{ height: 480 }}>
+              <PartnerMapIntelligenceLayer
+                activeId={activeBuilding}
+                caption="Property intelligence layer"
+                insight="Buildings, resident saves, nearby perks, and events in one working view."
+                kind="property"
+                nearby={NEARBY}
+                onSelect={selectBuilding}
+                points={BUILDINGS}
+              />
             </div>
             <div className="rounded-xl border border-border/50 bg-card/60 overflow-hidden flex flex-col">
               {!building ? (

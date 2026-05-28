@@ -15,7 +15,7 @@ const CATEGORY_PIN_MAP: Array<[PinVariant, string[]]> = [
 ];
 
 const PIN_MATCHERS: Array<[PinVariant, string[]]> = [
-  ["legends", ["legends", "legends property", "legends property export", "fine eyewear"]],
+  ["legends", ["legends", "legends real estate", "legends property", "legends property export"]],
   ["coffee", ["coffee", "cafe", "espresso"]],
   ["dining", ["dining", "restaurant", "food", "lunch", "dinner", "kitchen", "grill", "taqueria", "pizza", "sushi", "bbq", "bistro", "bakery", "brewery"]],
   ["nightlife", ["bar", "nightlife", "rooftop", "music", "cocktail", "pub", "saloon", "club", "lounge", "speakeasy", "mezcal", "beer garden"]],

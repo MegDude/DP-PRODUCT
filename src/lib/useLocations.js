@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import data from "../data/locations.json";
+import { legendsListingPlaces } from "../data/legendsListings";
 import { getHappyHourPlaces } from "./happyHours";
 import { isDowntownAustin78701Entity } from "./map/downtownAustinScope";
 import { normalizeEntity } from "./map/normalizeEntity";
@@ -107,18 +108,19 @@ const brandPartnerPlaces = [
     source: "Downtown Perks brand partner layer",
   },
   {
-    id: "legends-fine-eyewear-2nd-street",
-    name: "Legends Fine Eyewear",
+    id: "legends-real-estate-downtown-austin",
+    name: "Legends Real Estate",
     type: "brand",
     partnerType: "brand",
-    brand: "Legends Fine Eyewear",
-    category: "Brand / Retail",
-    category_key: "brand_retail",
+    brand: "Legends Real Estate",
+    pinKey: "legends",
+    category: "Brand / Real Estate",
+    category_key: "brand_real_estate",
     latitude: 30.2655,
     longitude: -97.74618,
     district: "2nd Street",
     address: "2nd Street District, Austin, TX 78701",
-    summary: "Premium eyewear discovery connected to downtown foot traffic, resident access, and appointment-ready intent.",
+    summary: "Downtown real estate inventory connected to resident demand, building interest, and appointment-ready listing requests.",
     source: "Downtown Perks brand partner layer",
   },
 ];
@@ -142,7 +144,7 @@ export function useLocations() {
   const happyHourPlaces = getHappyHourPlaces();
   void happyHoursVersion;
 
-  return [...data, ...eventPlaces, ...brandPartnerPlaces, ...happyHourPlaces]
+  return [...data, ...eventPlaces, ...brandPartnerPlaces, ...legendsListingPlaces, ...happyHourPlaces]
     .filter((item) => isDowntownAustin78701Entity(item))
     .map((item, i) => {
       const isVia313 = String(item.name || "").toLowerCase().includes("via 313");

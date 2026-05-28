@@ -40,5 +40,9 @@ export function isDowntownAustin78701Entity(entity: Record<string, unknown>): bo
   if (!inDowntownBox) return false;
   if (longitude > EAST_SIDE_CUTOFF) return false;
 
-  return searchableText(entity).includes("78701");
+  const text = searchableText(entity);
+  const sourceText = [entity.source, entity.brand, entity.category_key].filter(Boolean).join(" ").toLowerCase();
+
+  if (sourceText.includes("legends") && sourceText.includes("verified listing")) return true;
+  return text.includes("78701");
 }

@@ -63,7 +63,7 @@ const metrics = [
     value: "24%",
     detail: "People who saved, scanned, RSVP'd, or asked for directions.",
     shows: "This shows whether people did something useful after seeing the campaign.",
-    example: "Example: a Legends Fine Eyewear fitting offer counts saves, scans, and appointment intent.",
+    example: "Example: a Legends Real Estate listing campaign counts saves, scans, and showing intent.",
   },
   {
     id: "impact",
@@ -88,8 +88,8 @@ const campaignSteps = ["Setup", "People", "Area", "Timing", "Access", "Placement
 const campaignStepDetails = {
   Setup: {
     title: "Define the campaign goal",
-    body: "Pick the thing you want people to do: save a place, scan a QR, RSVP, redeem a perk, book a fitting, join an event, or visit a partner.",
-    example: "Legends Fine Eyewear might start with: get downtown residents to book a private fitting this month.",
+    body: "Pick the thing you want people to do: save a place, scan a QR, RSVP, redeem a perk, request a showing, join an event, or visit a partner.",
+    example: "Legends Real Estate might start with: get downtown residents to request showings for new listings this month.",
   },
   People: {
     title: "Choose who should see it",
@@ -130,10 +130,10 @@ const campaignStepDetails = {
 
 const brandCampaignExamples = [
   {
-    brand: "Legends Fine Eyewear",
+    brand: "Legends Real Estate",
     route: "/brands/analytics?brand=legends",
-    format: "Private fitting campaign",
-    result: "Measures saves, scans, appointment intent, and nearby luxury retail interest.",
+    format: "Verified listing campaign",
+    result: "Measures saves, scans, showing intent, and nearby residential demand.",
     metric: "Yield",
   },
   {

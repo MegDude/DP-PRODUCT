@@ -1,37 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, useInView, animate } from "framer-motion";
 import { Link } from "react-router-dom";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { ArrowLeft, ArrowRight, X, Hotel, QrCode } from "lucide-react";
-import L from "leaflet";
+import PartnerMapIntelligenceLayer from "@/components/partner/PartnerMapIntelligenceLayer";
 import { PARTNER_SPACING, PARTNER_GRIDS } from '@/lib/partner-system';
 import FAQAccordionBlock from '@/components/ui/FAQAccordionBlock';
 import { FAQ_HOSPITALITY } from '@/lib/faq-partner-data';
-
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-});
-
-function hotelIcon(active) {
-  return L.divIcon({
-    className: "",
-    html: `<div style="width:12px;height:12px;border-radius:4px;background:${active ? "#B38F4F" : "#132238"};border:2px solid rgba(255,255,255,0.85);box-shadow:0 4px 12px rgba(11,31,51,0.18)"></div>`,
-    iconSize: [12, 12], iconAnchor: [6, 6],
-  });
-}
-
-function nearbyIcon() {
-  return L.divIcon({ className: "", html: `<div style="width:7px;height:7px;border-radius:3px;background:#B38F4F;border:1.5px solid rgba(255,255,255,0.7)"></div>`, iconSize: [7, 7], iconAnchor: [3.5, 3.5] });
-}
-
-function MapFly({ center }) {
-  const map = useMap();
-  useEffect(() => { if (center) map.flyTo(center, 14, { duration: 1.1 }); }, [center]);
-  return null;
-}
 
 function CountUp({ to, duration = 1.2 }) {
   const [val, setVal] = useState(0);
@@ -95,13 +69,12 @@ const PROMPTS = [
 export default function HotelsPartner() {
   const [mapFilter, setMapFilter] = useState("all");
   const [activeHotel, setActiveHotel] = useState(null);
-  const [mapCenter, setMapCenter] = useState([30.2640, -97.7400]);
   const [formType, setFormType] = useState("Hotel");
   const [formText, setFormText] = useState("");
 
   const hotel = activeHotel ? HOTELS.find(h => h.id === activeHotel) : null;
 
-  function selectHotel(h) { setActiveHotel(h.id); setMapCenter([h.lat, h.lng]); }
+  function selectHotel(h) { setActiveHotel(h.id); }
 
   return (
     <div className="min-h-screen bg-background">
@@ -177,21 +150,16 @@ export default function HotelsPartner() {
             ))}
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div className="lg:col-span-2 rounded-xl border border-border/50 overflow-hidden" style={{ height: 480 }}>
-              <MapContainer center={mapCenter} zoom={14} style={{ height: "100%", width: "100%" }} zoomControl={false} scrollWheelZoom={false}>
-                <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" attribution="&copy; CARTO" />
-                <MapFly center={mapCenter} />
-                {HOTELS.map(h => (
-                  <Marker key={h.id} position={[h.lat, h.lng]} icon={hotelIcon(activeHotel === h.id)} eventHandlers={{ click: () => selectHotel(h) }}>
-                    <Popup><div className="text-xs font-semibold">{h.name}</div></Popup>
-                  </Marker>
-                ))}
-                {NEARBY.map(n => (
-                  <Marker key={n.name} position={[n.lat, n.lng]} icon={nearbyIcon()}>
-                    <Popup><div className="text-xs">{n.name}</div></Popup>
-                  </Marker>
-                ))}
-              </MapContainer>
+            <div className="lg:col-span-2 overflow-hidden" style={{ height: 480 }}>
+              <PartnerMapIntelligenceLayer
+                activeId={activeHotel}
+                caption="Guest intelligence layer"
+                insight="Hotels, lobby scans, guest saves, and nearby things to do in one live view."
+                kind="hotel"
+                nearby={NEARBY}
+                onSelect={selectHotel}
+                points={HOTELS}
+              />
             </div>
             <div className="rounded-xl border border-border/50 bg-card/60 overflow-hidden flex flex-col">
               {!hotel ? (

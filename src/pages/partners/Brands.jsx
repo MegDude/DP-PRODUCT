@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView, animate } from "framer-motion";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
-import L from "leaflet";
 import {
   ArrowLeft,
   ArrowRight,
@@ -14,21 +12,23 @@ import {
   QrCode,
   Sparkles,
 } from "lucide-react";
+import PartnerMapIntelligenceLayer from "@/components/partner/PartnerMapIntelligenceLayer";
 import FAQAccordionBlock from "@/components/ui/FAQAccordionBlock";
 import { FAQ_BRANDS } from "@/lib/faq-partner-data";
 
 const CAMPAIGN_POINTS = [
   {
     id: "legends",
-    name: "Legends Fine Eyewear",
-    type: "Launch campaign",
+    name: "Legends Real Estate",
+    type: "Verified listing layer",
     district: "2nd Street",
     lat: 30.2659,
     lng: -97.7475,
+    logo: "/pins/downtown-perks/legends-logo.png",
     scans: 340,
     saves: 118,
     redemptions: 58,
-    signal: "Resident offer + map placement",
+    signal: "Listings + resident demand",
   },
   {
     id: "paseo",
@@ -119,23 +119,6 @@ const PROMPTS = [
   "We want QR entry points connected to the map.",
   "We want to track real-world scans and redemptions.",
 ];
-
-function brandPin(active = false) {
-  return L.divIcon({
-    className: "dp-leaflet-pin",
-    html: `<div class="dp-live-pin ${active ? "is-selected" : ""}" aria-hidden="true"><div class="dp-live-pin__core"><svg class="dp-pin-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2 7.5 14 3 9.6l6.2-.9L12 3Z"/></svg></div></div>`,
-    iconSize: active ? [42, 42] : [38, 38],
-    iconAnchor: active ? [21, 21] : [19, 19],
-  });
-}
-
-function MapFly({ center }) {
-  const map = useMap();
-  useEffect(() => {
-    if (center) map.flyTo(center, 16, { duration: 0.8 });
-  }, [center, map]);
-  return null;
-}
 
 function CountUp({ to, suffix = "" }) {
   const ref = useRef(null);
@@ -281,26 +264,15 @@ export default function BrandsPartner() {
 
       <Section id="brand-map" eyebrow="Spatial Placement" title="See where campaigns actually run.">
         <div className="grid gap-4 lg:grid-cols-[1.35fr_0.65fr]">
-          <div className="overflow-hidden rounded-lg border border-[#0B1F33]/8 bg-white shadow-[0_14px_34px_rgba(11,31,51,0.07)]" style={{ height: 480 }}>
-            <MapContainer center={[activePoint.lat, activePoint.lng]} zoom={16} className="h-full w-full dp-spatial-map" zoomControl={false} scrollWheelZoom={false}>
-              <TileLayer attribution="&copy; OpenStreetMap" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <MapFly center={[activePoint.lat, activePoint.lng]} />
-              {CAMPAIGN_POINTS.map((point) => (
-                <Marker
-                  key={point.id}
-                  position={[point.lat, point.lng]}
-                  icon={brandPin(point.id === activePoint.id)}
-                  eventHandlers={{ click: () => setActivePoint(point) }}
-                >
-                  <Popup>
-                    <div className="text-xs">
-                      <div className="font-semibold">{point.name}</div>
-                      <div>{point.type}</div>
-                    </div>
-                  </Popup>
-                </Marker>
-              ))}
-            </MapContainer>
+          <div className="overflow-hidden rounded-lg" style={{ height: 480 }}>
+            <PartnerMapIntelligenceLayer
+              activeId={activePoint.id}
+              caption="Campaign intelligence layer"
+              insight="Campaign placements, QR scans, resident saves, and redemptions shown by downtown context."
+              kind="brand"
+              onSelect={setActivePoint}
+              points={CAMPAIGN_POINTS}
+            />
           </div>
 
           <div className="rounded-lg border border-[#0B1F33]/8 bg-white">

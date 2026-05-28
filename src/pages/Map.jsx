@@ -49,7 +49,7 @@ const FILTER_MATCHERS = {
   Properties: ["property", "residential", "apartment", "condo", "tower", "listing", "building"],
   Venues: ["venue", "bar", "restaurant", "coffee", "dining", "nightlife", "retail", "store"],
   Hotels: ["hotel", "hospitality", "stay", "guest"],
-  Brands: ["brand", "sponsor", "rivian", "yeti", "ariat", "lululemon", "equinox", "legends fine eyewear"],
+  Brands: ["brand", "sponsor", "rivian", "yeti", "ariat", "lululemon", "equinox", "legends real estate"],
   Events: ["event", "activation", "music", "show", "festival", "rsvp"],
   Civic: ["civic", "public", "district", "city"],
   Services: ["service", "concierge", "mobility", "parking"],
@@ -261,7 +261,7 @@ function isBrandEntity(place) {
   const type = String(place.type || "").toLowerCase();
   const partnerType = String(place.partnerType || "").toLowerCase();
   const name = String(place.name || "").toLowerCase();
-  const knownBrands = ["rivian", "yeti", "ariat", "lululemon", "equinox", "austin fc", "legends fine eyewear"];
+  const knownBrands = ["rivian", "yeti", "ariat", "lululemon", "equinox", "austin fc", "legends real estate"];
   const venueOnlySignals = ["bar", "nightlife", "restaurant", "coffee", "dining", "pizza", "cafe", "pub"];
   const knownBrandMatch = knownBrands.some((brand) => name === brand || name.startsWith(`${brand} `));
 
@@ -431,17 +431,33 @@ function rankPlacesForIntent(places, query, mode) {
   return matches.length ? matches : places;
 }
 
+function getLegendsListing(place) {
+  const listing = place?.raw?.legendsListing;
+  return listing && typeof listing === "object" ? listing : null;
+}
+
+function escapeHtmlAttribute(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 function pinIcon(place, selected, pulsing = false) {
   const pin = resolveEntityPin(place);
   const isEventPin = isEventEntity(place);
   const isHappyHourPin = isHappyHourEntity(place);
+  const legendsListing = getLegendsListing(place);
   const eventPinClass = isEventPin ? "dp-live-pin--event" : "";
   const happyHourPinClass = isHappyHourPin ? "dp-live-pin--happy-hour" : "";
+  const legendsPinClass = legendsListing ? "dp-live-pin--legends" : "";
   const iconSize = isEventPin || isHappyHourPin ? (selected ? [36, 36] : [32, 32]) : selected ? [42, 42] : [38, 38];
   const iconAnchor = isEventPin || isHappyHourPin ? (selected ? [18, 18] : [16, 16]) : selected ? [21, 21] : [19, 19];
+  const ariaLabel = legendsListing ? `Legends listing at ${legendsListing.address}` : `${place.name} details`;
   return L.divIcon({
     className: "dp-leaflet-pin",
-    html: `<button type="button" class="dp-live-pin ${eventPinClass} ${happyHourPinClass} ${selected ? "is-selected" : ""} ${pulsing ? "is-pulsing" : ""}" data-entity-id="${place.id}" aria-label="${place.name} details"><span class="dp-live-pin__core">${pin.glyph}</span></button>`,
+    html: `<button type="button" class="dp-live-pin ${eventPinClass} ${happyHourPinClass} ${legendsPinClass} ${selected ? "is-selected" : ""} ${pulsing ? "is-pulsing" : ""}" data-entity-id="${escapeHtmlAttribute(place.id)}" aria-label="${escapeHtmlAttribute(ariaLabel)}"><span class="dp-live-pin__core">${pin.glyph}</span></button>`,
     iconSize,
     iconAnchor,
     popupAnchor: [0, -18],
@@ -684,7 +700,7 @@ function ResidentPerkDetails({ place }) {
   const statusLabel = isProperty ? "Active listing" : "ACTIVE PERK";
 
   return (
-    <section className="mt-4 rounded-lg border border-[#0B1F33]/8 bg-[#F7F8FB]/78 p-3">
+    <section className="mt-4 dp-soft-panel p-3">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/52">
@@ -698,10 +714,10 @@ function ResidentPerkDetails({ place }) {
             {perk.description}
           </p>
         </div>
-        <div className={`shrink-0 rounded-md border px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.09em] ${
+        <div className={`shrink-0 rounded-md px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.09em] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] ${
           hasOffer
-            ? "border-[#B38F4F]/45 bg-white text-[#0B1F33]"
-            : "border-[#0B1F33]/8 bg-white/72 text-[#0B1F33]/58"
+            ? "bg-white/88 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(179,143,79,0.24),0_0_20px_rgba(179,143,79,0.10)]"
+            : "bg-white/72 text-[#0B1F33]/58"
         }`}>
           {statusLabel}
         </div>
@@ -720,7 +736,7 @@ function HappyHourDetails({ place }) {
   const redemption = happyHour.redemption || "Show your Downtown Perks Card when you arrive.";
 
   return (
-    <section className="mt-4 rounded-lg border border-[#B38F4F]/28 bg-white p-3 shadow-[0_12px_28px_rgba(11,31,51,0.06)]">
+    <section className="mt-4 dp-soft-panel bg-white/82 p-3">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/52">
@@ -730,25 +746,159 @@ function HappyHourDetails({ place }) {
           <h3 className="mt-1 font-heading text-xl font-medium text-[#0B1F33]">{venueName}</h3>
           <p className="mt-1.5 text-[12px] leading-5 text-[#0B1F33]/64">{details}</p>
         </div>
-        <div className="shrink-0 rounded-md border border-[#B38F4F]/45 bg-[#0B1F33] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.09em] text-white">
+        <div className="shrink-0 rounded-md bg-[#0B1F33] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.09em] text-white shadow-[0_0_22px_rgba(179,143,79,0.16),inset_0_0_0_1px_rgba(179,143,79,0.22)]">
           Live
         </div>
       </div>
 
       <div className="mt-3 grid gap-2 sm:grid-cols-3">
-        <div className="rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] p-2.5">
+        <div className="dp-soft-tile p-2.5">
           <div className="text-[9px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/48">When</div>
           <p className="mt-1 text-[12px] font-semibold leading-5 text-[#0B1F33]">{days} · {time}</p>
         </div>
-        <div className="rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] p-2.5">
+        <div className="dp-soft-tile p-2.5">
           <div className="text-[9px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/48">Offer</div>
           <p className="mt-1 text-[12px] font-semibold leading-5 text-[#0B1F33]">{offer}</p>
         </div>
-        <div className="rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] p-2.5">
+        <div className="dp-soft-tile p-2.5">
           <div className="text-[9px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/48">Use it</div>
           <p className="mt-1 text-[12px] font-semibold leading-5 text-[#0B1F33]">{redemption}</p>
         </div>
       </div>
+    </section>
+  );
+}
+
+function LegendsContactForm({ listing }) {
+  const [submitted, setSubmitted] = useState(false);
+  const contactMethods = ["Email", "Phone", "Text"];
+
+  if (submitted) {
+    return (
+      <div className="mt-4 dp-soft-panel p-4 text-[13px] leading-5 text-[#0B1F33]/72">
+        Thanks — your request has been sent to Legends Real Estate. The team will follow up with listing details and next steps.
+      </div>
+    );
+  }
+
+  return (
+    <form
+      className="mt-4 dp-soft-panel p-4"
+      onSubmit={(event) => {
+        event.preventDefault();
+        setSubmitted(true);
+      }}
+    >
+      <div className="flex items-start gap-3">
+        <img
+          src="/pins/downtown-perks/legends-logo.png"
+          alt=""
+          className="h-9 w-9 rounded-lg bg-[#0B1F33] object-cover shadow-[0_10px_24px_rgba(11,31,51,0.12)]"
+        />
+        <div>
+          <h3 className="text-[15px] font-semibold text-[#0B1F33]">Contact Legends Real Estate about this listing</h3>
+          <p className="mt-1 text-[12px] leading-5 text-[#0B1F33]/64">
+            Send a quick request and the Legends Real Estate team will follow up with details, availability, and next steps for this property.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-2 sm:grid-cols-2">
+        <label className="grid gap-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/54">
+          Name
+          <input required name="name" className="h-9 dp-soft-field rounded-md bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" placeholder="Full name" />
+        </label>
+        <label className="grid gap-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/54">
+          Email
+          <input required type="email" name="email" className="h-9 dp-soft-field rounded-md bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" placeholder="you@email.com" />
+        </label>
+        <label className="grid gap-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/54">
+          Phone
+          <input name="phone" className="h-9 dp-soft-field rounded-md bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" placeholder="Optional" />
+        </label>
+        <label className="grid gap-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/54">
+          Preferred contact
+          <select name="preferredContactMethod" className="h-9 dp-soft-field rounded-md bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70">
+            {contactMethods.map((method) => (
+              <option key={method}>{method}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+
+      <label className="mt-2 grid gap-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/54">
+        Message
+        <textarea required name="message" className="min-h-20 dp-soft-field rounded-md bg-white px-3 py-2 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" defaultValue={listing.prefilledMessage} />
+      </label>
+
+      <input type="hidden" name="listingType" value={listing.listingType === "rent" ? "Rent" : "Sale"} />
+      <input type="hidden" name="address" value={`${listing.address}, ${listing.city}, ${listing.state} ${listing.zip}`} />
+      <input type="hidden" name="price" value={listing.price} />
+      <input type="hidden" name="beds" value={listing.beds} />
+      <input type="hidden" name="baths" value={listing.baths} />
+      <input type="hidden" name="sqft" value={listing.sqft} />
+      <input type="hidden" name="daysOnMarket" value={listing.daysOnMarket} />
+      <input type="hidden" name="neighborhood" value={listing.neighborhood} />
+      <input type="hidden" name="source" value={listing.source} />
+      <input type="hidden" name="brand" value="Legends Real Estate" />
+
+      <button type="submit" className="mt-3 inline-flex h-9 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-white transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
+        Send Listing Request
+        <Send className="h-3.5 w-3.5 text-[#B38F4F]" />
+      </button>
+    </form>
+  );
+}
+
+function LegendsListingDetails({ listing }) {
+  const fullAddress = `${listing.address}, ${listing.city}, ${listing.state} ${listing.zip}`;
+  const stats = [
+    ["Beds", listing.beds],
+    ["Baths", listing.baths],
+    ["Sq ft", listing.sqftDisplay],
+    ["Days on market", listing.daysOnMarket],
+  ];
+
+  return (
+    <section className="mt-4 dp-soft-panel bg-white/86 p-3">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="flex min-w-0 items-start gap-3">
+          <img
+            src="/pins/downtown-perks/legends-logo.png"
+            alt="Legends Real Estate"
+            className="h-11 w-11 shrink-0 rounded-xl bg-[#0B1F33] object-cover shadow-[0_12px_28px_rgba(11,31,51,0.14)]"
+          />
+          <div className="min-w-0">
+            <div className="inline-flex rounded-md bg-[#0B1F33] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-white shadow-[0_0_20px_rgba(179,143,79,0.14)]">
+              {listing.listingTypeLabel}
+            </div>
+            <h3 className="mt-2 text-[20px] font-semibold leading-tight text-[#0B1F33]">{listing.address}</h3>
+            <p className="mt-1 text-[12px] font-medium text-[#0B1F33]/58">{listing.city}, {listing.state} {listing.zip}</p>
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/46">Listed at</div>
+          <div className="mt-1 text-[20px] font-semibold text-[#0B1F33]">{listing.priceDisplay}</div>
+        </div>
+      </div>
+
+      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {stats.map(([label, value]) => (
+          <div key={label} className="dp-soft-tile p-2.5">
+            <div className="text-[9px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/45">{label}</div>
+            <div className="mt-1 text-[13px] font-semibold text-[#0B1F33]">{value}</div>
+          </div>
+        ))}
+      </div>
+
+      <p className="mt-4 text-[13px] leading-6 text-[#0B1F33]/66">{listing.panelCopy}</p>
+      {listing.reconciliationNote && (
+        <p className="mt-2 text-[11px] leading-5 text-[#0B1F33]/48">
+          Source note: 48 of 65 stated for-sale listings were provided; 17 still need reconciliation before launch.
+        </p>
+      )}
+
+      <LegendsContactForm listing={{ ...listing, fullAddress }} />
     </section>
   );
 }
@@ -784,7 +934,7 @@ function getResidentDetailAction(place) {
   if (type === "hotel" || category.includes("hotel") || category.includes("hospitality")) {
     return { label: "View Hotels", href: "/partners/hospitality" };
   }
-  if (type === "brand" || category.includes("brand") || coreText.includes("legends fine eyewear") || coreText.includes("yeti") || coreText.includes("rivian")) {
+  if (type === "brand" || category.includes("brand") || coreText.includes("legends real estate") || coreText.includes("yeti") || coreText.includes("rivian")) {
     return { label: "View Brand", href: "/brands" };
   }
   return { label: "Explore Similar", href: mapRoutes.residentMap };
@@ -857,20 +1007,20 @@ function PartnerBusinessInsights({ place }) {
   ];
 
   return (
-    <section className="mt-5 rounded-lg border border-[#0B1F33]/8 bg-[#F7F8FB]/72 p-3">
+    <section className="mt-5 dp-soft-panel p-3">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
           <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Partner view</div>
           <h3 className="mt-1 font-heading text-2xl font-medium text-[#0B1F33]">What this place can help you understand</h3>
         </div>
-        <div className="rounded-md border border-[#B38F4F]/35 bg-white px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]">
+        <div className="rounded-md bg-white/82 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_0_24px_rgba(179,143,79,0.08)]">
           {insights.placement}
         </div>
       </div>
 
       <div className="mt-3 grid gap-2 md:grid-cols-3">
         {insightCards.map(([title, body]) => (
-          <article key={title} className="rounded-md border border-[#0B1F33]/8 bg-white/78 p-3">
+          <article key={title} className="dp-soft-tile p-3">
             <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50">{title}</div>
             <p className="mt-2 text-[12px] leading-5 text-[#0B1F33]/66">{body}</p>
           </article>
@@ -878,11 +1028,11 @@ function PartnerBusinessInsights({ place }) {
       </div>
 
       <div className="mt-3 grid gap-2 md:grid-cols-[1fr_1fr]">
-        <div className="rounded-md border border-[#0B1F33]/8 bg-white/78 p-3">
+        <div className="dp-soft-tile p-3">
           <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50">Best time to show up</div>
           <p className="mt-2 text-[13px] font-semibold text-[#0B1F33]">{insights.timing}</p>
         </div>
-        <div className="rounded-md border border-[#0B1F33]/8 bg-[#0B1F33] p-3 text-white">
+        <div className="rounded-md bg-[#0B1F33] p-3 text-white shadow-[0_18px_42px_rgba(11,31,51,0.18),0_0_34px_rgba(179,143,79,0.10)]">
           <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/54">Good next step</div>
           <p className="mt-2 text-[13px] font-semibold">{insights.action}</p>
         </div>
@@ -918,7 +1068,7 @@ function PartnerMetricInsight({ place, selectedMetric, onSelectMetric }) {
   const activeInsight = metricCopy[selectedMetric.id] || metricCopy.reach;
 
   return (
-    <section className="mt-4 rounded-lg border border-[#0B1F33]/8 bg-[#F7F8FB]/72 p-3">
+    <section className="mt-4 dp-soft-panel p-3">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
           <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Intel</div>
@@ -933,10 +1083,10 @@ function PartnerMetricInsight({ place, selectedMetric, onSelectMetric }) {
             key={metric.id}
             type="button"
             onClick={() => onSelectMetric(metric)}
-            className={`min-w-[108px] shrink-0 rounded-md border px-2.5 py-1.5 text-left transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
+            className={`min-w-[108px] shrink-0 rounded-md px-2.5 py-1.5 text-left transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
               selectedMetric.id === metric.id
-                ? "border-[#B38F4F]/70 bg-[#0B1F33] text-white"
-                : "border-[#0B1F33]/8 bg-white text-[#0B1F33] hover:border-[#B38F4F]/45"
+                ? "bg-[#0B1F33] text-white shadow-[0_12px_28px_rgba(11,31,51,0.14),0_0_24px_rgba(179,143,79,0.14)]"
+                : "bg-white/76 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] hover:bg-white hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)]"
             }`}
             aria-pressed={selectedMetric.id === metric.id}
           >
@@ -947,17 +1097,17 @@ function PartnerMetricInsight({ place, selectedMetric, onSelectMetric }) {
       </div>
 
       <div className="mt-3 grid gap-2 md:grid-cols-[1fr_1fr]">
-        <div className="rounded-md border border-[#0B1F33]/8 bg-white/78 p-3">
+        <div className="dp-soft-tile p-3">
           <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50">What it tells you</div>
           <p className="mt-2 text-[12px] leading-5 text-[#0B1F33]/66">{selectedMetric.copy}</p>
         </div>
-        <div className="rounded-md border border-[#0B1F33]/8 bg-white/78 p-3">
+        <div className="dp-soft-tile p-3">
           <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50">How to use it</div>
           <p className="mt-2 text-[12px] leading-5 text-[#0B1F33]/66">{activeInsight.use}</p>
         </div>
       </div>
 
-      <div className="mt-3 rounded-md border border-[#0B1F33]/8 bg-[#0B1F33] p-3 text-white">
+      <div className="mt-3 rounded-md bg-[#0B1F33] p-3 text-white shadow-[0_18px_42px_rgba(11,31,51,0.18),0_0_34px_rgba(179,143,79,0.10)]">
         <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/54">Good next step</div>
         <p className="mt-2 text-[13px] font-semibold">{insights.action}</p>
       </div>
@@ -1566,7 +1716,7 @@ export default function MapPage() {
               </div>
 
               <form onSubmit={runSearch} className="grid gap-1.5 md:grid-cols-[1fr_auto]">
-                <label className="group flex h-9 items-center gap-2 rounded-md border border-[#0B1F33]/8 bg-white px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] transition-all focus-within:border-[#B38F4F]/70">
+                <label className="group flex h-9 items-center gap-2 dp-soft-field rounded-md bg-white px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] transition-all focus-within:border-[#B38F4F]/70">
                   <Search className="h-4 w-4 shrink-0 text-[#0B1F33]/50" />
                   <input
                     type="text"
@@ -1915,14 +2065,14 @@ export default function MapPage() {
           <motion.section
             initial={{ opacity: 0, y: 24, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            className="pointer-events-auto max-h-[calc(100dvh-1rem)] w-full max-w-xl overflow-y-auto rounded-t-2xl border border-[#0B1F33]/10 bg-white p-3 shadow-[0_24px_80px_rgba(15,23,42,0.18)] backdrop-blur-[8px] sm:p-4 md:rounded-lg"
+            className="pointer-events-auto max-h-[calc(100dvh-1rem)] w-full max-w-xl overflow-y-auto rounded-t-2xl bg-white/94 p-3 shadow-[0_24px_80px_rgba(15,23,42,0.18),0_0_70px_rgba(179,143,79,0.10),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[14px] sm:p-4 md:rounded-lg"
             role="dialog"
             aria-modal="true"
             aria-label="Resident pass"
           >
-            <div className="sticky top-0 z-10 -mx-3 -mt-3 mb-3 flex items-center justify-between gap-3 border-b border-[#0B1F33]/8 bg-white px-3 py-2 sm:-mx-4 sm:-mt-4 sm:px-4">
+            <div className="sticky top-0 z-10 -mx-3 -mt-3 mb-3 flex items-center justify-between gap-3 bg-white/90 px-3 py-2 shadow-[0_12px_28px_rgba(11,31,51,0.04)] backdrop-blur-xl sm:-mx-4 sm:-mt-4 sm:px-4">
               <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/58">Resident pass</span>
-              <button type="button" onClick={() => switchMode("resident", "map")} className="rounded-md border border-[#0B1F33]/8 bg-white p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]" aria-label="Close pass">
+              <button type="button" onClick={() => switchMode("resident", "map")} className="rounded-md bg-white/82 p-2 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]" aria-label="Close pass">
                 <X className="h-4 w-4" />
               </button>
             </div>
@@ -1935,13 +2085,13 @@ export default function MapPage() {
                 </p>
               </div>
             </div>
-            <div className="mt-3 rounded-lg bg-[#0B1F33] p-3 text-white">
+            <div className="mt-3 rounded-lg bg-[#0B1F33] p-3 text-white shadow-[0_20px_50px_rgba(11,31,51,0.20),0_0_38px_rgba(179,143,79,0.13)]">
               <div className="flex items-center gap-2">
                 <CreditCard className="h-5 w-5 text-[#B38F4F]" />
                 <div className="text-[10px] uppercase tracking-[0.18em] text-white/58">Downtown Perks</div>
               </div>
               <div className="mt-1.5 text-lg font-semibold leading-tight">Resident Access</div>
-              <div className="mt-3 rounded-md border border-white/16 bg-white/10 p-2 text-[11px] leading-5">
+              <div className="mt-3 rounded-md bg-white/10 p-2 text-[11px] leading-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]">
                 {scanStatus === "verified"
                   ? "Verified. The partner can apply the perk."
                   : passPresented
@@ -1950,7 +2100,7 @@ export default function MapPage() {
               </div>
             </div>
             <div className="mt-3 grid gap-2 sm:grid-cols-2">
-              <div className="rounded-lg border border-[#0B1F33]/8 bg-[#F7F8FB] p-2.5">
+              <div className="dp-soft-panel p-2.5">
                 <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/52">
                   <QrCode className="h-3.5 w-3.5 text-[#B38F4F]" />
                   Resident shows
@@ -1962,13 +2112,13 @@ export default function MapPage() {
                   Demo resident QR for perks, events, hotels, and building desks.
                 </p>
               </div>
-              <div className="rounded-lg border border-[#0B1F33]/8 bg-white p-2.5">
+              <div className="dp-soft-panel bg-white/84 p-2.5">
                 <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/52">
                   <ScanLine className="h-3.5 w-3.5 text-[#B38F4F]" />
                   Partner scans
                 </div>
-                <div className="mt-2 rounded-md border border-[#0B1F33]/8 bg-[#0B1F33] p-2.5 text-white">
-                  <div className={`flex h-16 items-center justify-center rounded-md border border-white/18 bg-white/8 transition ${scanStatus === "scanning" ? "animate-pulse" : ""}`}>
+                <div className="mt-2 rounded-md bg-[#0B1F33] p-2.5 text-white shadow-[0_18px_42px_rgba(11,31,51,0.18),0_0_30px_rgba(179,143,79,0.10)]">
+                  <div className={`flex h-16 items-center justify-center rounded-md bg-white/8 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.09)] transition ${scanStatus === "scanning" ? "animate-pulse" : ""}`}>
                     {scanStatus === "verified" ? (
                       <ShieldCheck className="h-7 w-7 text-[#B38F4F]" />
                     ) : (
@@ -2072,7 +2222,7 @@ export default function MapPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 44 }}
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-[620] mx-auto max-h-[56vh] w-full max-w-3xl overflow-hidden rounded-t-2xl border border-[#0B1F33]/8 bg-white/92 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_24px_80px_rgba(15,23,42,0.18)] backdrop-blur-[28px]"
+            className="fixed inset-x-0 bottom-0 z-[620] mx-auto max-h-[56vh] w-full max-w-3xl overflow-hidden rounded-t-2xl bg-white/92 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_24px_80px_rgba(15,23,42,0.18),0_0_70px_rgba(179,143,79,0.09),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[28px]"
             role="dialog"
             aria-modal="true"
             aria-label={urlState.mode === "partner" ? "Partner map results" : "Discover results"}
@@ -2095,7 +2245,7 @@ export default function MapPage() {
               <button
                 type="button"
                 onClick={() => setActiveBottomTab("map")}
-                className="flex h-9 w-9 items-center justify-center rounded-md border border-[#0B1F33]/8 bg-white text-[#0B1F33]/62 transition hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                className="flex h-9 w-9 items-center justify-center rounded-md bg-white/82 text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                 aria-label="Close discover results"
               >
                 <X className="h-4 w-4" />
@@ -2115,7 +2265,7 @@ export default function MapPage() {
                       ["Who is nearby", "Residents, visitors, and event-goers around the selected area."],
                       ["What to try next", "Places and moments that are close enough for people to act on."],
                     ]).map(([title, body]) => (
-                  <div key={title} className="rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB]/72 p-3">
+                  <div key={title} className="dp-soft-tile p-3">
                     <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50">{title}</div>
                     <p className="mt-1 text-[11px] leading-4 text-[#0B1F33]/62">{body}</p>
                   </div>
@@ -2129,8 +2279,8 @@ export default function MapPage() {
                   key={place.id}
                   type="button"
                   onClick={() => selectPlace(place)}
-                  className={`grid w-full grid-cols-[42px_1fr_auto] items-center gap-3 rounded-md border p-2.5 text-left transition-all hover:bg-white ${
-                    place.id === selectedId ? "border-[#B38F4F]/70 bg-[#0B1F33] text-white" : "border-[#0B1F33]/8 bg-white/72 text-[#0B1F33]"
+                  className={`grid w-full grid-cols-[42px_1fr_auto] items-center gap-3 rounded-md p-2.5 text-left transition-all hover:-translate-y-0.5 hover:bg-white ${
+                    place.id === selectedId ? "bg-[#0B1F33] text-white shadow-[0_14px_34px_rgba(11,31,51,0.16),0_0_24px_rgba(179,143,79,0.12)]" : "bg-white/72 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.16),0_10px_24px_rgba(11,31,51,0.06)]"
                   }`}
                 >
                   <PinBadge place={place} selected={place.id === selectedId} />
@@ -2142,12 +2292,12 @@ export default function MapPage() {
                 </button>
               ))}
               {!previewPlaces.length && (
-                <div className="rounded-md border border-[#0B1F33]/8 bg-white p-4 text-[13px] leading-6 text-[#0B1F33]/62">
+                <div className="dp-soft-tile bg-white p-4 text-[13px] leading-6 text-[#0B1F33]/62">
                   No {activeFilter === "All" ? "places" : activeFilter.toLowerCase()} match this view. Try a nearby district or clear the filter.
                 </div>
               )}
               {isUsingFallbackPlaces && (
-                <div className="rounded-md border border-[#0B1F33]/8 bg-white p-4 text-[13px] leading-6 text-[#0B1F33]/62">
+                <div className="dp-soft-tile bg-white p-4 text-[13px] leading-6 text-[#0B1F33]/62">
                   Keeping nearby downtown places visible while your question sorts the best next options.
                 </div>
               )}
@@ -2155,7 +2305,7 @@ export default function MapPage() {
                 <button
                   type="button"
                   onClick={() => setResultsExpanded((value) => !value)}
-                  className="w-full rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/62 transition hover:border-[#B38F4F]/45 hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="w-full rounded-md bg-[#F7F8FB]/82 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:bg-white hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.16),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                   aria-expanded={resultsExpanded}
                 >
                   {resultsExpanded ? "Roll up results" : `Expand results (${hiddenPreviewCount} more)`}
@@ -2173,12 +2323,12 @@ export default function MapPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 44 }}
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-[640] mx-auto flex max-h-[68vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-2xl border border-[#0B1F33]/8 bg-white/94 shadow-[0_24px_80px_rgba(15,23,42,0.18)] backdrop-blur-[18px]"
+            className="fixed inset-x-0 bottom-0 z-[640] mx-auto flex max-h-[68vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-2xl bg-white/94 shadow-[0_24px_80px_rgba(15,23,42,0.18),0_0_70px_rgba(179,143,79,0.09),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[18px]"
             role="dialog"
             aria-modal="true"
             aria-label="Grouped map places"
           >
-            <div className="shrink-0 border-b border-[#0B1F33]/8 bg-white/96 backdrop-blur-xl">
+            <div className="shrink-0 bg-white/94 shadow-[0_12px_30px_rgba(11,31,51,0.045)] backdrop-blur-xl">
               <div className="mx-auto mt-2 h-1 w-12 rounded-full bg-[#0B1F33]/14" aria-hidden="true" />
               <div className="flex items-center justify-between gap-3 px-4 py-3">
                 <div className="min-w-0 flex-1">
@@ -2195,7 +2345,7 @@ export default function MapPage() {
                     setClusterDrawer(null);
                     setActiveBottomTab("map");
                   }}
-                  className="rounded-md border border-[#0B1F33]/8 bg-white p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="rounded-md bg-white/82 p-2 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                   aria-label="Close grouped places"
                 >
                   <X className="h-4 w-4" />
@@ -2211,7 +2361,7 @@ export default function MapPage() {
                     key={place.id}
                     type="button"
                     onClick={() => selectPlace(place)}
-                    className="grid w-full grid-cols-[42px_1fr_auto] items-center gap-3 rounded-md border border-[#0B1F33]/8 bg-white p-3 text-left text-[#0B1F33] transition hover:-translate-y-0.5 hover:border-[#B38F4F]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                    className="grid w-full grid-cols-[42px_1fr_auto] items-center gap-3 dp-soft-tile bg-white p-3 text-left text-[#0B1F33] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                   >
                     <PinBadge place={place} />
                     <span className="min-w-0">
@@ -2237,12 +2387,12 @@ export default function MapPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 44 }}
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-[650] mx-auto flex max-h-[78vh] w-full max-w-4xl flex-col overflow-hidden rounded-t-2xl border border-[#0B1F33]/8 bg-white/92 shadow-[0_24px_80px_rgba(15,23,42,0.18)] backdrop-blur-[28px] md:bottom-0 md:rounded-t-[18px]"
+            className="fixed inset-x-0 bottom-0 z-[650] mx-auto flex max-h-[78vh] w-full max-w-4xl flex-col overflow-hidden rounded-t-2xl bg-white/92 shadow-[0_24px_80px_rgba(15,23,42,0.18),0_0_80px_rgba(179,143,79,0.10),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[28px] md:bottom-0 md:rounded-t-[18px]"
             role="dialog"
             aria-modal="true"
             aria-label={`${selected.name} details`}
           >
-            <div className="shrink-0 border-b border-[#0B1F33]/8 bg-white/92 backdrop-blur-xl">
+            <div className="shrink-0 bg-white/90 shadow-[0_12px_30px_rgba(11,31,51,0.045)] backdrop-blur-xl">
               <div className="mx-auto mt-2 h-1 w-12 rounded-full bg-[#0B1F33]/14" aria-hidden="true" />
               <div className="flex items-center justify-between gap-3 px-4 py-2.5">
                 <span className="min-w-0 flex-1 truncate text-xs font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/58">
@@ -2255,7 +2405,7 @@ export default function MapPage() {
                     setActiveBottomTab("map");
                     urlState.update({ entityId: "" });
                   }}
-                  className="rounded-md border border-[#0B1F33]/8 bg-white p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="rounded-md bg-white/82 p-2 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                   aria-label="Close drawer"
                 >
                   <X className="h-4 w-4" />
@@ -2266,7 +2416,7 @@ export default function MapPage() {
                   type="button"
                   onClick={() => setSelectedDrawerTab("details")}
                   className={`inline-flex h-6 shrink-0 items-center justify-center rounded-[5px] px-2 text-[9px] font-semibold uppercase tracking-[0.1em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
-                    selectedDrawerTab === "details" ? "bg-[#0B1F33] text-white" : "border border-[#0B1F33]/8 bg-white text-[#0B1F33]/64 hover:bg-[#F7F8FB]"
+                    selectedDrawerTab === "details" ? "bg-[#0B1F33] text-white shadow-[0_10px_24px_rgba(11,31,51,0.12),0_0_20px_rgba(179,143,79,0.10)]" : "bg-white/72 text-[#0B1F33]/64 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] hover:bg-white"
                   }`}
                   aria-pressed={selectedDrawerTab === "details"}
                 >
@@ -2277,7 +2427,7 @@ export default function MapPage() {
                     type="button"
                     onClick={() => setSelectedDrawerTab("intel")}
                     className={`inline-flex h-6 shrink-0 items-center justify-center rounded-[5px] px-2 text-[9px] font-semibold uppercase tracking-[0.1em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
-                      selectedDrawerTab === "intel" ? "bg-[#0B1F33] text-white" : "border border-[#0B1F33]/8 bg-white text-[#0B1F33]/64 hover:bg-[#F7F8FB]"
+                      selectedDrawerTab === "intel" ? "bg-[#0B1F33] text-white shadow-[0_10px_24px_rgba(11,31,51,0.12),0_0_20px_rgba(179,143,79,0.10)]" : "bg-white/72 text-[#0B1F33]/64 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] hover:bg-white"
                     }`}
                     aria-pressed={selectedDrawerTab === "intel"}
                   >
@@ -2288,7 +2438,7 @@ export default function MapPage() {
                   <button
                     type="button"
                     onClick={() => switchMode("resident", "pass")}
-                    className="inline-flex h-6 shrink-0 items-center justify-center rounded-[5px] border border-[#0B1F33]/8 bg-white px-2 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33]/64 transition hover:bg-[#F7F8FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                    className="inline-flex h-6 shrink-0 items-center justify-center rounded-[5px] bg-white/72 px-2 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33]/64 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                   >
                     Card
                   </button>
@@ -2301,7 +2451,7 @@ export default function MapPage() {
                     setSelectedDrawerTab("details");
                     urlState.update({ entityId: "" });
                   }}
-                  className="inline-flex h-6 shrink-0 items-center justify-center rounded-[5px] border border-[#0B1F33]/8 bg-white px-2 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33]/64 transition hover:bg-[#F7F8FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="inline-flex h-6 shrink-0 items-center justify-center rounded-[5px] bg-white/72 px-2 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33]/64 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                 >
                   Map
                 </button>
@@ -2310,7 +2460,7 @@ export default function MapPage() {
 
             <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4">
             <div className="grid gap-4 md:grid-cols-[220px_1fr] md:items-start">
-              <div className="group relative h-40 w-full overflow-hidden rounded-[14px] border border-[#0B1F33]/8 shadow-[0_8px_24px_rgba(14,28,54,.06)]">
+              <div className="group relative h-40 w-full overflow-hidden rounded-[14px] shadow-[0_16px_40px_rgba(14,28,54,.10),0_0_36px_rgba(179,143,79,0.08)]">
                 <img
                   src={getLifestyleImage(selected, urlState.mode)}
                   alt={`${selected.name} downtown context`}
@@ -2348,8 +2498,14 @@ export default function MapPage() {
                 </>
               ) : (
                 <>
-                  {isHappyHourEntity(selected) && <HappyHourDetails place={selected} />}
-                  <PartnerBusinessInsights place={selected} />
+                  {getLegendsListing(selected) ? (
+                    <LegendsListingDetails listing={getLegendsListing(selected)} />
+                  ) : (
+                    <>
+                      {isHappyHourEntity(selected) && <HappyHourDetails place={selected} />}
+                      <PartnerBusinessInsights place={selected} />
+                    </>
+                  )}
                   <div className="mt-5 flex gap-2 overflow-x-auto pb-1">
                     <Link to={campaignRoute(selected)} className="dp-drawer-action dp-drawer-action-compact dp-drawer-action-primary">{getPartnerPrimaryActionLabel(selected)}</Link>
                     <Link to={mapRoutes.reports} className="dp-drawer-action dp-drawer-action-compact">Reports</Link>
@@ -2372,15 +2528,22 @@ export default function MapPage() {
               <>
                 {(() => {
                   const entityKind = getResidentEntityKind(selected);
+                  const legendsListing = getLegendsListing(selected);
                   const isProperty = entityKind === "property";
                   const isEvent = entityKind === "event";
                   const isHappyHour = entityKind === "happy_hour";
                   const isPerk = entityKind === "perk" || entityKind === "place" || entityKind === "hotel" || entityKind === "brand" || isHappyHour;
                   return (
                     <>
-                      {isHappyHour ? <HappyHourDetails place={selected} /> : <ResidentPerkDetails place={selected} />}
+                      {legendsListing ? (
+                        <LegendsListingDetails listing={legendsListing} />
+                      ) : isHappyHour ? (
+                        <HappyHourDetails place={selected} />
+                      ) : (
+                        <ResidentPerkDetails place={selected} />
+                      )}
                       <div className="dp-resident-action-rail mt-4">
-                        {isProperty && (
+                        {isProperty && !legendsListing && (
                           <button
                             type="button"
                             onClick={() => {
@@ -2428,7 +2591,7 @@ export default function MapPage() {
                               event.preventDefault();
                               setAgentFormSubmitted(true);
                             }}
-                            className="mt-4 overflow-hidden rounded-lg border border-[#0B1F33]/8 bg-[#F7F8FB]/82 p-4"
+                            className="mt-4 dp-soft-panel p-4"
                           >
                             <div className="flex items-start justify-between gap-3">
                               <div>
@@ -2441,7 +2604,7 @@ export default function MapPage() {
                               <button
                                 type="button"
                                 onClick={() => setAgentFormPlaceId("")}
-                                className="rounded-md border border-[#0B1F33]/8 bg-white p-2 text-[#0B1F33]/62 transition hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                                className="rounded-md bg-white/82 p-2 text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                                 aria-label="Close contact agent form"
                               >
                                 <X className="h-4 w-4" />
@@ -2449,7 +2612,7 @@ export default function MapPage() {
                             </div>
 
                             {agentFormSubmitted ? (
-                              <div className="mt-4 rounded-md border border-[#B38F4F]/28 bg-white p-3 text-[13px] leading-5 text-[#0B1F33]/70">
+                              <div className="mt-4 dp-soft-tile bg-white p-3 text-[13px] leading-5 text-[#0B1F33]/70">
                                 Sent. The listing request is ready for the agent with this property attached.
                               </div>
                             ) : (
@@ -2457,16 +2620,16 @@ export default function MapPage() {
                                 <div className="mt-4 grid gap-2 sm:grid-cols-2">
                                   <label className="grid gap-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/54">
                                     Name
-                                    <input required className="h-10 rounded-md border border-[#0B1F33]/8 bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" placeholder="Your name" />
+                                    <input required className="h-10 dp-soft-field rounded-md bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" placeholder="Your name" />
                                   </label>
                                   <label className="grid gap-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/54">
                                     Phone or email
-                                    <input required className="h-10 rounded-md border border-[#0B1F33]/8 bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" placeholder="Best way to reach you" />
+                                    <input required className="h-10 dp-soft-field rounded-md bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" placeholder="Best way to reach you" />
                                   </label>
                                 </div>
                                 <label className="mt-2 grid gap-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/54">
                                   Message
-                                  <textarea className="min-h-20 rounded-md border border-[#0B1F33]/8 bg-white px-3 py-2 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" defaultValue={`I would like more information about ${selected.name}.`} />
+                                  <textarea className="min-h-20 dp-soft-field rounded-md bg-white px-3 py-2 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" defaultValue={`I would like more information about ${selected.name}.`} />
                                 </label>
                                 <button type="submit" className="mt-3 inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
                                   Send Request

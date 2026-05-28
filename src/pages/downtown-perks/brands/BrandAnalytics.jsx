@@ -16,7 +16,7 @@ const CAMPAIGN_FORMATS = [
 ];
 
 const VENUE_PERFORMANCE = [
-  { name: 'Fine Eyewear', district: 'Rainey', traffic: 1240, peakTime: '6–8pm', trend: 'up' },
+  { name: 'Legends Real Estate', district: 'Rainey', traffic: 1240, peakTime: '6–8pm', trend: 'up' },
   { name: 'Hotel Van Zandt', district: 'Rainey', traffic: 840, peakTime: '7–9am', trend: 'up' },
   { name: 'The Quincy', district: 'Congress', traffic: 620, peakTime: '5–7pm', trend: 'stable' },
   { name: 'Waterloo Greenway', district: 'Seaholm', traffic: 560, peakTime: '10am–12pm', trend: 'up' }
@@ -85,7 +85,7 @@ export default function BrandAnalytics() {
     // Set default brand (can be customized via params)
     const brandSlug = searchParams.get('brand');
     if (brandSlug) {
-      setBrand({ slug: brandSlug, name: 'Fine Eyewear' });
+      setBrand({ slug: brandSlug, name: 'Legends Real Estate' });
     } else {
       setBrand({ slug: 'all-brands', name: 'All Brands' });
     }
@@ -465,7 +465,7 @@ export default function BrandAnalytics() {
                       <span className="text-[11px] font-semibold text-primary">Next step</span>
                     </div>
                     <p className="text-[13px] text-foreground leading-relaxed">
-                      Fine Eyewear and Hotel Van Zandt are your strongest venues. Consider expanding utility-led support in Congress district.
+                      Legends Real Estate and Hotel Van Zandt are your strongest partners. Consider expanding utility-led support in Congress district.
                     </p>
                   </div>
                 </div>

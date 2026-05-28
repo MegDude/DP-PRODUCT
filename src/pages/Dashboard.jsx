@@ -34,11 +34,11 @@ const DEMO_PERKS = [
   },
   {
     id: "demo-perk-legends",
-    title: "Fine eyewear private fitting",
-    venue_name: "Legends Fine Eyewear",
+    title: "Downtown listing request",
+    venue_name: "Legends Real Estate",
     category: "experience",
     status: "active",
-    value: "Member appointment",
+    value: "Showing request",
     redemption_count: 21,
   },
   {
@@ -632,7 +632,7 @@ function DashPerformance({ user }) {
           {[
             { name: "Happy Hour offer", type: "Perk", metric: "34 redemptions", bar: 84 },
             { name: "Wellness Walk Club", type: "Event", metric: "71 RSVPs", bar: 68 },
-            { name: "Fine Eyewear offer", type: "Perk", metric: "28 saves", bar: 52 },
+            { name: "Legends listing request", type: "Property", metric: "28 saves", bar: 52 },
           ].map((item, i) => (
             <div key={i} className="space-y-1.5">
               <div className="flex items-center justify-between text-[12px]">

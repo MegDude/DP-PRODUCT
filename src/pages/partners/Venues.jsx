@@ -1,36 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, useInView, animate } from "framer-motion";
 import { Link } from "react-router-dom";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { ArrowLeft, ArrowRight, X, Search } from "lucide-react";
-import L from "leaflet";
+import PartnerMapIntelligenceLayer from "@/components/partner/PartnerMapIntelligenceLayer";
 import { PARTNER_SPACING, PARTNER_GRIDS } from '@/lib/partner-system';
 import FAQAccordionBlock from '@/components/ui/FAQAccordionBlock';
 import { FAQ_VENUES } from '@/lib/faq-partner-data';
 
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-});
-
 const CAT_COLORS = { bar: "#132238", restaurant: "#B38F4F", fitness: "#1A2C44", wellness: "#B38F4F", retail: "#0B1F33", coffee: "#B38F4F" };
-
-function venueIcon(cat, active) {
-  const color = active ? "#B38F4F" : (CAT_COLORS[cat] || "#132238");
-  return L.divIcon({
-    className: "",
-    html: `<div style="width:10px;height:10px;border-radius:50%;background:${color};border:2px solid rgba(255,255,255,0.85);box-shadow:0 0 7px ${color}80"></div>`,
-    iconSize: [10, 10], iconAnchor: [5, 5],
-  });
-}
-
-function MapFly({ center }) {
-  const map = useMap();
-  useEffect(() => { if (center) map.flyTo(center, 15, { duration: 1.1 }); }, [center]);
-  return null;
-}
 
 function CountUp({ to, duration = 1.2 }) {
   const [val, setVal] = useState(0);
@@ -81,13 +58,12 @@ const PROMPTS = [
 export default function VenuesPartner() {
   const [mapFilter, setMapFilter] = useState("all");
   const [activeVenue, setActiveVenue] = useState(null);
-  const [mapCenter, setMapCenter] = useState([30.2630, -97.7400]);
   const [formType, setFormType] = useState("Venue");
   const [formText, setFormText] = useState("");
 
   const venue = activeVenue ? VENUES.find(v => v.id === activeVenue) : null;
 
-  function selectVenue(v) { setActiveVenue(v.id); setMapCenter([v.lat, v.lng]); }
+  function selectVenue(v) { setActiveVenue(v.id); }
 
   return (
     <div className="min-h-screen bg-background">
@@ -163,16 +139,15 @@ export default function VenuesPartner() {
             ))}
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div className="lg:col-span-2 rounded-xl border border-border/50 overflow-hidden" style={{ height: 480 }}>
-              <MapContainer center={mapCenter} zoom={15} style={{ height: "100%", width: "100%" }} zoomControl={false} scrollWheelZoom={false}>
-                <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" attribution="&copy; CARTO" />
-                <MapFly center={mapCenter} />
-                {VENUES.map(v => (
-                  <Marker key={v.id} position={[v.lat, v.lng]} icon={venueIcon(v.cat, activeVenue === v.id)} eventHandlers={{ click: () => selectVenue(v) }}>
-                    <Popup><div className="text-xs"><div className="font-semibold">{v.name}</div><div className="text-gray-400 capitalize">{v.cat}</div></div></Popup>
-                  </Marker>
-                ))}
-              </MapContainer>
+            <div className="lg:col-span-2 overflow-hidden" style={{ height: 480 }}>
+              <PartnerMapIntelligenceLayer
+                activeId={activeVenue}
+                caption="Venue intelligence layer"
+                insight="Venues, offers, walkable demand, and decision moments shown in context."
+                kind="venue"
+                onSelect={selectVenue}
+                points={VENUES}
+              />
             </div>
             <div className="rounded-xl border border-border/50 bg-card/60 overflow-hidden flex flex-col">
               {!venue ? (

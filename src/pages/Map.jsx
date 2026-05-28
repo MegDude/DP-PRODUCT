@@ -23,6 +23,7 @@ import {
 import AboutDowntownPerksModal from "@/components/modals/AboutDowntownPerksModal";
 import { useLocations } from "../lib/useLocations";
 import { directionsUrl, campaignRoute, mapRoutes } from "../lib/map/mapActionRegistry";
+import { resolveEntityGallery, resolveEntityImage } from "../lib/map/entityImageResolver";
 import { resolveEntityPin } from "../lib/map/entityPinResolver";
 import { useEventRsvpStore } from "@/store/event-rsvp-store";
 
@@ -454,8 +455,8 @@ function pinIcon(place, selected, pulsing = false) {
   const eventPinClass = isEventPin ? "dp-live-pin--event" : "";
   const happyHourPinClass = isHappyHourPin ? "dp-live-pin--happy-hour" : "";
   const legendsPinClass = isLegendsPin ? "dp-live-pin--legends" : "";
-  const iconSize = isEventPin || isHappyHourPin ? (selected ? [36, 36] : [32, 32]) : selected ? [42, 42] : [38, 38];
-  const iconAnchor = isEventPin || isHappyHourPin ? (selected ? [18, 18] : [16, 16]) : selected ? [21, 21] : [19, 19];
+  const iconSize = isEventPin || isHappyHourPin ? (selected ? [32, 32] : [29, 29]) : selected ? [38, 38] : [34, 34];
+  const iconAnchor = isEventPin || isHappyHourPin ? (selected ? [16, 16] : [14.5, 14.5]) : selected ? [19, 19] : [17, 17];
   const ariaLabel = legendsListing ? `Legends listing at ${legendsListing.address}` : `${place.name} details`;
   return L.divIcon({
     className: "dp-leaflet-pin",
@@ -470,8 +471,8 @@ function clusterIcon(count) {
   return L.divIcon({
     className: "dp-leaflet-cluster",
     html: `<div class="dp-map-cluster" aria-hidden="true"><span>${count}</span></div>`,
-    iconSize: [44, 44],
-    iconAnchor: [22, 22],
+    iconSize: [38, 38],
+    iconAnchor: [19, 19],
   });
 }
 
@@ -527,11 +528,11 @@ function clusterPlaces(places, zoom, selectedId) {
 
 function PinBadge({ place, selected = false, size = "sm" }) {
   const pin = resolveEntityPin(place);
-  const dimensions = size === "lg" ? "h-24 w-24 text-2xl" : "h-10 w-10 text-[12px]";
+  const dimensions = size === "lg" ? "h-20 w-20 text-xl md:h-24 md:w-24 md:text-2xl" : "h-8 w-8 text-[11px] md:h-10 md:w-10 md:text-[12px]";
 
   return (
     <span
-      className={`${dimensions} inline-flex shrink-0 items-center justify-center rounded-md border font-semibold ${
+      className={`${dimensions} inline-flex shrink-0 items-center justify-center rounded-md border font-semibold transition ${
         selected
           ? "border-[#B38F4F]/70 bg-[#0B1F33] text-[#B38F4F]"
           : "border-[#0B1F33]/8 bg-white text-[#0B1F33]"
@@ -697,7 +698,7 @@ function BusinessServiceDetails({ place }) {
   const panel = place.raw?.resident_panel || {};
   const phone = place.raw?.contact_phone || place.phone;
   const website = place.raw?.website || place.website;
-  const gallery = [place.image, ...(Array.isArray(place.raw?.gallery) ? place.raw.gallery : [])].filter(Boolean);
+  const gallery = resolveEntityGallery(place);
 
   return (
     <section className="mt-4 dp-soft-panel p-3">
@@ -783,7 +784,7 @@ function ResidentPerkDetails({ place }) {
         </div>
         <div className={`shrink-0 rounded-md px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.09em] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] ${
           hasOffer
-            ? "bg-white/88 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(179,143,79,0.24),0_0_20px_rgba(179,143,79,0.10)]"
+            ? "bg-white/88 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_0_20px_rgba(179,143,79,0.10)]"
             : "bg-white/72 text-[#0B1F33]/58"
         }`}>
           {statusLabel}
@@ -813,7 +814,7 @@ function HappyHourDetails({ place }) {
           <h3 className="mt-1 font-heading text-xl font-medium text-[#0B1F33]">{venueName}</h3>
           <p className="mt-1.5 text-[12px] leading-5 text-[#0B1F33]/64">{details}</p>
         </div>
-        <div className="shrink-0 rounded-md bg-[#0B1F33] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.09em] text-white shadow-[0_0_22px_rgba(179,143,79,0.16),inset_0_0_0_1px_rgba(179,143,79,0.22)]">
+        <div className="shrink-0 rounded-md bg-[#0B1F33] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.09em] text-white shadow-[0_0_22px_rgba(179, 143, 79, 0.08),inset_0_0_0_1px_rgba(179, 143, 79, 0.08)]">
           Live
         </div>
       </div>
@@ -842,7 +843,7 @@ function LegendsContactForm({ listing }) {
 
   if (submitted) {
     return (
-      <div className="mt-4 dp-soft-panel p-4 text-[13px] leading-5 text-[#0B1F33]/72">
+      <div className="mt-3 dp-soft-panel p-3 text-[12px] leading-5 text-[#0B1F33]/72 md:mt-4 md:p-4 md:text-[13px]">
         Thanks — your request has been sent to Legends Real Estate. The team will follow up with listing details and next steps.
       </div>
     );
@@ -850,27 +851,27 @@ function LegendsContactForm({ listing }) {
 
   return (
     <form
-      className="mt-4 dp-soft-panel p-4"
+      className="mt-3 dp-soft-panel p-3 md:mt-4 md:p-4"
       onSubmit={(event) => {
         event.preventDefault();
         setSubmitted(true);
       }}
     >
-      <div className="flex items-start gap-3">
+      <div className="flex items-start gap-2.5 md:gap-3">
         <img
           src="/pins/downtown-perks/legends-logo.avif"
           alt=""
-          className="h-10 w-10 shrink-0 object-contain"
+          className="h-8 w-8 shrink-0 object-contain md:h-10 md:w-10"
         />
         <div>
-          <h3 className="text-[15px] font-semibold text-[#0B1F33]">Contact Legends Real Estate about this listing</h3>
-          <p className="mt-1 text-[12px] leading-5 text-[#0B1F33]/64">
+          <h3 className="text-[14px] font-semibold text-[#0B1F33] md:text-[15px]">Contact Legends Real Estate about this listing</h3>
+          <p className="mt-1 text-[11px] leading-5 text-[#0B1F33]/64 md:text-[12px]">
             Send a quick request tied to this listing. Legends Real Estate will follow up with availability, showing options, and the next useful details.
           </p>
         </div>
       </div>
 
-      <div className="mt-4 grid gap-2 sm:grid-cols-2">
+      <div className="mt-3 grid gap-2 sm:grid-cols-2 md:mt-4">
         <label className="grid gap-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/54">
           Name
           <input required name="name" className="h-9 dp-soft-field rounded-md bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" placeholder="Full name" />
@@ -927,19 +928,19 @@ function LegendsListingDetails({ listing }) {
   ];
 
   return (
-    <section className="mt-4 dp-soft-panel bg-white/86 p-3">
+      <section className="mt-3 dp-soft-panel bg-white/86 p-3 md:mt-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex min-w-0 items-start gap-3">
           <img
             src="/pins/downtown-perks/legends-logo.avif"
             alt="Legends Real Estate"
-            className="h-12 w-12 shrink-0 object-contain"
+            className="h-10 w-10 shrink-0 object-contain md:h-12 md:w-12"
           />
           <div className="min-w-0">
-            <div className="inline-flex rounded-md bg-[#0B1F33] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-white shadow-[0_0_20px_rgba(179,143,79,0.14)]">
+            <div className="inline-flex rounded-md bg-[#0B1F33] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-white shadow-[0_0_20px_rgba(179, 143, 79, 0.08)]">
               {listing.listingTypeLabel}
             </div>
-            <h3 className="mt-2 text-[20px] font-semibold leading-tight text-[#0B1F33]">{listing.address}</h3>
+            <h3 className="mt-2 text-[18px] font-semibold leading-tight text-[#0B1F33] md:text-[20px]">{listing.address}</h3>
             <p className="mt-1 text-[12px] font-medium text-[#0B1F33]/58">{listing.city}, {listing.state} {listing.zip}</p>
           </div>
         </div>
@@ -971,24 +972,7 @@ function LegendsListingDetails({ listing }) {
 }
 
 function getLifestyleImage(place, mode) {
-  if (typeof place?.image === "string" && place.image.trim()) {
-    return place.image;
-  }
-  if (typeof place?.raw?.image === "string" && place.raw.image.trim()) {
-    return place.raw.image;
-  }
-
-  const text = placeText(place);
-  if (mode === "partner" && (text.includes("hotel") || text.includes("hospitality"))) {
-    return "/images/partners/hospitality-rooftop-social.png";
-  }
-  if (text.includes("property") || text.includes("residential") || text.includes("building") || text.includes("lobby")) {
-    return "/images/buildings/lobby-to-street-arrival.png";
-  }
-  if (text.includes("restaurant") || text.includes("dining") || text.includes("bar") || text.includes("nightlife") || text.includes("coffee")) {
-    return "/images/venues/downtown-dining-patio.png";
-  }
-  return "/images/residents/downtown-rooftop-evening.png";
+  return resolveEntityImage({ ...place, mode });
 }
 
 function getResidentDetailAction(place) {
@@ -1094,7 +1078,7 @@ function PartnerBusinessInsights({ place }) {
           <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Partner view</div>
           <h3 className="mt-1 font-heading text-2xl font-medium text-[#0B1F33]">What this place can help you understand</h3>
         </div>
-        <div className="rounded-md bg-white/82 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_0_24px_rgba(179,143,79,0.08)]">
+        <div className="rounded-md bg-white/82 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_0_24px_rgba(179,143,79,0.08)]">
           {insights.placement}
         </div>
       </div>
@@ -1166,8 +1150,8 @@ function PartnerMetricInsight({ place, selectedMetric, onSelectMetric }) {
             onClick={() => onSelectMetric(metric)}
             className={`min-w-[108px] shrink-0 rounded-md px-2.5 py-1.5 text-left transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
               selectedMetric.id === metric.id
-                ? "bg-[#0B1F33] text-white shadow-[0_12px_28px_rgba(11,31,51,0.14),0_0_24px_rgba(179,143,79,0.14)]"
-                : "bg-white/76 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] hover:bg-white hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)]"
+                ? "bg-[#0B1F33] text-white shadow-[0_12px_28px_rgba(11,31,51,0.14),0_0_24px_rgba(179, 143, 79, 0.08)]"
+                : "bg-white/76 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] hover:bg-white hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)]"
             }`}
             aria-pressed={selectedMetric.id === metric.id}
           >
@@ -1239,8 +1223,8 @@ function ClusterMarker({ cluster, onOpen }) {
         animate: true,
         duration: 0.55,
         maxZoom: Math.min(Math.max(map.getZoom() + 2, 16), 17),
-        paddingTopLeft: [32, 150],
-        paddingBottomRight: [32, 130],
+        paddingTopLeft: [24, 112],
+        paddingBottomRight: [24, 104],
       });
     } else {
       map.flyTo(cluster.coords, Math.min(map.getZoom() + 2, 17), { duration: 0.55 });
@@ -1257,7 +1241,7 @@ function ClusterMarker({ cluster, onOpen }) {
     const handleExpand = (event) => {
       event.preventDefault();
       event.stopPropagation();
-      expandCluster();
+      window.setTimeout(expandCluster, 40);
     };
 
     const handleKeyDown = (event) => {
@@ -1265,18 +1249,14 @@ function ClusterMarker({ cluster, onOpen }) {
       handleExpand(event);
     };
 
+    element.addEventListener("pointerdown", handleExpand, true);
     element.addEventListener("click", handleExpand, true);
-    element.addEventListener("pointerup", handleExpand, true);
-    element.addEventListener("mouseup", handleExpand, true);
-    element.addEventListener("touchend", handleExpand, true);
     element.addEventListener("keydown", handleKeyDown, true);
     element.setAttribute("aria-label", `Zoom into ${cluster.count} places in this area`);
 
     return () => {
       element.removeEventListener("click", handleExpand, true);
-      element.removeEventListener("pointerup", handleExpand, true);
-      element.removeEventListener("mouseup", handleExpand, true);
-      element.removeEventListener("touchend", handleExpand, true);
+      element.removeEventListener("pointerdown", handleExpand, true);
       element.removeEventListener("keydown", handleKeyDown, true);
     };
   }, [cluster.count, expandCluster]);
@@ -1287,13 +1267,7 @@ function ClusterMarker({ cluster, onOpen }) {
       position={cluster.coords}
       icon={clusterIcon(cluster.count)}
       eventHandlers={{
-        preclick: expandCluster,
         click: expandCluster,
-        mousedown: expandCluster,
-        mouseup: expandCluster,
-        tap: expandCluster,
-        touchstart: expandCluster,
-        touchend: expandCluster,
       }}
     />
   );
@@ -1735,7 +1709,7 @@ export default function MapPage() {
 
       {urlState.tab === "map" && (
         <div
-          className="pointer-events-none absolute inset-x-0 top-[84px] z-[510] px-3 md:px-5"
+          className="pointer-events-none absolute inset-x-0 top-[76px] z-[510] px-2.5 md:top-[84px] md:px-5"
         >
           {consoleCollapsed ? (
             <motion.button
@@ -1743,7 +1717,7 @@ export default function MapPage() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={() => setConsoleCollapsed(false)}
-              className="pointer-events-auto mx-auto flex h-10 items-center justify-center gap-2 rounded-lg border border-[#0B1F33]/8 bg-white/90 px-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33] shadow-[0_18px_44px_rgba(11,31,51,0.10)] backdrop-blur-xl transition hover:border-[#B38F4F]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+              className="pointer-events-auto mx-auto flex h-8 items-center justify-center gap-1.5 rounded-md border border-[#0B1F33]/8 bg-white/90 px-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33] shadow-[0_14px_32px_rgba(11,31,51,0.09)] backdrop-blur-xl transition hover:border-[#B38F4F]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:h-10 md:gap-2 md:px-4 md:text-[11px] md:tracking-[0.14em]"
               aria-expanded="false"
             >
               <Sparkles className="h-4 w-4 text-[#B38F4F]" />
@@ -1754,14 +1728,14 @@ export default function MapPage() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="pointer-events-auto relative mx-auto max-h-[calc(100vh-142px)] max-w-3xl overflow-y-auto rounded-lg border border-[#0B1F33]/8 bg-white/86 p-2.5 pr-10 shadow-[0_18px_44px_rgba(11,31,51,0.10)] backdrop-blur-xl md:p-3 md:pr-11"
+            className="pointer-events-auto relative mx-auto max-h-[calc(100vh-124px)] max-w-3xl overflow-y-auto rounded-md border border-[#0B1F33]/8 bg-white/88 p-2 pr-9 shadow-[0_14px_34px_rgba(11,31,51,0.09)] backdrop-blur-xl md:max-h-[calc(100vh-142px)] md:rounded-lg md:p-3 md:pr-11"
             role="region"
             aria-label="Map command console"
           >
             <button
               type="button"
               onClick={() => setConsoleCollapsed(true)}
-              className="absolute right-2.5 top-2.5 z-10 flex h-8 w-8 items-center justify-center rounded-md border border-[#0B1F33]/8 bg-white text-[#0B1F33]/62 transition hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+              className="absolute right-2 top-2 z-10 flex h-7 w-7 items-center justify-center rounded-md border border-[#0B1F33]/8 bg-white text-[#0B1F33]/62 transition hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:right-2.5 md:top-2.5 md:h-8 md:w-8"
               aria-label="Collapse map controls"
             >
               <X className="h-4 w-4" />
@@ -1770,10 +1744,10 @@ export default function MapPage() {
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                 <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B1F33]/58">
-                  <Sparkles className="h-3.5 w-3.5 text-[#B38F4F]" />
+                  <Sparkles className="h-3 w-3 text-[#B38F4F] md:h-3.5 md:w-3.5" />
                   {urlState.mode === "partner" ? "PARTNER MAP" : "RESIDENTS"}
                 </div>
-                <h1 className="mt-0.5 truncate font-heading text-[18px] font-medium leading-tight text-[#0B1F33] md:text-[22px]">
+                <h1 className="mt-0.5 truncate font-heading text-[16px] font-medium leading-tight text-[#0B1F33] md:text-[22px]">
                   {urlState.mode === "partner" ? "Who nearby should see this?" : "What do you want to do?"}
                 </h1>
               </div>
@@ -1784,12 +1758,11 @@ export default function MapPage() {
                     <button type="button" onClick={() => switchMode("resident")} className="dp-map-control">Resident</button>
                     <Link to={mapRoutes.dashboard} className="dp-map-control">Dashboard</Link>
                   </>
-                ) : (
-                  <>
-                    <button type="button" onClick={() => switchMode("partner")} className="dp-map-control">Partner</button>
-                    <button type="button" onClick={() => switchMode("resident", "pass")} className="dp-map-control">Card</button>
-                  </>
-                )}
+	                ) : (
+	                  <>
+	                    <button type="button" onClick={() => switchMode("partner")} className="dp-map-control">Partner</button>
+	                  </>
+	                )}
                 <button type="button" onClick={() => setAboutOpen(true)} className="dp-map-control" aria-label="About Downtown Perks">
                   <Info className="h-4 w-4 text-[#B38F4F]" />
                 </button>
@@ -1797,7 +1770,7 @@ export default function MapPage() {
               </div>
 
               <form onSubmit={runSearch} className="grid gap-1.5 md:grid-cols-[1fr_auto]">
-                <label className="group flex h-9 items-center gap-2 dp-soft-field rounded-md bg-white px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] transition-all focus-within:border-[#B38F4F]/70">
+                <label className="group flex h-8 items-center gap-2 dp-soft-field rounded-md bg-white px-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] transition-all focus-within:border-[#B38F4F]/70 md:h-9 md:px-3">
                   <Search className="h-4 w-4 shrink-0 text-[#0B1F33]/50" />
                   <input
                     type="text"
@@ -1807,7 +1780,7 @@ export default function MapPage() {
                       setSearch(e.target.value);
                       if (mapAnswer) setMapAnswer(null);
                     }}
-                    className="min-w-0 flex-1 bg-transparent text-[13px] text-[#0B1F33] placeholder:text-[#0B1F33]/42 focus:outline-none"
+                    className="min-w-0 flex-1 bg-transparent text-[12px] text-[#0B1F33] placeholder:text-[#0B1F33]/42 focus:outline-none md:text-[13px]"
                   />
                   {!search && (
                     <button
@@ -1835,7 +1808,7 @@ export default function MapPage() {
 
                 <button
                   type="submit"
-                  className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md bg-[#0B1F33] px-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:h-9 md:gap-2 md:px-4 md:text-[12px] md:tracking-[0.14em]"
                 >
                   Ask
                   <ArrowRight className="h-4 w-4 text-[#B38F4F]" />
@@ -1850,7 +1823,7 @@ export default function MapPage() {
                     key={filter}
                     type="button"
                     onClick={() => setFilter(filter)}
-                    className={`shrink-0 rounded-md border px-2.5 py-1.5 text-[11px] font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
+                    className={`shrink-0 rounded-md border px-2 py-1 text-[10px] font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:px-2.5 md:py-1.5 md:text-[11px] ${
                       active
                         ? "border-[#0B1F33] bg-[#0B1F33] text-white shadow-[0_12px_30px_rgba(11,31,51,0.14)]"
                         : "border-[#0B1F33]/8 bg-white text-[#0B1F33] hover:-translate-y-0.5 hover:border-[#B38F4F]/60"
@@ -1863,7 +1836,7 @@ export default function MapPage() {
                 <button
                   type="button"
                   onClick={() => setFiltersOpen((value) => !value)}
-                  className={`shrink-0 rounded-md border px-2.5 py-1.5 text-[11px] font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
+                  className={`shrink-0 rounded-md border px-2 py-1 text-[10px] font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:px-2.5 md:py-1.5 md:text-[11px] ${
                     filtersOpen ? "border-[#B38F4F]/60 bg-[#0B1F33] text-white" : "border-[#0B1F33]/8 bg-white text-[#0B1F33] hover:border-[#B38F4F]/60"
                   }`}
                   aria-expanded={filtersOpen}
@@ -1873,7 +1846,7 @@ export default function MapPage() {
                 <button
                   type="button"
                   onClick={() => setNeighborhoodsOpen((value) => !value)}
-                  className={`inline-flex shrink-0 items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${
+                  className={`inline-flex shrink-0 items-center gap-1 rounded-md border px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.1em] md:gap-1.5 md:px-2.5 md:py-1.5 md:text-[10px] md:tracking-[0.12em] ${
                     neighborhoodsOpen ? "border-[#B38F4F]/60 bg-[#0B1F33] text-white" : "border-[#0B1F33]/8 bg-white text-[#0B1F33]"
                   }`}
                   aria-expanded={neighborhoodsOpen}
@@ -1885,7 +1858,7 @@ export default function MapPage() {
                   <button
                     type="button"
                     onClick={() => setIntelOpen((value) => !value)}
-                    className={`inline-flex shrink-0 items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${
+                    className={`inline-flex shrink-0 items-center gap-1 rounded-md border px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.1em] md:gap-1.5 md:px-2.5 md:py-1.5 md:text-[10px] md:tracking-[0.12em] ${
                       intelOpen ? "border-[#B38F4F]/60 bg-[#0B1F33] text-white" : "border-[#0B1F33]/8 bg-white text-[#0B1F33]"
                     }`}
                     aria-expanded={intelOpen}
@@ -1912,7 +1885,7 @@ export default function MapPage() {
                             key={filter}
                             type="button"
                             onClick={() => setFilter(filter)}
-                            className={`shrink-0 rounded-md border px-2.5 py-1.5 text-[11px] font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
+                            className={`shrink-0 rounded-md border px-2 py-1 text-[10px] font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:px-2.5 md:py-1.5 md:text-[11px] ${
                               active
                                 ? "border-[#0B1F33] bg-[#0B1F33] text-white shadow-[0_12px_30px_rgba(11,31,51,0.14)]"
                                 : "border-[#0B1F33]/8 bg-white text-[#0B1F33] hover:-translate-y-0.5 hover:border-[#B38F4F]/60"
@@ -1925,7 +1898,7 @@ export default function MapPage() {
                       <button
                         type="button"
                         onClick={() => setFiltersOpen(false)}
-                        className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/62 transition hover:border-[#B38F4F]/45 hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                        className="inline-flex shrink-0 items-center gap-1 rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33]/62 transition hover:border-[#B38F4F]/45 hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:gap-1.5 md:px-2.5 md:py-1.5 md:text-[10px] md:tracking-[0.12em]"
                       >
                         <ChevronUp className="h-3.5 w-3.5" />
                         Roll up
@@ -1954,7 +1927,7 @@ export default function MapPage() {
                                 setMapAnswer(null);
                                 urlState.update({ radius: item });
                               }}
-                              className={`shrink-0 rounded-md border px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${
+                              className={`shrink-0 rounded-md border px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.1em] md:px-2.5 md:py-1.5 md:text-[10px] md:tracking-[0.12em] ${
                                 radius === item ? "border-[#B38F4F]/60 bg-[#0B1F33] text-white" : "border-[#0B1F33]/8 bg-white text-[#0B1F33]"
                               }`}
                             >
@@ -1973,7 +1946,7 @@ export default function MapPage() {
                       key={neighborhood}
                       type="button"
                       onClick={() => setNeighborhood(neighborhood)}
-                      className={`inline-flex shrink-0 items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-[11px] font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
+                      className={`inline-flex shrink-0 items-center gap-1 rounded-md border px-2 py-1 text-[10px] font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:gap-1.5 md:px-2.5 md:py-1.5 md:text-[11px] ${
                         active
                           ? "border-[#B38F4F]/60 bg-[#0B1F33] text-white shadow-[0_12px_30px_rgba(11,31,51,0.14)]"
                           : "border-[#0B1F33]/8 bg-white text-[#0B1F33] hover:-translate-y-0.5 hover:border-[#B38F4F]/60"
@@ -1992,7 +1965,7 @@ export default function MapPage() {
                         <button
                           type="button"
                           onClick={() => setNeighborhoodsOpen(false)}
-                          className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/62 transition hover:border-[#B38F4F]/45 hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                          className="inline-flex shrink-0 items-center gap-1 rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33]/62 transition hover:border-[#B38F4F]/45 hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:gap-1.5 md:px-2.5 md:py-1.5 md:text-[10px] md:tracking-[0.12em]"
                         >
                           <ChevronUp className="h-3.5 w-3.5" />
                           Roll up
@@ -2146,27 +2119,27 @@ export default function MapPage() {
           <motion.section
             initial={{ opacity: 0, y: 24, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            className="pointer-events-auto max-h-[calc(100dvh-1rem)] w-full max-w-xl overflow-y-auto rounded-t-2xl bg-white/94 p-3 shadow-[0_24px_80px_rgba(15,23,42,0.18),0_0_70px_rgba(179,143,79,0.10),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[14px] sm:p-4 md:rounded-lg"
+            className="pointer-events-auto max-h-[calc(100dvh-0.75rem)] w-full max-w-xl overflow-y-auto rounded-t-xl bg-white/94 p-2.5 shadow-[0_18px_58px_rgba(11,31,51,0.12),0_0_42px_rgba(179,143,79,0.06),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[14px] sm:p-4 md:max-h-[calc(100dvh-2rem)] md:rounded-lg"
             role="dialog"
             aria-modal="true"
             aria-label="Resident pass"
           >
-            <div className="sticky top-0 z-10 -mx-3 -mt-3 mb-3 flex items-center justify-between gap-3 bg-white/90 px-3 py-2 shadow-[0_12px_28px_rgba(11,31,51,0.04)] backdrop-blur-xl sm:-mx-4 sm:-mt-4 sm:px-4">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/58">Resident pass</span>
-              <button type="button" onClick={() => switchMode("resident", "map")} className="rounded-md bg-white/82 p-2 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]" aria-label="Close pass">
+            <div className="sticky top-0 z-10 -mx-2.5 -mt-2.5 mb-2 flex items-center justify-between gap-2 bg-white/90 px-2.5 py-1.5 shadow-[0_10px_24px_rgba(11,31,51,0.04)] backdrop-blur-xl sm:-mx-4 sm:-mt-4 sm:px-4 sm:py-2 md:mb-3">
+              <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/58 md:text-[10px] md:tracking-[0.16em]">Resident pass</span>
+              <button type="button" onClick={() => switchMode("resident", "map")} className="rounded-md bg-white/82 p-1.5 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:p-2" aria-label="Close pass">
                 <X className="h-4 w-4" />
               </button>
             </div>
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex items-start justify-between gap-3 md:gap-4">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/58">Resident pass</p>
-                <h2 className="mt-1.5 font-heading text-[28px] font-medium leading-none">Downtown Perks Card</h2>
+                <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/58 md:text-[10px] md:tracking-[0.16em]">Resident pass</p>
+                <h2 className="mt-1 font-heading text-[24px] font-medium leading-none md:mt-1.5 md:text-[28px]">Downtown Perks Card</h2>
                 <p className="mt-1.5 text-[11px] leading-5 text-[#0B1F33]/62">
                   Show the QR. The partner scans it. Your perk is confirmed right there.
                 </p>
               </div>
             </div>
-            <div className="mt-3 rounded-lg bg-[#0B1F33] p-3 text-white shadow-[0_20px_50px_rgba(11,31,51,0.20),0_0_38px_rgba(179,143,79,0.13)]">
+            <div className="mt-2.5 rounded-md bg-[#0B1F33] p-2.5 text-white shadow-[0_16px_42px_rgba(11,31,51,0.18),0_0_30px_rgba(179,143,79,0.10)] md:mt-3 md:p-3">
               <div className="flex items-center gap-2">
                 <CreditCard className="h-5 w-5 text-[#B38F4F]" />
                 <div className="text-[10px] uppercase tracking-[0.18em] text-white/58">Downtown Perks</div>
@@ -2242,10 +2215,10 @@ export default function MapPage() {
         </div>
       )}
 
-      {(urlState.tab === "map" || urlState.tab === "pass") && !selected && !clusterDrawer && !(urlState.tab === "map" && activeBottomTab === "discover") && (
-        <div className="pointer-events-none fixed inset-x-0 bottom-3 z-[700] flex justify-center px-4 pb-[env(safe-area-inset-bottom)]">
+	      {urlState.tab === "map" && !selected && !clusterDrawer && activeBottomTab !== "discover" && (
+        <div className="pointer-events-none fixed inset-x-0 bottom-2 z-[700] flex justify-center px-2 pb-[env(safe-area-inset-bottom)] md:bottom-3 md:px-4">
           <nav
-            className="pointer-events-auto flex max-w-[min(520px,calc(100vw-2rem))] gap-1 rounded-lg border border-[#0B1F33]/8 bg-white/94 p-1.5 shadow-[0_18px_44px_rgba(11,31,51,0.12)] backdrop-blur-xl"
+            className="pointer-events-auto flex max-w-[calc(100vw-1rem)] gap-1 overflow-x-auto rounded-md border border-[#0B1F33]/8 bg-white/94 p-1 shadow-[0_14px_34px_rgba(11,31,51,0.11)] backdrop-blur-xl md:max-w-[min(520px,calc(100vw-2rem))] md:rounded-lg md:p-1.5"
             aria-label="Map bottom navigation"
           >
             <button
@@ -2254,12 +2227,12 @@ export default function MapPage() {
                 setActiveBottomTab("map");
                 if (urlState.tab !== "map") switchMode(urlState.mode, "map");
               }}
-              className={`inline-flex h-10 items-center justify-center gap-2 rounded-md px-4 text-[11px] font-semibold uppercase tracking-[0.12em] transition ${
+              className={`inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-md px-3 text-[10px] font-semibold uppercase tracking-[0.1em] transition md:h-10 md:gap-2 md:px-4 md:text-[11px] md:tracking-[0.12em] ${
                 urlState.tab === "map" && activeBottomTab === "map" ? "bg-[#0B1F33] text-white" : "text-[#0B1F33]/64 hover:bg-[#F7F8FB]"
               }`}
               aria-pressed={urlState.tab === "map" && activeBottomTab === "map"}
             >
-              <MapPin className="h-4 w-4 text-[#B38F4F]" />
+              <MapPin className="h-3.5 w-3.5 text-[#B38F4F] md:h-4 md:w-4" />
               Map
             </button>
             <button
@@ -2268,14 +2241,14 @@ export default function MapPage() {
                 setActiveBottomTab("discover");
                 if (urlState.tab !== "map") switchMode(urlState.mode, "map");
               }}
-              className={`inline-flex h-10 items-center justify-center gap-2 rounded-md px-4 text-[11px] font-semibold uppercase tracking-[0.12em] transition ${
+              className={`inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-md px-3 text-[10px] font-semibold uppercase tracking-[0.1em] transition md:h-10 md:gap-2 md:px-4 md:text-[11px] md:tracking-[0.12em] ${
                 urlState.tab === "map" && activeBottomTab === "discover" ? "bg-[#0B1F33] text-white" : "text-[#0B1F33]/64 hover:bg-[#F7F8FB]"
               }`}
               aria-pressed={urlState.tab === "map" && activeBottomTab === "discover"}
             >
-              <Sparkles className="h-4 w-4 text-[#B38F4F]" />
+              <Sparkles className="h-3.5 w-3.5 text-[#B38F4F] md:h-4 md:w-4" />
               {urlState.mode === "partner" ? "Intel" : "Discover"}
-              <span className="rounded-[4px] border border-[#B38F4F]/35 px-1.5 py-0.5 text-[10px] leading-none text-[#B38F4F]">
+              <span className="rounded-[4px] border border-[#B38F4F]/35 px-1 py-0.5 text-[9px] leading-none text-[#B38F4F] md:px-1.5 md:text-[10px]">
                 {contextCount > 0 ? contextCount : "Live"}
               </span>
             </button>
@@ -2283,12 +2256,12 @@ export default function MapPage() {
               <button
                 type="button"
                 onClick={() => switchMode("resident", "pass")}
-                className={`inline-flex h-10 items-center justify-center gap-2 rounded-md px-4 text-[11px] font-semibold uppercase tracking-[0.12em] transition ${
+                className={`inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-md px-3 text-[10px] font-semibold uppercase tracking-[0.1em] transition md:h-10 md:gap-2 md:px-4 md:text-[11px] md:tracking-[0.12em] ${
                   urlState.tab === "pass" ? "bg-[#0B1F33] text-white" : "text-[#0B1F33]/64 hover:bg-[#F7F8FB]"
                 }`}
                 aria-pressed={urlState.tab === "pass"}
               >
-                <CreditCard className="h-4 w-4 text-[#B38F4F]" />
+                <CreditCard className="h-3.5 w-3.5 text-[#B38F4F] md:h-4 md:w-4" />
                 Card
               </button>
             )}
@@ -2303,18 +2276,18 @@ export default function MapPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 44 }}
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-[620] mx-auto max-h-[56vh] w-full max-w-3xl overflow-hidden rounded-t-2xl bg-white/92 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_24px_80px_rgba(15,23,42,0.18),0_0_70px_rgba(179,143,79,0.09),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[28px]"
+            className="fixed inset-x-0 bottom-0 z-[620] mx-auto max-h-[52vh] w-full max-w-3xl overflow-hidden rounded-t-xl bg-white/92 p-2.5 pb-[calc(0.6rem+env(safe-area-inset-bottom))] shadow-[0_18px_58px_rgba(11,31,51,0.12),0_0_44px_rgba(179,143,79,0.05),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[24px] md:max-h-[56vh] md:rounded-t-2xl md:p-3 md:pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
             role="dialog"
             aria-modal="true"
             aria-label={urlState.mode === "partner" ? "Partner map results" : "Discover results"}
           >
-            <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-[#0B1F33]/14" aria-hidden="true" />
-            <div className="mb-3 flex items-center justify-between gap-3">
+            <div className="mx-auto mb-2 h-0.5 w-10 rounded-full bg-[#0B1F33]/14 md:mb-3 md:h-1 md:w-12" aria-hidden="true" />
+            <div className="mb-2 flex items-center justify-between gap-2 md:mb-3 md:gap-3">
               <div className="min-w-0 flex-1">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">
+                <div className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50 md:text-[10px] md:tracking-[0.16em]">
                   {urlState.mode === "partner" ? "Partner map" : "Downtown nearby"}
                 </div>
-                <div className="mt-0.5 text-[13px] font-semibold text-[#0B1F33]">
+                <div className="mt-0.5 text-[12px] font-semibold text-[#0B1F33] md:text-[13px]">
                   {contextLabel}
                 </div>
                 {isUsingFallbackPlaces && (
@@ -2326,7 +2299,7 @@ export default function MapPage() {
               <button
                 type="button"
                 onClick={() => setActiveBottomTab("map")}
-                className="flex h-9 w-9 items-center justify-center rounded-md bg-white/82 text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                className="flex h-8 w-8 items-center justify-center rounded-md bg-white/82 text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:h-9 md:w-9"
                 aria-label="Close discover results"
               >
                 <X className="h-4 w-4" />
@@ -2354,14 +2327,14 @@ export default function MapPage() {
               </div>
             )}
 
-            <div className="max-h-[42vh] space-y-2 overflow-y-auto pr-1">
+            <div className="max-h-[38vh] space-y-1.5 overflow-y-auto pr-1 md:max-h-[42vh] md:space-y-2">
               {previewPlaces.map((place) => (
                 <button
                   key={place.id}
                   type="button"
                   onClick={() => selectPlace(place)}
-                  className={`grid w-full grid-cols-[42px_1fr_auto] items-center gap-3 rounded-md p-2.5 text-left transition-all hover:-translate-y-0.5 hover:bg-white ${
-                    place.id === selectedId ? "bg-[#0B1F33] text-white shadow-[0_14px_34px_rgba(11,31,51,0.16),0_0_24px_rgba(179,143,79,0.12)]" : "bg-white/72 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.16),0_10px_24px_rgba(11,31,51,0.06)]"
+                  className={`grid w-full grid-cols-[34px_1fr_auto] items-center gap-2 rounded-md p-2 text-left transition-all hover:-translate-y-0.5 hover:bg-white md:grid-cols-[42px_1fr_auto] md:gap-3 md:p-2.5 ${
+                    place.id === selectedId ? "bg-[#0B1F33] text-white shadow-[0_14px_34px_rgba(11,31,51,0.16),0_0_24px_rgba(179, 143, 79, 0.08)]" : "bg-white/72 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)]"
                   }`}
                 >
                   <PinBadge place={place} selected={place.id === selectedId} />
@@ -2386,7 +2359,7 @@ export default function MapPage() {
                 <button
                   type="button"
                   onClick={() => setResultsExpanded((value) => !value)}
-                  className="w-full rounded-md bg-[#F7F8FB]/82 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:bg-white hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.16),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="w-full rounded-md bg-[#F7F8FB]/82 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:bg-white hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                   aria-expanded={resultsExpanded}
                 >
                   {resultsExpanded ? "Roll up results" : `Expand results (${hiddenPreviewCount} more)`}
@@ -2404,16 +2377,16 @@ export default function MapPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 44 }}
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-[640] mx-auto flex max-h-[68vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-2xl bg-white/94 shadow-[0_24px_80px_rgba(15,23,42,0.18),0_0_70px_rgba(179,143,79,0.09),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[18px]"
+            className="fixed inset-x-0 bottom-0 z-[640] mx-auto flex max-h-[62vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-xl bg-white/94 shadow-[0_18px_58px_rgba(11,31,51,0.12),0_0_44px_rgba(179,143,79,0.05),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[18px] md:max-h-[68vh] md:rounded-t-2xl"
             role="dialog"
             aria-modal="true"
             aria-label="Grouped map places"
           >
             <div className="shrink-0 bg-white/94 shadow-[0_12px_30px_rgba(11,31,51,0.045)] backdrop-blur-xl">
-              <div className="mx-auto mt-2 h-1 w-12 rounded-full bg-[#0B1F33]/14" aria-hidden="true" />
-              <div className="flex items-center justify-between gap-3 px-4 py-3">
+              <div className="mx-auto mt-1.5 h-0.5 w-10 rounded-full bg-[#0B1F33]/14 md:mt-2 md:h-1 md:w-12" aria-hidden="true" />
+              <div className="flex items-center justify-between gap-2 px-3 py-2.5 md:gap-3 md:px-4 md:py-3">
                 <div className="min-w-0 flex-1">
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">
+                  <div className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50 md:text-[10px] md:tracking-[0.16em]">
                     {urlState.mode === "partner" ? "Grouped partner places" : "Grouped nearby places"}
                   </div>
                   <div className="mt-0.5 text-[13px] font-semibold text-[#0B1F33]">
@@ -2426,7 +2399,7 @@ export default function MapPage() {
                     setClusterDrawer(null);
                     setActiveBottomTab("map");
                   }}
-                  className="rounded-md bg-white/82 p-2 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="rounded-md bg-white/82 p-2 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                   aria-label="Close grouped places"
                 >
                   <X className="h-4 w-4" />
@@ -2434,7 +2407,7 @@ export default function MapPage() {
               </div>
             </div>
 
-            <div className="min-h-0 flex-1 space-y-2 overflow-y-auto px-4 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+            <div className="min-h-0 flex-1 space-y-1.5 overflow-y-auto px-3 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] md:space-y-2 md:px-4 md:py-4 md:pb-[calc(1rem+env(safe-area-inset-bottom))]">
               {clusterPlacesForDrawer.map((place) => {
                 const perk = getResidentPerkDetails(place);
                 return (
@@ -2442,7 +2415,7 @@ export default function MapPage() {
                     key={place.id}
                     type="button"
                     onClick={() => selectPlace(place)}
-                    className="grid w-full grid-cols-[42px_1fr_auto] items-center gap-3 dp-soft-tile bg-white p-3 text-left text-[#0B1F33] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                    className="grid w-full grid-cols-[34px_1fr_auto] items-center gap-2 dp-soft-tile bg-white p-2.5 text-left text-[#0B1F33] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:grid-cols-[42px_1fr_auto] md:gap-3 md:p-3"
                   >
                     <PinBadge place={place} />
                     <span className="min-w-0">
@@ -2468,15 +2441,15 @@ export default function MapPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 44 }}
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-[650] mx-auto flex max-h-[78vh] w-full max-w-4xl flex-col overflow-hidden rounded-t-2xl bg-white/92 shadow-[0_24px_80px_rgba(15,23,42,0.18),0_0_80px_rgba(179,143,79,0.10),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[28px] md:bottom-0 md:rounded-t-[18px]"
+            className="fixed inset-x-0 bottom-0 z-[650] mx-auto flex max-h-[74vh] w-full max-w-4xl flex-col overflow-hidden rounded-t-xl bg-white/92 shadow-[0_18px_64px_rgba(11,31,51,0.13),0_0_48px_rgba(179,143,79,0.05),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[24px] md:bottom-0 md:max-h-[78vh] md:rounded-t-[18px] md:backdrop-blur-[28px]"
             role="dialog"
             aria-modal="true"
             aria-label={`${selected.name} details`}
           >
             <div className="shrink-0 bg-white/90 shadow-[0_12px_30px_rgba(11,31,51,0.045)] backdrop-blur-xl">
-              <div className="mx-auto mt-2 h-1 w-12 rounded-full bg-[#0B1F33]/14" aria-hidden="true" />
-              <div className="flex items-center justify-between gap-3 px-4 py-2.5">
-                <span className="min-w-0 flex-1 truncate text-xs font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/58">
+              <div className="mx-auto mt-1.5 h-0.5 w-10 rounded-full bg-[#0B1F33]/14 md:mt-2 md:h-1 md:w-12" aria-hidden="true" />
+              <div className="flex items-center justify-between gap-2 px-3 py-2 md:gap-3 md:px-4 md:py-2.5">
+                <span className="min-w-0 flex-1 truncate text-[10px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/58 md:text-xs md:tracking-[0.16em]">
                   {urlState.mode === "partner" ? "How this place can work" : "Perks and details"}
                 </span>
                 <button
@@ -2486,13 +2459,13 @@ export default function MapPage() {
                     setActiveBottomTab("map");
                     urlState.update({ entityId: "" });
                   }}
-                  className="rounded-md bg-white/82 p-2 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="rounded-md bg-white/82 p-1.5 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:p-2"
                   aria-label="Close drawer"
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
-              <div className="mt-1.5 flex gap-1 overflow-x-auto px-4 pb-2.5">
+              <div className="mt-1 flex gap-1 overflow-x-auto px-3 pb-2 md:mt-1.5 md:px-4 md:pb-2.5">
                 <button
                   type="button"
                   onClick={() => setSelectedDrawerTab("details")}
@@ -2515,16 +2488,7 @@ export default function MapPage() {
                     Intel
                   </button>
                 )}
-                {urlState.mode === "resident" && (
-                  <button
-                    type="button"
-                    onClick={() => switchMode("resident", "pass")}
-                    className="inline-flex h-6 shrink-0 items-center justify-center rounded-[5px] bg-white/72 px-2 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33]/64 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
-                  >
-                    Card
-                  </button>
-                )}
-                <button
+	                <button
                   type="button"
                   onClick={() => {
                     setSelectedId("");
@@ -2539,9 +2503,9 @@ export default function MapPage() {
               </div>
             </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4">
-            <div className="grid gap-4 md:grid-cols-[220px_1fr] md:items-start">
-              <div className="group relative h-40 w-full overflow-hidden rounded-[14px] shadow-[0_16px_40px_rgba(14,28,54,.10),0_0_36px_rgba(179,143,79,0.08)]">
+            <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 md:px-4 md:pb-[calc(1rem+env(safe-area-inset-bottom))] md:pt-4">
+            <div className="grid gap-3 md:grid-cols-[200px_1fr] md:items-start md:gap-4">
+              <div className="group relative h-32 w-full overflow-hidden rounded-[10px] shadow-[0_12px_30px_rgba(11,31,51,.09),0_0_28px_rgba(179,143,79,0.07)] sm:h-36 md:h-40 md:rounded-[14px] md:shadow-[0_16px_40px_rgba(11,31,51,.10),0_0_36px_rgba(179,143,79,0.08)]">
                 <img
                   src={getLifestyleImage(selected, urlState.mode)}
                   alt={`${selected.name} downtown context`}
@@ -2553,12 +2517,12 @@ export default function MapPage() {
                 </div>
               </div>
               <div>
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/52">
-                  <MapPin className="h-4 w-4 text-[#B38F4F]" />
+                <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/52 md:gap-2 md:text-xs md:tracking-[0.16em]">
+                  <MapPin className="h-3.5 w-3.5 text-[#B38F4F] md:h-4 md:w-4" />
                   {selected.category} · {selected.district}
                 </div>
-                <h2 className="mt-3 font-heading text-3xl font-medium">{selected.name}</h2>
-                <p className="mt-3 max-w-2xl text-[13px] leading-6 text-[#0B1F33]/64">
+                <h2 className="mt-2 font-heading text-2xl font-medium md:mt-3 md:text-3xl">{selected.name}</h2>
+                <p className="mt-2 max-w-2xl text-[12px] leading-5 text-[#0B1F33]/64 md:mt-3 md:text-[13px] md:leading-6">
                   {urlState.mode === "partner"
                     ? "A quick read on who is nearby, what they may be looking for, and how this place fits into the area."
                     : selected.raw?.summary || "A nearby downtown place connected to resident access, walkability, perks, events, and local context."}
@@ -2675,7 +2639,7 @@ export default function MapPage() {
                               event.preventDefault();
                               setAgentFormSubmitted(true);
                             }}
-                            className="mt-4 dp-soft-panel p-4"
+                            className="mt-3 dp-soft-panel p-3 md:mt-4 md:p-4"
                           >
                             <div className="flex items-start justify-between gap-3">
                               <div>
@@ -2688,7 +2652,7 @@ export default function MapPage() {
                               <button
                                 type="button"
                                 onClick={() => setAgentFormPlaceId("")}
-                                className="rounded-md bg-white/82 p-2 text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                                className="rounded-md bg-white/82 p-1.5 text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:p-2"
                                 aria-label="Close contact agent form"
                               >
                                 <X className="h-4 w-4" />
@@ -2701,23 +2665,23 @@ export default function MapPage() {
                               </div>
                             ) : (
                               <>
-                                <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                                <div className="mt-3 grid gap-2 sm:grid-cols-2 md:mt-4">
                                   <label className="grid gap-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/54">
                                     Name
-                                    <input required className="h-10 dp-soft-field rounded-md bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" placeholder="Your name" />
+                                    <input required className="h-9 dp-soft-field rounded-md bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70 md:h-10" placeholder="Your name" />
                                   </label>
                                   <label className="grid gap-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/54">
                                     Phone or email
-                                    <input required className="h-10 dp-soft-field rounded-md bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" placeholder="Best way to reach you" />
+                                    <input required className="h-9 dp-soft-field rounded-md bg-white px-3 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70 md:h-10" placeholder="Best way to reach you" />
                                   </label>
                                 </div>
                                 <label className="mt-2 grid gap-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/54">
                                   Message
                                   <textarea className="min-h-20 dp-soft-field rounded-md bg-white px-3 py-2 text-[13px] font-medium normal-case tracking-normal text-[#0B1F33] outline-none focus:border-[#B38F4F]/70" defaultValue={`I would like more information about ${selected.name}.`} />
                                 </label>
-                                <button type="submit" className="mt-3 inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
+                                <button type="submit" className="mt-3 inline-flex h-9 items-center justify-center gap-1.5 rounded-md bg-[#0B1F33] px-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:h-10 md:gap-2 md:px-4 md:text-xs md:tracking-[0.14em]">
                                   Send Request
-                                  <Send className="h-4 w-4 text-[#B38F4F]" />
+                                  <Send className="h-3.5 w-3.5 text-[#B38F4F] md:h-4 md:w-4" />
                                 </button>
                               </>
                             )}

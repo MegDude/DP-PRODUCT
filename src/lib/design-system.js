@@ -160,7 +160,7 @@ export const SURFACES = {
 
 export const STATES = {
   // Button hover
-  buttonHover: "hover:bg-[#132238] transition-colors duration-300",
+  buttonHover: "hover:bg-[#081521] transition-colors duration-300",
   
   // Card hover
   cardHover: "hover:border-border hover:shadow-md transition-all duration-200",

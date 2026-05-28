@@ -8,10 +8,10 @@ import AnalyticsFunnel from '@/components/analytics/AnalyticsFunnel';
 import AnalyticsAttributionTable from '@/components/analytics/AnalyticsAttributionTable';
 
 const CAMPAIGN_FORMATS = [
-  { id: 'founding', label: 'Founding Partner', icon: '🏆', color: 'from-[#0B1F33] to-[#23344D]' },
-  { id: 'launch', label: 'Launch Campaign', icon: '🚀', color: 'from-[#0B1F33] to-[#1A2C44]' },
-  { id: 'resident', label: 'Resident Activation', icon: '👥', color: 'from-[#132238] to-[#23344D]' },
-  { id: 'event', label: 'Event-Led Campaign', icon: '📍', color: 'from-[#1A2C44] to-[#23344D]' },
+  { id: 'founding', label: 'Founding Partner', icon: '🏆', color: 'from-[#0B1F33] to-[#0B1F33]' },
+  { id: 'launch', label: 'Launch Campaign', icon: '🚀', color: 'from-[#0B1F33] to-[#0B1F33]' },
+  { id: 'resident', label: 'Resident Activation', icon: '👥', color: 'from-[#081521] to-[#0B1F33]' },
+  { id: 'event', label: 'Event-Led Campaign', icon: '📍', color: 'from-[#0B1F33] to-[#0B1F33]' },
   { id: 'utility', label: 'Utility Campaign', icon: '✨', color: 'from-indigo-500 to-violet-500' }
 ];
 
@@ -292,7 +292,7 @@ export default function BrandAnalytics() {
                           initial={{ width: 0 }}
                           animate={{ width: `${p.intensity}%` }}
                           transition={{ duration: 0.8, delay: 0.35 + idx * 0.05 }}
-                          className="h-full rounded-full bg-gradient-to-r from-[#0B1F33] to-[#23344D]"
+                          className="h-full rounded-full bg-gradient-to-r from-[#0B1F33] to-[#0B1F33]"
                         />
                       </div>
                     </motion.div>

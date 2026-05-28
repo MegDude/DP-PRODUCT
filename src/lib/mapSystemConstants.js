@@ -78,12 +78,12 @@ export const SEARCH_PROMPTS = [
 export const CATEGORY_COLORS = {
   restaurant: '#B38F4F',
   bar: '#B38F4F',
-  fitness: '#23344D',
-  wellness: '#23344D',
-  beauty: '#132238',
-  retail: '#5D6B7A',
+  fitness: '#0B1F33',
+  wellness: '#0B1F33',
+  beauty: '#081521',
+  retail: '#425466',
   entertainment: '#0B1F33',
-  coworking: '#132238',
+  coworking: '#081521',
   hotel: '#B38F4F',
   building: '#B38F4F',
 };

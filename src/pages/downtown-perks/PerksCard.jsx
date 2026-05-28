@@ -137,7 +137,7 @@ export default function PerksCard() {
               Scan the QR code to open the live card flow, connect your building, and keep your resident access ready for partner venues.
             </p>
 
-            <div className="relative mt-5 h-44 w-full overflow-hidden rounded-[14px] border border-[#0B1F33]/8 shadow-[0_8px_24px_rgba(14,28,54,.06)]">
+            <div className="relative mt-5 h-44 w-full overflow-hidden rounded-[14px] border border-[#0B1F33]/8 shadow-[0_8px_24px_rgba(11,31,51,.06)]">
               <img
                 src="/images/residents/downtown-rooftop-evening.png"
                 alt="Downtown Austin resident lifestyle"
@@ -152,7 +152,7 @@ export default function PerksCard() {
             <div className="mt-6 grid gap-3">
               <Link
                 to="/map?mode=resident&tab=pass"
-                className="inline-flex h-10 items-center justify-center gap-2 bg-[#0B1F33] px-5 text-[13px] font-semibold text-white transition-colors hover:bg-[#132238]"
+                className="inline-flex h-10 items-center justify-center gap-2 bg-[#0B1F33] px-5 text-[13px] font-semibold text-white transition-colors hover:bg-[#081521]"
               >
                 <Sparkles className="w-4 h-4" />
                 Activate Your Card

@@ -113,7 +113,7 @@ export default function PropertiesPartner() {
       {/* HERO */}
       <section className="pt-36 pb-16 px-5 relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
-          style={{ backgroundImage: "linear-gradient(hsl(222 18% 40%) 1px,transparent 1px),linear-gradient(90deg,hsl(222 18% 40%) 1px,transparent 1px)", backgroundSize: "56px 56px" }} />
+          style={{ backgroundImage: "linear-gradient(rgba(11,31,51,0.18) 1px,transparent 1px),linear-gradient(90deg,rgba(11,31,51,0.18) 1px,transparent 1px)", backgroundSize: "56px 56px" }} />
         <div className="max-w-6xl mx-auto">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <Link to="/brands" className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-primary transition-colors mb-8 group">

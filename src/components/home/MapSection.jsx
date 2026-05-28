@@ -24,7 +24,7 @@ export default function MapSection() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="py-20 px-5 border-t border-[hsl(218,20%,88%)] bg-[#F7F8FB]">
+    <section ref={ref} className="py-20 px-5 border-t border-[#0B1F33]/8 bg-[#F7F8FB]">
       <div className="max-w-4xl mx-auto">
 
         {/* Header */}
@@ -70,10 +70,10 @@ export default function MapSection() {
         </motion.div>
 
         {/* Two-col: find + how */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-[hsl(218,20%,88%)] rounded-xl overflow-hidden mb-10 bg-white shadow-[0_2px_16px_rgba(14,28,54,.06)]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-[#0B1F33]/8 rounded-xl overflow-hidden mb-10 bg-white shadow-[0_12px_40px_rgba(11,31,51,0.05)]">
 
           {/* Find what you need */}
-          <div className="p-8 md:border-r border-[hsl(218,20%,90%)]">
+          <div className="p-8 md:border-r border-[#0B1F33]/8">
             <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
@@ -90,7 +90,7 @@ export default function MapSection() {
               </ul>
 
               {/* Sample venue card */}
-              <div className="p-4 rounded-lg bg-[#F7F8FB] border border-[hsl(218,20%,90%)] mb-6">
+              <div className="p-4 rounded-lg bg-[#F7F8FB] border border-[#0B1F33]/8 mb-6">
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full border border-border/60 bg-muted/60 flex items-center justify-center shrink-0">
                     <Coffee className="w-3.5 h-3.5 text-primary/60" />
@@ -125,7 +125,7 @@ export default function MapSection() {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <div className="text-[11px] font-medium text-foreground/50 uppercase tracking-[0.12em] mb-5">How It Works</div>
-              <div className="divide-y divide-[hsl(218,20%,92%)]">
+              <div className="divide-y divide-[#0B1F33]/8">
                 {howSteps.map((s, i) => (
                   <div key={i} className="py-5 first:pt-0 last:pb-0">
                     <div className="font-medium text-[13px] text-foreground mb-1.5">{s.label}</div>
@@ -133,7 +133,7 @@ export default function MapSection() {
                   </div>
                 ))}
               </div>
-              <div className="mt-6 pt-6 border-t border-[hsl(218,20%,92%)] space-y-1">
+              <div className="mt-6 pt-6 border-t border-[#0B1F33]/8 space-y-1">
                 <p className="font-heading text-[14px] font-medium text-foreground italic">That's how friction dies.</p>
                 <p className="text-[12px] text-foreground/55 leading-relaxed">No extra steps. No guesswork. Just the shortest distance between "maybe" and "I'm going."</p>
               </div>
@@ -171,9 +171,9 @@ export default function MapSection() {
               initial={{ opacity: 0, y: 12 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.4 + i * 0.08 }}
-              className="p-6 rounded-xl border border-[hsl(218,20%,88%)] bg-white hover:border-primary/30 hover:shadow-[0_4px_16px_rgba(14,28,54,.06)] transition-all group shadow-[0_1px_4px_rgba(14,28,54,.04)]"
+              className="p-6 rounded-xl border border-[#0B1F33]/8 bg-white hover:border-[#0B1F33]/10 hover:shadow-[0_12px_40px_rgba(11,31,51,0.05)] transition-all group shadow-[0_8px_24px_rgba(11,31,51,0.035)]"
             >
-              <div className="w-8 h-8 rounded-full border border-[hsl(218,20%,88%)] flex items-center justify-center mb-4">
+              <div className="w-8 h-8 rounded-full border border-[#0B1F33]/8 flex items-center justify-center mb-4">
                 <item.icon className="w-3.5 h-3.5 text-primary/70" />
               </div>
               <div className="font-heading font-medium text-[13px] text-foreground mb-2">{item.label}</div>
@@ -190,7 +190,7 @@ export default function MapSection() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="border border-[hsl(218,20%,88%)] rounded-xl p-8 bg-white shadow-[0_1px_8px_rgba(14,28,54,.04)]"
+          className="border border-[#0B1F33]/8 rounded-xl p-8 bg-white shadow-[0_10px_34px_rgba(11,31,51,0.04)]"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>

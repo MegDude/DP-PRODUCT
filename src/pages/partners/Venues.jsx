@@ -7,7 +7,7 @@ import { PARTNER_SPACING, PARTNER_GRIDS } from '@/lib/partner-system';
 import FAQAccordionBlock from '@/components/ui/FAQAccordionBlock';
 import { FAQ_VENUES } from '@/lib/faq-partner-data';
 
-const CAT_COLORS = { bar: "#132238", restaurant: "#B38F4F", fitness: "#1A2C44", wellness: "#B38F4F", retail: "#0B1F33", coffee: "#B38F4F" };
+const CAT_COLORS = { bar: "#081521", restaurant: "#B38F4F", fitness: "#0B1F33", wellness: "#B38F4F", retail: "#0B1F33", coffee: "#B38F4F" };
 
 function CountUp({ to, duration = 1.2 }) {
   const [val, setVal] = useState(0);
@@ -69,7 +69,7 @@ export default function VenuesPartner() {
     <div className="min-h-screen bg-background">
       {/* HERO */}
       <section className={`${PARTNER_SPACING.heroVertical} px-5 relative overflow-hidden`}>
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "linear-gradient(hsl(222 18% 40%) 1px,transparent 1px),linear-gradient(90deg,hsl(222 18% 40%) 1px,transparent 1px)", backgroundSize: "56px 56px" }} />
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(11,31,51,0.18) 1px,transparent 1px),linear-gradient(90deg,rgba(11,31,51,0.18) 1px,transparent 1px)", backgroundSize: "56px 56px" }} />
         <div className="max-w-6xl mx-auto">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <Link to="/brands" className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-primary transition-colors mb-8 group">
@@ -172,7 +172,7 @@ export default function VenuesPartner() {
                     <div className="space-y-2">
                       {VENUES.slice(0, 4).map(v => (
                         <button key={v.id} onClick={() => selectVenue(v)} className="w-full flex items-center gap-2.5 p-2.5 rounded-lg border border-border/40 hover:border-primary/30 transition-all text-left">
-                          <div className="w-2 h-2 rounded-full shrink-0" style={{ background: CAT_COLORS[v.cat] || "#132238" }} />
+                          <div className="w-2 h-2 rounded-full shrink-0" style={{ background: CAT_COLORS[v.cat] || "#081521" }} />
                           <span className="text-[12px] font-medium text-foreground flex-1 truncate">{v.name}</span>
                           <span className="text-[10px] text-muted-foreground">{v.views} views</span>
                         </button>
@@ -389,7 +389,7 @@ function VenueCards({ venues, selectVenue }) {
             <motion.div key={v.id} initial={{ opacity: 0, y: 10 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ delay: i * 0.08 }}
               onClick={() => selectVenue(v)} className="p-5 rounded-xl border border-border/50 bg-card/40 hover:border-primary/30 cursor-pointer transition-all">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: CAT_COLORS[v.cat] || "#132238" }} />
+                <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: CAT_COLORS[v.cat] || "#081521" }} />
                 <span className="font-heading font-medium text-[13px] text-foreground">{v.name}</span>
               </div>
               <div className="h-1.5 rounded-full bg-border/50 mb-4 overflow-hidden">

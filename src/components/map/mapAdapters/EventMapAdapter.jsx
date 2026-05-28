@@ -32,16 +32,16 @@ export function EventCard({ event, active, onClick }) {
 
   const date = event.date ? moment(event.date) : null;
   const CAT_COLORS = {
-    fitness: "#23344D",
-    wellness: "#23344D",
+    fitness: "#0B1F33",
+    wellness: "#0B1F33",
     social: "#B38F4F",
     dining: "#B38F4F",
     nightlife: "#0B1F33",
-    arts: "#132238",
-    networking: "#132238",
-    class: "#23344D",
+    arts: "#081521",
+    networking: "#081521",
+    class: "#0B1F33",
     run_club: "#B38F4F",
-    yoga: "#23344D",
+    yoga: "#0B1F33",
   };
   const color = CAT_COLORS[event.category] || "#B38F4F";
 

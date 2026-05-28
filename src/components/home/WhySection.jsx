@@ -37,7 +37,7 @@ export default function WhySection() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="py-20 px-5 border-t border-[hsl(218,20%,88%)] bg-white">
+    <section ref={ref} className="py-20 px-5 border-t border-[#0B1F33]/8 bg-white">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -81,7 +81,7 @@ export default function WhySection() {
                   {section.body}
                 </p>
 
-                <ul className="mt-6 space-y-3 border-t border-[hsl(218,20%,88%)] pt-5">
+                <ul className="mt-6 space-y-3 border-t border-[#0B1F33]/8 pt-5">
                   {section.points.map((point) => (
                     <li key={point} className="flex gap-3 text-[13px] leading-relaxed text-foreground/62">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-primary/65" />

@@ -6,12 +6,12 @@ import L from "leaflet";
 const VENUE_COLORS = {
   restaurant: "#B38F4F",
   bar: "#B38F4F",
-  fitness: "#23344D",
-  wellness: "#23344D",
-  beauty: "#132238",
+  fitness: "#0B1F33",
+  wellness: "#0B1F33",
+  beauty: "#081521",
   entertainment: "#0B1F33",
-  retail: "#5D6B7A",
-  coworking: "#132238",
+  retail: "#425466",
+  coworking: "#081521",
   hotel: "#B38F4F",
 };
 
@@ -82,16 +82,16 @@ export function buildingIcon(active = false) {
  * Event marker icons (colored dots)
  */
 const EVENT_COLORS = {
-  fitness: "#23344D",
-  wellness: "#23344D",
+  fitness: "#0B1F33",
+  wellness: "#0B1F33",
   social: "#B38F4F",
   dining: "#B38F4F",
   nightlife: "#0B1F33",
-  arts: "#132238",
-  networking: "#132238",
-  class: "#23344D",
+  arts: "#081521",
+  networking: "#081521",
+  class: "#0B1F33",
   run_club: "#B38F4F",
-  yoga: "#23344D",
+  yoga: "#0B1F33",
 };
 
 export function eventIcon(category, active = false) {

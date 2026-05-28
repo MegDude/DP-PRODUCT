@@ -28,7 +28,7 @@ export default function PartnerCTASection({ headline, description, primaryCTA, p
             {primaryCTA && (
               <a
                 href={primaryHref || '#'}
-                className="inline-flex items-center gap-2 h-10 px-5 rounded-lg bg-[#0B1F33] text-white font-semibold text-[14px] hover:bg-[#132238] transition-colors"
+                className="inline-flex items-center gap-2 h-10 px-5 rounded-lg bg-[#0B1F33] text-white font-semibold text-[14px] hover:bg-[#081521] transition-colors"
               >
                 {primaryCTA}
                 <ArrowRight className="w-4 h-4" />

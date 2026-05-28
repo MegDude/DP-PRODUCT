@@ -79,7 +79,7 @@ export default function AskMapAgent() {
                 </button>
               ))}
             </div>
-            <button className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 bg-[#0B1F33] px-5 text-[13px] font-medium text-white transition-colors hover:bg-[#132238]">
+            <button className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 bg-[#0B1F33] px-5 text-[13px] font-medium text-white transition-colors hover:bg-[#081521]">
               Open these results on the map
               <ArrowRight className="h-4 w-4 text-[#B38F4F]" />
             </button>

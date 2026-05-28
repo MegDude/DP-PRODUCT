@@ -119,7 +119,7 @@ function FlowChip({ card, active }) {
         y: active ? -4 : 0,
         scale: active ? 1.035 : 1,
         boxShadow: active
-          ? "0 0 0 3px rgba(179,143,79,0.16), 0 18px 40px rgba(11,31,51,0.18)"
+          ? "0 0 0 3px rgba(179, 143, 79, 0.08), 0 18px 40px rgba(11,31,51,0.18)"
           : "0 0 0 1px rgba(11,31,51,0.05), 0 14px 34px rgba(11,31,51,0.10)",
       }}
       transition={{ duration: 0.42, ease: "easeOut" }}
@@ -164,7 +164,7 @@ function ChoosePathStoryboard() {
           {lifestyleTiles.map((tile, index) => (
             <motion.div
               key={tile.label}
-              className={`absolute z-0 overflow-hidden bg-white/70 shadow-[0_18px_42px_rgba(11,31,51,0.13),0_0_34px_rgba(179,143,79,0.14)] ${tile.className}`}
+              className={`absolute z-0 overflow-hidden bg-white/70 shadow-[0_18px_42px_rgba(11,31,51,0.13),0_0_34px_rgba(179, 143, 79, 0.08)] ${tile.className}`}
               initial={{ opacity: 0, y: 10, scale: 0.96 }}
               animate={{
                 opacity: tile.drift.opacity,
@@ -244,7 +244,7 @@ function ChoosePathStoryboard() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
               transition={{ duration: 0.5 }}
-              className="absolute bottom-4 left-3 right-3 z-30 bg-white/92 p-3 text-[#0B1F33] shadow-[0_18px_44px_rgba(11,31,51,0.14),0_0_0_1px_rgba(179,143,79,0.16)] backdrop-blur-md sm:bottom-5 sm:left-5 sm:right-5 sm:p-4"
+              className="absolute bottom-4 left-3 right-3 z-30 bg-white/92 p-3 text-[#0B1F33] shadow-[0_18px_44px_rgba(11,31,51,0.14),0_0_0_1px_rgba(179, 143, 79, 0.08)] backdrop-blur-md sm:bottom-5 sm:left-5 sm:right-5 sm:p-4"
             >
               <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
                 <div>
@@ -286,7 +286,7 @@ function ChoosePathStoryboard() {
               key={point.label}
               animate={{ y: isActive ? -2 : 0 }}
               className={`min-w-[150px] shrink-0 bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition sm:min-w-0 sm:flex-1 ${
-                isActive ? "shadow-[inset_0_0_0_1px_rgba(179,143,79,0.28),0_12px_28px_rgba(11,31,51,0.08)]" : ""
+                isActive ? "shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_12px_28px_rgba(11,31,51,0.08)]" : ""
               }`}
             >
               <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/45">
@@ -299,7 +299,7 @@ function ChoosePathStoryboard() {
         })}
         <Link
           to="/map?mode=resident&tab=map"
-          className="min-w-[150px] shrink-0 bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.28),0_12px_28px_rgba(11,31,51,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:min-w-0 sm:flex-1"
+          className="min-w-[150px] shrink-0 bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_12px_28px_rgba(11,31,51,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:min-w-0 sm:flex-1"
         >
           <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/45">
             <ArrowRight className="h-3.5 w-3.5 text-[#B38F4F]" />
@@ -403,14 +403,14 @@ export default function SplashPage() {
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
                 to="/residents"
-                className="inline-flex h-10 items-center justify-center rounded-md bg-[#0B1F33] px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white shadow-[0_16px_34px_rgba(11,31,51,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_2px_rgba(179,143,79,0.14),0_18px_36px_rgba(11,31,51,0.18),0_0_32px_rgba(179,143,79,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                className="inline-flex h-10 items-center justify-center rounded-md bg-[#0B1F33] px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white shadow-[0_16px_34px_rgba(11,31,51,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_2px_rgba(179, 143, 79, 0.08),0_18px_36px_rgba(11,31,51,0.18),0_0_32px_rgba(179, 143, 79, 0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
               >
                 Start as resident
                 <ArrowRight className="ml-2 h-4 w-4 text-[#B38F4F]" />
               </Link>
               <Link
                 to="/partners"
-                className="inline-flex h-10 items-center justify-center rounded-md bg-white/88 px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_30px_rgba(11,31,51,0.07)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_14px_32px_rgba(11,31,51,0.08),0_0_30px_rgba(179,143,79,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                className="inline-flex h-10 items-center justify-center rounded-md bg-white/88 px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_30px_rgba(11,31,51,0.07)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179, 143, 79, 0.08),0_14px_32px_rgba(11,31,51,0.08),0_0_30px_rgba(179, 143, 79, 0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
               >
                 Start as partner
               </Link>
@@ -431,8 +431,8 @@ export default function SplashPage() {
         </div>
       </section>
 
-      <section className="relative bg-[#F7F8FB] px-5 py-14 md:px-8 md:py-20">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.22),transparent)]" aria-hidden="true" />
+      <section className="relative bg-[#F7F8FB] px-5 py-12 md:px-8 md:py-16">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179, 143, 79, 0.08),transparent)]" aria-hidden="true" />
         <div className="relative mx-auto max-w-[760px] text-left">
           <motion.div
             initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
@@ -448,9 +448,9 @@ export default function SplashPage() {
             </p>
           </motion.div>
 
-          <div className="mt-8 max-w-[620px] text-[16px] leading-[1.72] text-[#0B1F33]/68 md:text-[17px] md:leading-[1.75]">
+          <div className="mt-6 max-w-[640px] text-[17px] leading-[1.66] text-[#0B1F33]/70 md:text-[18px] md:leading-[1.68]">
             <motion.div
-              className="max-w-[620px] space-y-4"
+              className="max-w-[620px] space-y-3"
               initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, amount: 0.5 }}
@@ -464,7 +464,7 @@ export default function SplashPage() {
               </p>
             </motion.div>
             <motion.div
-              className="mt-10"
+              className="mt-8"
               initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, amount: 0.5 }}
@@ -473,7 +473,7 @@ export default function SplashPage() {
               <p className="max-w-[720px] font-heading text-[42px] font-medium leading-[0.98] tracking-[-0.03em] text-[#0B1F33] md:text-[58px]">
                 Downtown should feel easier than it does.
               </p>
-              <div className="mt-5 max-w-[680px] space-y-1 text-[19px] leading-[1.4] tracking-[-0.01em] text-[#0B1F33]/78 md:text-[24px] md:leading-[1.42]">
+              <div className="mt-4 max-w-[680px] space-y-0.5 text-[20px] leading-[1.35] tracking-[-0.01em] text-[#0B1F33]/80 md:text-[24px] md:leading-[1.36]">
                 <p>The coffee shop you keep meaning to try.</p>
                 <p>The workout class you always hear about too late.</p>
                 <p>The rooftop before it gets crowded.</p>
@@ -485,41 +485,37 @@ export default function SplashPage() {
               </div>
             </motion.div>
             <motion.div
-              className="mt-12 max-w-[640px]"
+              className="mt-8 max-w-[640px]"
               initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, amount: 0.45 }}
               transition={{ duration: 0.45, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
             >
-              <p className="text-[18px] leading-[1.8] text-[#0B1F33]/74">
+              <p className="text-[18px] leading-[1.62] text-[#0B1F33]/76 md:text-[19px]">
                 Most things already exist. They’re just scattered across too many apps, group chats, tabs, feeds, newsletters, screenshots, and half-finished plans.
               </p>
             </motion.div>
             <motion.div
-              className="mt-10 max-w-[660px] space-y-3"
+              className="mt-8 max-w-[660px] space-y-2.5"
               initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, amount: 0.45 }}
               transition={{ duration: 0.45, delay: 0.36, ease: [0.22, 1, 0.36, 1] }}
             >
-              <p className="font-heading text-[34px] font-medium leading-[1] tracking-[-0.025em] text-[#0B1F33] md:text-[48px]">
-                So we built one map to bring it together.
-              </p>
-              <p>
-                Not another app to manage.<br />
-                Not another feed to scroll.
-              </p>
-              <p>
-                Just a better way to figure out what’s nearby, what’s happening, and what feels worth getting out for.
-              </p>
-              <p className="pt-2">People usually go with what feels familiar, nearby, and easy to say yes to:</p>
-              <p className="text-[18px] leading-[1.45] text-[#0B1F33]/74 md:text-[21px]">
+	              <p className="font-heading text-[34px] font-medium leading-[1] tracking-[-0.025em] text-[#0B1F33] md:text-[48px]">
+	                So we built one map to bring everything together.
+	              </p>
+	              <p>
+	                Not another app to manage. Not another feed to scroll. Just a better way to figure out what’s nearby, what’s happening, and what feels worth getting out for.
+	              </p>
+              <p className="pt-1">People usually go with what feels familiar, nearby, and easy to say yes to:</p>
+              <p className="text-[19px] leading-[1.36] text-[#0B1F33]/76 md:text-[21px]">
                 Coffee before work.<br />
                 A workout class after hours.<br />
                 A last-minute dinner plan.<br />
                 That place you finally decide to try after walking past it for months.
               </p>
-              <div className="mt-8 max-w-[660px] space-y-3 text-[#0B1F33]/62">
+              <div className="mt-5 max-w-[660px] space-y-2.5 text-[#0B1F33]/64">
                 <p>Downtown Perks helps residents make better plans faster — while helping local businesses stay relevant in the moments that actually matter.</p>
                 <p>And when people choose local, they unlock perks, offers, rewards, and little extras from the places that keep downtown interesting.</p>
               </div>
@@ -527,7 +523,7 @@ export default function SplashPage() {
           </div>
 
           <motion.div
-            className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"
+            className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"
             initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
             whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, amount: 0.55 }}
@@ -541,7 +537,7 @@ export default function SplashPage() {
             </Link>
             <Link
               to="/partners"
-              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-white px-6 text-[12px] font-medium tracking-[0.08em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_8px_20px_rgba(11,31,51,0.05)] transition hover:-translate-y-px hover:shadow-[0_0_0_1px_rgba(179,143,79,0.14),0_10px_22px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
+              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-white px-6 text-[12px] font-medium tracking-[0.08em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_8px_20px_rgba(11,31,51,0.05)] transition hover:-translate-y-px hover:shadow-[0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_22px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
             >
               Enter Partner View
             </Link>

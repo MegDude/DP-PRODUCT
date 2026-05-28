@@ -12,9 +12,9 @@ export default function PreviewModule({
 }) {
   const bgColor = {
     residential: 'from-[#FFFFFF] to-[#F7F8FB]',
-    hospitality: 'from-[#f8f6f2] to-[#f0ede6]',
+    hospitality: 'from-[#FFFFFF] to-[#F7F8FB]',
     venues: 'from-[#FFFFFF] to-[#F7F8FB]',
-    brands: 'from-[#f8f6f2] to-[#f0ede6]',
+    brands: 'from-[#FFFFFF] to-[#F7F8FB]',
     civic: 'from-[#FFFFFF] to-[#F7F8FB]',
     default: 'from-[#FFFFFF] to-[#F7F8FB]',
   }[type];

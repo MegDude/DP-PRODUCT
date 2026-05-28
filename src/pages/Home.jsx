@@ -128,7 +128,7 @@ export default function Home() {
         <div className="pointer-events-none absolute left-[6%] top-28 h-56 w-56 rounded-full bg-white/76 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute right-[10%] top-20 h-72 w-72 rounded-full bg-white/74 blur-[80px]" aria-hidden="true" />
         <div className="relative mx-auto max-w-6xl">
-          <div className="mb-8 inline-flex bg-white/78 p-1 shadow-[0_0_0_1px_rgba(11,31,51,0.05),0_12px_34px_rgba(11,31,51,0.07)]">
+          <div className="mb-8 inline-flex bg-white/68 p-1 shadow-[0_12px_40px_rgba(11,31,51,0.05)] backdrop-blur-[16px]">
             {["resident", "partner"].map((item) => (
               <button
                 key={item}
@@ -157,28 +157,28 @@ export default function Home() {
                   {hero.primary}
                   <ArrowRight className="ml-2 h-4 w-4 text-[#B38F4F]" />
                 </Link>
-                <Link to={hero.secondaryHref} className="inline-flex h-10 items-center justify-center rounded-md bg-white px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_12px_28px_rgba(11,31,51,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_14px_30px_rgba(11,31,51,0.08),0_0_28px_rgba(179,143,79,0.10)]">
+                <Link to={hero.secondaryHref} className="inline-flex h-10 items-center justify-center rounded-md bg-white/72 px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#0B1F33] shadow-[0_12px_40px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_40px_rgba(11,31,51,0.06)]">
                   {hero.secondary}
                 </Link>
                 {!isPartner && (
-                  <Link to="/partners" className="inline-flex h-10 items-center justify-center rounded-md bg-white px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_12px_28px_rgba(11,31,51,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_14px_30px_rgba(11,31,51,0.08),0_0_28px_rgba(179,143,79,0.10)]">
+                  <Link to="/partners" className="inline-flex h-10 items-center justify-center rounded-md bg-white/72 px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#0B1F33] shadow-[0_12px_40px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_40px_rgba(11,31,51,0.06)]">
                     Become a Partner
                   </Link>
                 )}
               </div>
             </div>
 
-            <form onSubmit={submitSearch} className="dp-glass p-3 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_0_58px_rgba(179,143,79,0.14),0_18px_48px_rgba(11,31,51,0.10)]">
+            <form onSubmit={submitSearch} className="dp-glass p-3 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(11,31,51,0.06)]">
               <div className="mb-3">
                 <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/48">Search intent integration</span>
               </div>
-              <label className="flex h-10 items-center gap-3 bg-white/88 px-4 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition focus-within:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.22),0_0_26px_rgba(179,143,79,0.10)]">
+              <label className="flex h-10 items-center gap-3 bg-white/82 px-4 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition focus-within:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.10),0_0_24px_rgba(179,143,79,0.08)]">
                 <Search className="h-4 w-4 text-[#0B1F33]/48" />
                 <input
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder={isPartner ? "Who nearby should see this?" : "Where do you want to go?"}
-                  className="min-w-0 flex-1 bg-transparent text-[13px] outline-none placeholder:text-[#5D6B7A]"
+                  className="min-w-0 flex-1 bg-transparent text-[13px] outline-none placeholder:text-[#425466]"
                 />
               </label>
               {!isPartner && (
@@ -188,7 +188,7 @@ export default function Home() {
                       key={title}
                       type="button"
                       onClick={() => setQuery(title)}
-                      className="rounded-md bg-white/72 p-3 text-left shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_12px_28px_rgba(11,31,51,0.08)]"
+                      className="rounded-md bg-white/68 p-3 text-left shadow-[0_12px_40px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_40px_rgba(11,31,51,0.06)]"
                     >
                       <span className="block text-[12px] font-semibold text-[#0B1F33]">{title}</span>
                       <span className="mt-1 block text-[11px] leading-4 text-[#0B1F33]/58">{detail}</span>
@@ -252,8 +252,8 @@ export default function Home() {
                         setOpenFaq(0);
                       }}
                       className={item === partnerType
-                        ? "min-w-[145px] bg-[#0B1F33] px-4 py-2.5 text-left text-[13px] font-semibold text-white shadow-[0_0_0_1px_rgba(179,143,79,0.38),0_12px_30px_rgba(11,31,51,0.14)] lg:w-full"
-                        : "min-w-[145px] bg-white/82 px-4 py-2.5 text-left text-[13px] font-semibold text-[#0B1F33]/66 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.16),0_10px_26px_rgba(11,31,51,0.08)] lg:w-full"}
+                        ? "min-w-[145px] bg-[#0B1F33] px-4 py-2.5 text-left text-[13px] font-semibold text-white shadow-[0_12px_40px_rgba(11,31,51,0.10)] lg:w-full"
+                        : "min-w-[145px] bg-white/72 px-4 py-2.5 text-left text-[13px] font-semibold text-[#425466] shadow-[0_12px_40px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:bg-white hover:text-[#0B1F33] hover:shadow-[0_12px_40px_rgba(11,31,51,0.06)] lg:w-full"}
                     >
                       {item}
                     </button>
@@ -266,7 +266,7 @@ export default function Home() {
                       <p className="mt-4 text-[14px] leading-relaxed text-[#0B1F33]/68">{partner.body}</p>
                       <p className="mt-5 font-heading text-2xl italic">You're not selling square footage. You're selling everything around it.</p>
                     </div>
-                    <div className="bg-white/78 p-4 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_12px_30px_rgba(11,31,51,0.06)]">
+                    <div className="bg-white/68 p-4 shadow-[0_12px_40px_rgba(11,31,51,0.05)]">
                       <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Pricing</div>
                       <div className="mt-2 text-2xl font-semibold">{partner.pricing}</div>
                       <Link to={partner.href} className="mt-5 inline-flex h-10 w-full items-center justify-center rounded-md bg-[#0B1F33] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white">
@@ -282,7 +282,7 @@ export default function Home() {
       </section>
 
       <section id="pricing" className="relative overflow-hidden bg-[#0B1F33] px-5 py-12 text-[#F7F8FB] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_-18px_60px_rgba(11,31,51,0.08)] md:py-16">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.5),transparent)]" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent)]" aria-hidden="true" />
         <div className="pointer-events-none absolute -left-16 top-1/2 h-56 w-56 -translate-y-1/2 bg-white/8 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute right-[8%] top-0 h-40 w-40 bg-white/6 blur-3xl" aria-hidden="true" />
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
@@ -310,7 +310,7 @@ export default function Home() {
                   ["Events", "RSVP in one tap"],
                 ]
             ).map(([label, value]) => (
-              <div key={label} className="bg-white/7 p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0_16px_34px_rgba(0,0,0,0.10),0_0_30px_rgba(179,143,79,0.06)] transition hover:-translate-y-0.5 hover:bg-white/10 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.22),0_18px_38px_rgba(0,0,0,0.14),0_0_34px_rgba(179,143,79,0.10)]">
+              <div key={label} className="bg-white/7 p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06),0_16px_40px_rgba(11,31,51,0.10)] transition hover:-translate-y-0.5 hover:bg-white/10 hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0_18px_44px_rgba(11,31,51,0.12)]">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">{label}</div>
                 <div className="mt-2 text-xl font-semibold text-white">{value}</div>
               </div>
@@ -330,7 +330,7 @@ export default function Home() {
               <button
                 key={question}
                 onClick={() => setOpenFaq(openFaq === index ? -1 : index)}
-                className="bg-white p-5 text-left shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.16),0_14px_34px_rgba(11,31,51,0.08)]"
+                className="bg-white/82 p-5 text-left shadow-[0_12px_40px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_40px_rgba(11,31,51,0.06)]"
                 aria-expanded={openFaq === index}
               >
                 <div className="flex items-center justify-between gap-4">
@@ -345,7 +345,7 @@ export default function Home() {
       </section>
 
       <section id="contact" className="relative px-5 py-12 md:py-16">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.2),transparent)]" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(11,31,51,0.08),transparent)]" aria-hidden="true" />
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
             <span className="dp-label mb-3 block">{isPartner ? "Get started" : "Ready When You Are"}</span>
@@ -356,11 +356,11 @@ export default function Home() {
               {isPartner ? "Choose your partner type and send the details. We will find the right setup." : "If you sign up now and your building joins later, you will be refunded."}
             </p>
           </div>
-          <form className="grid gap-3 bg-white/82 p-5 shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_18px_48px_rgba(11,31,51,0.07),0_0_44px_rgba(179,143,79,0.07)]">
+          <form className="grid gap-3 bg-white/82 p-5 shadow-[0_12px_40px_rgba(11,31,51,0.06)]">
             {(isPartner ? ["Organization Name", "Your Name & Role", "Email", "Phone"] : ["Your Name", "Phone Number", "Email", "Building Address", "How did you hear about us?"]).map((label) => (
               <label key={label} className="grid gap-1.5">
                 <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50">{label}</span>
-                <input className="h-10 rounded-md bg-[#F7F8FB] px-3 text-[13px] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] outline-none transition focus:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.22),0_0_24px_rgba(179,143,79,0.10)]" />
+                <input className="h-10 rounded-md bg-[#F7F8FB] px-3 text-[13px] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] outline-none transition focus:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.10),0_0_24px_rgba(179,143,79,0.08)]" />
               </label>
             ))}
             <button type="button" className="mt-2 inline-flex h-10 items-center justify-center rounded-md bg-[#0B1F33] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white">

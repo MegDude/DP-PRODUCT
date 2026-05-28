@@ -149,7 +149,7 @@ export default function Pricing() {
                 Downtown Perks is built around easy entry points: scan a QR code, text a keyword, open the map, show the card, read the report. Dumb tech on the front end. A smart audience and analytics engine underneath.
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link to="/partners#partner-types" className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#132238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
+                <Link to="/partners#partner-types" className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#081521] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
                   Find your partner type
                   <ArrowRight className="h-4 w-4 text-[#B38F4F]" />
                 </Link>
@@ -320,7 +320,7 @@ export default function Pricing() {
             Downtown Perks is priced so partners can begin with a simple pilot, learn what people actually do, then add campaigns, surveys, placements, or reporting when there is a clear reason.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link to="/partners#partner-types" className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#132238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
+            <Link to="/partners#partner-types" className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#081521] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
               Choose partner type
               <ArrowRight className="h-4 w-4 text-[#B38F4F]" />
             </Link>

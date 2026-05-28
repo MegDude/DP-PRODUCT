@@ -264,7 +264,7 @@ function Section({ id, eyebrow, title, children, className = "" }) {
 
 function CTAButton({ to, children, variant = "primary" }) {
   const classes = variant === "primary"
-    ? "bg-[#0B1F33] text-white hover:bg-[#132238]"
+    ? "bg-[#0B1F33] text-white hover:bg-[#081521]"
     : "border border-[#0B1F33]/10 bg-white text-[#0B1F33] hover:bg-[#F7F8FB]";
 
   const className = cn("inline-flex h-10 items-center justify-center gap-2 rounded-[4px] px-5 text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]", classes);
@@ -420,7 +420,7 @@ function PartnerTypeTabs() {
               <div className="rounded-[6px] border border-[#0B1F33]/8 bg-[#F7F8FB] p-4">
                 <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#B38F4F]">Pilot and pricing</div>
                 <p className="mt-3 text-[13px] leading-[1.65] text-[#0B1F33]/68">{current.pricing}</p>
-                <a href="#get-started" className="mt-4 inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#132238]">
+                <a href="#get-started" className="mt-4 inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#081521]">
                   {current.cta}
                   <ArrowRight className="h-3.5 w-3.5" />
                 </a>
@@ -499,7 +499,7 @@ function PartnerForms() {
               className="min-h-28 rounded-[6px] border border-[#0B1F33]/10 bg-[#F7F8FB] px-3 py-2.5 text-[13px] outline-none focus:border-[#B38F4F]/60"
             />
           </label>
-          <button type="button" className="mt-2 inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-[#0B1F33] px-5 text-[13px] font-medium text-white transition-colors hover:bg-[#132238]">
+          <button type="button" className="mt-2 inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-[#0B1F33] px-5 text-[13px] font-medium text-white transition-colors hover:bg-[#081521]">
             {formCtasByType[current.id] || "See how it works for you"}
             <ArrowRight className="h-4 w-4" />
           </button>

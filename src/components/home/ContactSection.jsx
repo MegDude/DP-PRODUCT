@@ -117,7 +117,7 @@ function ContactForm({ form }) {
             type={f.type}
             value={values[f.name] || ""}
             onChange={(e) => setValues({ ...values, [f.name]: e.target.value })}
-            className="w-full bg-[#F7F8FB] border border-[hsl(218,20%,88%)] rounded-lg px-4 py-2.5 text-[13px] text-foreground placeholder-foreground/30 focus:outline-none focus:border-primary/40 transition-colors"
+            className="w-full bg-[#F7F8FB] border border-[#0B1F33]/8 rounded-lg px-4 py-2.5 text-[13px] text-foreground placeholder-foreground/30 focus:outline-none focus:border-[#0B1F33]/12 transition-colors"
           />
         </div>
       ))}
@@ -136,7 +136,7 @@ export default function ContactSection() {
   const current = forms.find((f) => f.id === activeForm);
 
   return (
-    <section id="contact" ref={ref} className="py-20 px-5 border-t border-[hsl(218,20%,88%)] bg-[#F7F8FB]">
+    <section id="contact" ref={ref} className="py-20 px-5 border-t border-[#0B1F33]/8 bg-[#F7F8FB]">
       <div className="max-w-4xl mx-auto">
 
         {/* Header */}
@@ -171,16 +171,16 @@ export default function ContactSection() {
         </div>
 
         {/* Form panel */}
-        <div className="border border-[hsl(218,20%,88%)] rounded-xl overflow-hidden shadow-[0_2px_16px_rgba(14,28,54,.06)]">
+        <div className="border border-[#0B1F33]/8 rounded-xl overflow-hidden shadow-[0_12px_40px_rgba(11,31,51,0.05)]">
           {/* Tabs */}
-          <div className="flex border-b border-[hsl(218,20%,90%)] overflow-x-auto bg-white">
+          <div className="flex border-b border-[#0B1F33]/8 overflow-x-auto bg-white">
             {forms.map((f) => (
               <button
                 key={f.id}
                 onClick={() => setActiveForm(f.id)}
-                className={`px-5 py-4 text-[11px] font-medium whitespace-nowrap border-r border-[hsl(218,20%,90%)] last:border-r-0 transition-all ${
+                className={`px-5 py-4 text-[11px] font-medium whitespace-nowrap border-r border-[#0B1F33]/8 last:border-r-0 transition-all ${
                   activeForm === f.id
-                    ? "text-primary bg-primary/5"
+                    ? "text-[#0B1F33] bg-[#0B1F33]/[0.04]"
                     : "text-foreground/55 hover:text-foreground"
                 }`}
               >
@@ -191,7 +191,7 @@ export default function ContactSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-2">
             {/* Form */}
-            <div className="p-8 md:border-r border-[hsl(218,20%,90%)] bg-white">
+            <div className="p-8 md:border-r border-[#0B1F33]/8 bg-white">
               <motion.div
                 key={activeForm}
                 initial={{ opacity: 0 }}
@@ -215,7 +215,7 @@ export default function ContactSection() {
                     <button
                       key={f.id}
                       onClick={() => setActiveForm(f.id)}
-                      className="flex items-center justify-between w-full p-3 rounded-lg border border-[hsl(218,20%,90%)] bg-white hover:border-primary/30 text-left transition-all group"
+                      className="flex items-center justify-between w-full p-3 rounded-lg border border-[#0B1F33]/8 bg-white hover:border-[#0B1F33]/10 text-left transition-all group"
                     >
                       <div>
                         <div className="text-[13px] font-medium text-foreground">{f.label}</div>
@@ -226,7 +226,7 @@ export default function ContactSection() {
                   ))}
                 </div>
               </div>
-              <div className="mt-8 pt-6 border-t border-[hsl(218,20%,90%)] space-y-1">
+              <div className="mt-8 pt-6 border-t border-[#0B1F33]/8 space-y-1">
                 <p className="text-[12px] text-foreground/50 italic">
                   Prefer email?{" "}
                   <a href="mailto:hello@downtownperks.com" className="text-primary hover:underline underline-offset-4">
@@ -246,13 +246,13 @@ export default function ContactSection() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-10 flex flex-wrap gap-3"
         >
-          <Link to="/map?mode=resident&tab=map" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[hsl(218,20%,84%)] text-foreground/70 font-medium text-[13px] hover:text-foreground hover:border-foreground/30 transition-all duration-300">
+          <Link to="/map?mode=resident&tab=map" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#0B1F33]/8 text-foreground/70 font-medium text-[13px] hover:text-foreground hover:border-[#0B1F33]/10 transition-all duration-300">
             Explore Downtown
           </Link>
-          <Link to="/downtown-perks/for-buildings" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[hsl(218,20%,84%)] text-foreground/70 font-medium text-[13px] hover:text-foreground hover:border-foreground/30 transition-all duration-300">
+          <Link to="/downtown-perks/for-buildings" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#0B1F33]/8 text-foreground/70 font-medium text-[13px] hover:text-foreground hover:border-[#0B1F33]/10 transition-all duration-300">
             Become a Partner
           </Link>
-          <Link to="/map?mode=resident&tab=map" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[hsl(218,20%,88%)] text-foreground/50 font-medium text-[13px] hover:text-foreground transition-all duration-300">
+          <Link to="/map?mode=resident&tab=map" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#0B1F33]/8 text-foreground/50 font-medium text-[13px] hover:text-foreground transition-all duration-300">
             Check Availability
           </Link>
         </motion.div>

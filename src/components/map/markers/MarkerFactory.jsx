@@ -29,7 +29,7 @@ const MARKER_CONFIG = {
     shadowBlur: '0 2px 6px rgba(11, 31, 51, 0.18)',
   },
   'standard:bar': {
-    color: '#1A2C44',
+    color: '#0B1F33',
     icon: '🍷',
     size: 12,
     iconSize: 8,
@@ -37,7 +37,7 @@ const MARKER_CONFIG = {
     shadowBlur: '0 2px 6px rgba(11, 31, 51, 0.18)',
   },
   'standard:fitness': {
-    color: '#132238',
+    color: '#081521',
     icon: '💪',
     size: 12,
     iconSize: 8,
@@ -53,7 +53,7 @@ const MARKER_CONFIG = {
     shadowBlur: '0 2px 6px rgba(11, 31, 51, 0.18)',
   },
   'standard:retail': {
-    color: '#132238',
+    color: '#081521',
     icon: '🛍️',
     size: 12,
     iconSize: 8,
@@ -61,7 +61,7 @@ const MARKER_CONFIG = {
     shadowBlur: '0 2px 6px rgba(11, 31, 51, 0.18)',
   },
   'standard:entertainment': {
-    color: '#1A2C44',
+    color: '#0B1F33',
     icon: '🎭',
     size: 12,
     iconSize: 8,
@@ -71,7 +71,7 @@ const MARKER_CONFIG = {
 
   // Buildings and properties (navy with building icon)
   'building:default': {
-    color: '#1A2C44',
+    color: '#0B1F33',
     icon: '🏢',
     size: 16,
     iconSize: 10,
@@ -111,7 +111,7 @@ const MARKER_CONFIG = {
 
   // Civic
   'civic:default': {
-    color: '#132238',
+    color: '#081521',
     icon: '🏛️',
     size: 14,
     iconSize: 8,
@@ -242,7 +242,7 @@ export function createPillMarker(entity) {
       white-space: nowrap;
       font-size: 12px;
       font-weight: 600;
-      color: #1a3a52;
+      color: #0B1F33;
       display: flex;
       align-items: center;
       gap: 6px;

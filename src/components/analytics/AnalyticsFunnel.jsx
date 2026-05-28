@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 
 const FUNNEL_STAGES = [
   { id: 'impression', label: 'Seen on map', color: 'bg-[#0B1F33]' },
-  { id: 'open', label: 'Popup opened', color: 'bg-[#132238]' },
-  { id: 'unlock', label: 'Scanned QR', color: 'bg-[#1A2C44]' },
+  { id: 'open', label: 'Popup opened', color: 'bg-[#081521]' },
+  { id: 'unlock', label: 'Scanned QR', color: 'bg-[#0B1F33]' },
   { id: 'save', label: 'Save / RSVP', color: 'bg-[#B38F4F]' },
   { id: 'visit_intent', label: 'Asked for directions', color: 'bg-[#B38F4F]' },
   { id: 'visit', label: 'Visited in person', color: 'bg-[#B38F4F]' },

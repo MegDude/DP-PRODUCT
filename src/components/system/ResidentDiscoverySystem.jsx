@@ -160,7 +160,7 @@ function MapPinMarker({ className, active = false, icon: Icon = MapPin, label })
 
 function MapPreviewPanel({ activeCategory }) {
   return (
-    <div className="relative min-h-[430px] overflow-hidden rounded-[10px] border border-[#0B1F33]/8 bg-[#EEF2F6]">
+    <div className="relative min-h-[430px] overflow-hidden rounded-[10px] border border-[#0B1F33]/8 bg-[#F7F8FB]">
       <div className="absolute inset-0 opacity-80 [background-image:linear-gradient(rgba(11,31,51,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(11,31,51,.06)_1px,transparent_1px)] [background-size:44px_44px]" />
       <div className="absolute left-[10%] top-[30%] h-px w-[78%] rotate-[18deg] bg-[#0B1F33]/14" />
       <div className="absolute left-[18%] top-[64%] h-px w-[64%] -rotate-[10deg] bg-[#0B1F33]/12" />
@@ -243,7 +243,7 @@ function CategoryPanel({ category }) {
             ))}
           </div>
 
-          <Link to={category.href} className="mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#132238]">
+          <Link to={category.href} className="mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#081521]">
             {category.cta}
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
@@ -375,7 +375,7 @@ function NearbyStrip() {
             Everything you need, within walking distance. See what’s close, decide quickly, and go.
           </p>
         </div>
-        <Link to="/map?mode=resident&tab=map" className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#132238]">
+        <Link to="/map?mode=resident&tab=map" className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#081521]">
           Explore downtown
           <ArrowRight className="h-3.5 w-3.5" />
         </Link>

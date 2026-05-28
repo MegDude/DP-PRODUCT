@@ -59,7 +59,7 @@ export default function AmenityReservationForm({ building, amenities = [], onClo
         <p className="text-[13px] text-[#0B1F33]/58 mb-3">Check your email for details.</p>
         <button
           onClick={onClose}
-          className="w-full h-10 rounded-lg bg-[#0B1F33] text-white font-medium text-[13px] hover:bg-[#132238] transition-colors"
+          className="w-full h-10 rounded-lg bg-[#0B1F33] text-white font-medium text-[13px] hover:bg-[#081521] transition-colors"
         >
           Done
         </button>
@@ -132,7 +132,7 @@ export default function AmenityReservationForm({ building, amenities = [], onClo
       <button
         type="submit"
         disabled={loading}
-        className="w-full h-10 rounded-lg bg-[#0B1F33] text-white font-semibold text-[14px] hover:bg-[#132238] transition-colors disabled:opacity-50"
+        className="w-full h-10 rounded-lg bg-[#0B1F33] text-white font-semibold text-[14px] hover:bg-[#081521] transition-colors disabled:opacity-50"
       >
         {loading ? 'Reserving...' : 'Reserve amenity'}
       </button>

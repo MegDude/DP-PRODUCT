@@ -233,7 +233,7 @@ export default function About() {
             The goal is simple: make downtown feel easier to enter, easier to know, and easier to come back to.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link to="/map?mode=resident&tab=map" className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#132238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
+            <Link to="/map?mode=resident&tab=map" className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#081521] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
               Open the map
               <ArrowRight className="h-4 w-4 text-[#B38F4F]" />
             </Link>

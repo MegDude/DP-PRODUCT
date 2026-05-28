@@ -19,7 +19,7 @@ export default function CTA({
   ...props
 }) {
   const variants = {
-    primary: "bg-[#0B1F33] text-white hover:bg-[#132238] shadow-[0_14px_34px_rgba(11,31,51,0.04)]",
+    primary: "bg-[#0B1F33] text-white hover:bg-[#081521] shadow-[0_14px_34px_rgba(11,31,51,0.04)]",
     secondary: "bg-white border border-[#0B1F33]/10 text-[#0B1F33] hover:border-[#0B1F33]/20 hover:bg-[#F7F8FB]",
     tertiary: "text-[#0B1F33] hover:text-[#B38F4F]",
   };

@@ -7,7 +7,7 @@ export function MapDemoPanel({ venueName, tag, nearbyItems = [] }) {
       <div className="bg-muted/30 h-48 relative">
         <div className="absolute inset-0 opacity-20"
           style={{
-            backgroundImage: "radial-gradient(circle, hsl(222 18% 22%) 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(circle, rgba(11,31,51,0.18) 1px, transparent 1px)",
             backgroundSize: "28px 28px"
           }}
         />

@@ -63,7 +63,7 @@ export default function FAQAccordionBlock({
   const isSplit = styleVariant === "split";
 
   const sectionBg = isDark
-    ? "bg-[hsl(218,42%,12%)] text-[#F7F8FB]"
+    ? "bg-[#081521] text-[#F7F8FB]"
     : "bg-background";
 
   const AccordionList = (
@@ -177,10 +177,10 @@ function FAQItem({ item, index, isOpen, onToggle, showNumber, isDark, isCard, is
     ? `rounded-xl border transition-all duration-300 overflow-hidden ${
         isOpen
           ? isDark
-            ? "border-primary/30 bg-[hsl(218,36%,16%)] shadow-md shadow-black/20"
-            : "border-primary/20 bg-card shadow-md shadow-black/5"
+            ? "border-white/10 bg-[#0B1F33] shadow-[0_16px_44px_rgba(11,31,51,0.16)]"
+            : "border-[#0B1F33]/8 bg-card shadow-[0_12px_40px_rgba(11,31,51,0.05)]"
           : isDark
-            ? "border-[hsl(218,24%,20%)] bg-[hsl(218,36%,14%)]"
+            ? "border-white/10 bg-[#0B1F33]/72"
             : "border-border/50 bg-card/60 hover:border-border"
       }`
     : `transition-colors ${isOpen && !isDark ? "bg-muted/30 rounded-lg" : ""}`;
@@ -229,7 +229,7 @@ function FAQItem({ item, index, isOpen, onToggle, showNumber, isDark, isCard, is
         <span className={`shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${
           isOpen
             ? isDark ? "bg-primary/20 text-primary" : "bg-primary/10 text-primary"
-            : isDark ? "bg-[hsl(218,24%,22%)] text-[rgba(255,255,255,0.55)]" : "bg-muted text-muted-foreground"
+            : isDark ? "bg-white/10 text-[rgba(255,255,255,0.55)]" : "bg-muted text-muted-foreground"
         }`}>
           <motion.div
             animate={{ rotate: isOpen ? 45 : 0 }}

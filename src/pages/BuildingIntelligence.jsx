@@ -73,7 +73,7 @@ function getTabHref(pathname, buildingId, tabId) {
 function buildingMarkerIcon(item, active) {
   const isBuilding = item.entity_type === "building";
   const size = isBuilding ? 34 : 28;
-  const bg = active ? "#B38F4F" : isBuilding ? "#0B1F33" : "#16263D";
+  const bg = active ? "#B38F4F" : isBuilding ? "#0B1F33" : "#081521";
   return L.divIcon({
     className: "",
     html: `<div style="height:${size}px;width:${size}px;border-radius:7px;background:${bg};border:3px solid white;display:flex;align-items:center;justify-content:center;color:white;box-shadow:0 12px 30px rgba(11,31,51,.2);font-size:11px;font-weight:700">${isBuilding ? "B" : "+"}</div>`,
@@ -160,7 +160,7 @@ export default function BuildingIntelligence() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
                   to="/map?mode=resident&tab=pass"
-                  className="inline-flex h-10 items-center gap-2 rounded-[3px] bg-[#0B1F33] px-4 text-[12px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#132238]"
+                  className="inline-flex h-10 items-center gap-2 rounded-[3px] bg-[#0B1F33] px-4 text-[12px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#081521]"
                 >
                   Resident card
                   <CreditCard className="h-4 w-4" />

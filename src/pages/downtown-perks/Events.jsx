@@ -202,7 +202,7 @@ function EventBottomDrawer({ event, open, onClose, rsvped, onToggleRsvp }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 34, scale: 0.99 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="pointer-events-auto max-h-[82vh] w-full max-w-3xl overflow-hidden rounded-t-2xl border border-[#0B1F33]/8 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.18)] md:rounded-[8px]"
+            className="pointer-events-auto max-h-[82vh] w-full max-w-3xl overflow-hidden rounded-t-2xl border border-[#0B1F33]/8 bg-white shadow-[0_24px_80px_rgba(11,31,51,0.18)] md:rounded-[8px]"
             role="dialog"
             aria-modal="true"
             aria-label={`${event.title} details`}
@@ -632,7 +632,7 @@ export default function Events() {
                       <p className="text-[13px] leading-[1.65] text-[#0B1F33]/64">
                         See what else is happening nearby.
                       </p>
-                      <Link to="/map" className="inline-flex h-10 items-center justify-center gap-2 rounded-[2px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#132238]">
+                      <Link to="/map" className="inline-flex h-10 items-center justify-center gap-2 rounded-[2px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#081521]">
                         View on map
                         <ArrowRight className="h-3.5 w-3.5" />
                       </Link>

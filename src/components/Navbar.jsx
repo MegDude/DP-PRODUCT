@@ -27,11 +27,6 @@ const PARTNER_LINKS = [
   { to: "/partners/pricing", label: "Pricing", description: "Partner plans by category" },
 ];
 
-const FEATURED_LINKS = [
-  { to: "/residents/card", label: "Get Your Card" },
-  { to: "/partners/dashboard", label: "Dashboard" },
-];
-
 const HAMBURGER_RESIDENT_LINKS = [
   { to: "/residents/map", label: "Map" },
   { to: "/residents/events", label: "Events" },
@@ -89,7 +84,7 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 6, scale: 0.99 }}
             transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-0 top-11 w-[340px] overflow-hidden rounded-md bg-white/94 p-2 shadow-[0_0_0_1px_rgba(11,31,51,0.045),0_22px_70px_rgba(11,31,51,0.13)] backdrop-blur-xl"
+            className="absolute left-0 top-11 w-[340px] overflow-hidden rounded-md border border-[#0B1F33]/8 bg-[#FAFAFC] p-2 shadow-[0_18px_58px_rgba(11,31,51,0.13)]"
           >
             <div className="px-2 pb-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/45">
               {label} paths
@@ -100,7 +95,7 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
                   key={link.to}
                   link={link}
                   onClick={() => setOpenMenu(null)}
-                  className="group rounded-md px-3 py-2.5 text-left transition-all hover:-translate-y-0.5 hover:bg-[#F7F8FB] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.14),0_10px_26px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="group rounded-md px-3 py-2.5 text-left transition-all hover:-translate-y-0.5 hover:bg-[#F7F8FB] hover:shadow-[0_12px_40px_rgba(11,31,51,0.05)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                 >
                   <span className="block text-[13px] font-semibold text-[#0B1F33]">{link.label}</span>
                   <span className="mt-0.5 block text-[11px] leading-4 text-[#0B1F33]/58">{link.description}</span>
@@ -109,7 +104,7 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
               <button
                 type="button"
                 onClick={() => setOpenMenu(null)}
-                className="mt-1 inline-flex items-center justify-center gap-1.5 rounded-md bg-[#F7F8FB] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.035)] transition hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.16),0_10px_26px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                className="mt-1 inline-flex items-center justify-center gap-1.5 rounded-md bg-[#F7F8FB] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#425466] shadow-[0_12px_40px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[0_12px_40px_rgba(11,31,51,0.05)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
               >
                 <ChevronUp className="h-3.5 w-3.5" />
                 Roll up
@@ -195,15 +190,15 @@ export default function Navbar() {
   return (
     <nav
       data-dp-nav-root
-      className={`fixed left-0 right-0 top-0 z-[1200] pointer-events-auto isolate transition-all duration-300 backdrop-blur-xl ${
+      className={`fixed left-0 right-0 top-0 z-[1200] pointer-events-auto isolate transition-all duration-300 backdrop-blur-[16px] ${
         scrolled
-          ? "bg-white/92 text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.055),0_14px_40px_rgba(11,31,51,0.10)]"
-          : "bg-white/78 text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_12px_34px_rgba(11,31,51,0.07)]"
+          ? "bg-[#FAFAFC]/96 text-[#0B1F33] shadow-[0_12px_40px_rgba(11,31,51,0.08)]"
+          : "bg-[#FAFAFC]/92 text-[#0B1F33] shadow-[0_10px_34px_rgba(11,31,51,0.06)]"
       }`}
     >
       <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-5">
         <Link to="/" className="group flex shrink-0 items-center gap-2.5" aria-label="Downtown Perks home">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#F7F8FB]/76 text-[#B38F4F] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.055)]">
+          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-white/68 text-[#B38F4F] shadow-[0_8px_24px_rgba(11,31,51,0.05)]">
             <MapPin className="h-3.5 w-3.5" />
           </div>
           <span className="font-heading text-[15px] font-medium tracking-normal text-[#0B1F33]">
@@ -231,26 +226,12 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="hidden items-center gap-1 lg:flex">
-            {FEATURED_LINKS.map((link) => (
-              <NavLinkItem
-                key={link.to}
-                link={link}
-                className={`relative inline-flex h-9 items-center justify-center px-1 text-[11px] font-semibold uppercase tracking-[0.12em] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
-                  isActive(link.to)
-                    ? "text-[#0B1F33] after:absolute after:bottom-0 after:left-1 after:h-px after:w-[calc(100%-0.5rem)] after:bg-[#B38F4F]"
-                    : "text-[#0B1F33]/56 hover:text-[#0B1F33]"
-                }`}
-              />
-            ))}
-          </div>
-
           <button
             type="button"
             onClick={() => setOpen(!open)}
             aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-[#F7F8FB]/72 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.055),0_8px_22px_rgba(11,31,51,0.06)] transition-all hover:-translate-y-px hover:bg-white hover:text-[#B38F4F] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white/68 text-[#0B1F33] shadow-[0_10px_30px_rgba(11,31,51,0.05)] transition-all hover:-translate-y-px hover:bg-white hover:text-[#B38F4F] hover:shadow-[0_12px_40px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
           >
             {open ? <X className="h-[18px] w-[18px]" /> : <Menu className="h-[18px] w-[18px]" />}
           </button>
@@ -264,17 +245,13 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed left-0 right-0 top-[68px] z-[1201] pointer-events-auto bg-white/94 shadow-[0_0_0_1px_rgba(179,143,79,0.12),0_24px_80px_rgba(11,31,51,0.14),0_0_54px_rgba(179,143,79,0.05)] backdrop-blur-xl"
+            className="fixed left-0 right-0 top-[68px] z-[1201] pointer-events-auto border-t border-[#0B1F33]/8 bg-[#FAFAFC] shadow-[0_22px_72px_rgba(11,31,51,0.14)]"
           >
             <div className="mx-auto max-h-[calc(100vh-68px)] max-w-4xl overflow-y-auto px-5 py-5">
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-sm bg-[#0B1F33] text-[#B38F4F] shadow-[0_10px_24px_rgba(11,31,51,0.10)]">
-                    <MapPin className="h-3.5 w-3.5" />
-                  </span>
-                  <span className="font-heading text-[16px] font-medium text-[#0B1F33]">Downtown Perks</span>
-                </Link>
-
+              <div className="flex items-center justify-between gap-4">
+                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B1F33]/46">
+                  Navigation
+                </div>
                 <div className="flex shrink-0 items-center gap-5" role="tablist" aria-label="Navigation audience">
                   {[
                     ["residents", "Residents"],
@@ -298,14 +275,13 @@ export default function Navbar() {
                 </div>
               </div>
 
-              <div className="mt-5 h-px bg-[linear-gradient(90deg,rgba(11,31,51,0.08),rgba(179,143,79,0.22),rgba(11,31,51,0.04))]" />
+              <div className="mt-5 h-px bg-[linear-gradient(90deg,rgba(11,31,51,0.06),rgba(11,31,51,0.08),rgba(11,31,51,0.04))]" />
 
-              <div className="pt-5">
-                <NavSection
-                  title={mobileAudience === "residents" ? "Residents" : "Partners"}
-                  links={mobileAudience === "residents" ? HAMBURGER_RESIDENT_LINKS : HAMBURGER_PARTNER_LINKS}
-                  close={() => setOpen(false)}
-                />
+	              <div className="pt-5">
+	                <NavSection
+	                  links={mobileAudience === "residents" ? HAMBURGER_RESIDENT_LINKS : HAMBURGER_PARTNER_LINKS}
+	                  close={() => setOpen(false)}
+	                />
               </div>
             </div>
           </motion.div>
@@ -316,13 +292,10 @@ export default function Navbar() {
   );
 }
 
-function NavSection({ title, links, close }) {
+function NavSection({ links, close }) {
   return (
     <div>
-      <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38F4F]">
-        {title}
-      </div>
-      <div className="mt-3 grid gap-1">
+      <div className="grid gap-1">
         {links.map((link) => (
           <NavLinkItem
             key={link.to}

@@ -157,7 +157,7 @@ function CTAButton({ to, children, variant = "primary" }) {
   const className = cn(
     "inline-flex h-10 items-center justify-center gap-2 rounded-[2px] px-5 text-[13px] font-medium transition-colors",
     variant === "primary"
-      ? "bg-[#0B1F33] text-white hover:bg-[#132238]"
+      ? "bg-[#0B1F33] text-white hover:bg-[#081521]"
       : "border border-[#0B1F33]/10 bg-white text-[#0B1F33] hover:bg-[#F7F8FB]"
   );
 
@@ -457,7 +457,7 @@ function MapMoveModules() {
             <h3 className="font-heading text-3xl font-medium leading-tight text-[#0B1F33]">{current.label}</h3>
             <p className="mt-4 font-heading text-xl font-medium leading-tight text-[#0B1F33]">{current.headline}</p>
             <p className="mt-3 max-w-2xl text-[13px] leading-[1.7] text-[#0B1F33]/64">{current.body}</p>
-            <Link to={current.href} className="mt-6 inline-flex h-10 items-center justify-center gap-2 rounded-[2px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#132238]">
+            <Link to={current.href} className="mt-6 inline-flex h-10 items-center justify-center gap-2 rounded-[2px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#081521]">
               {current.cta}
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
@@ -477,7 +477,7 @@ function PerksCardBlock() {
         <p className="mt-3 max-w-2xl text-[14px] leading-[1.7] text-[#0B1F33]/66">
           Scan the QR code to get your Perks Card sent directly to your phone.
         </p>
-        <Link to="/card" className="mt-6 inline-flex h-10 items-center justify-center gap-2 rounded-[2px] bg-[#0B1F33] px-5 text-[13px] font-medium text-white transition-colors hover:bg-[#132238]">
+        <Link to="/card" className="mt-6 inline-flex h-10 items-center justify-center gap-2 rounded-[2px] bg-[#0B1F33] px-5 text-[13px] font-medium text-white transition-colors hover:bg-[#081521]">
           Get Your Perks Card
           <CreditCard className="h-4 w-4" />
         </Link>
@@ -537,7 +537,7 @@ function ResidentSignupForm() {
               ))}
             </div>
           </div>
-          <button type="button" className="mt-2 inline-flex h-10 items-center justify-center gap-2 rounded-[2px] bg-[#0B1F33] px-5 text-[13px] font-medium text-white transition-colors hover:bg-[#132238]">
+          <button type="button" className="mt-2 inline-flex h-10 items-center justify-center gap-2 rounded-[2px] bg-[#0B1F33] px-5 text-[13px] font-medium text-white transition-colors hover:bg-[#081521]">
             Get My Perks Card
             <ArrowRight className="h-4 w-4" />
           </button>

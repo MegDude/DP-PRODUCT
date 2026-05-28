@@ -59,8 +59,8 @@ export default function HeatmapLayer({ visible = true, data = [], timeFilter = '
   // Navy/copper intensity function. Keep the heatmap restrained and on-brand.
   const getHeatColor = (intensity) => {
     if (intensity > 0.75) return '#B38F4F';
-    if (intensity > 0.5) return '#23344D';
-    if (intensity > 0.25) return '#132238';
+    if (intensity > 0.5) return '#0B1F33';
+    if (intensity > 0.25) return '#081521';
     return '#0B1F33';
   };
 

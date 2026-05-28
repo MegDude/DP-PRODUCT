@@ -1017,6 +1017,54 @@ html {
     animation: dp-light-drift 12s ease-in-out infinite;
   }
 
+  .dp-intro-fallback {
+    animation: dp-intro-fallback-drift 5.6s ease-in-out infinite;
+    will-change: transform, filter;
+  }
+
+  .dp-intro-sheen {
+    animation: dp-intro-sheen-sweep 2.8s ease-out infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes dp-intro-fallback-drift {
+    0% {
+      filter: saturate(1);
+      transform: scale(1) translate3d(0, 0, 0);
+    }
+
+    50% {
+      filter: saturate(1.08);
+      transform: scale(1.035) translate3d(14px, -10px, 0);
+    }
+
+    100% {
+      filter: saturate(1);
+      transform: scale(1) translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes dp-intro-sheen-sweep {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 0, 0);
+    }
+
+    18% {
+      opacity: 0.45;
+    }
+
+    58% {
+      opacity: 0;
+      transform: translate3d(330%, 0, 0);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translate3d(330%, 0, 0);
+    }
+  }
+
   @keyframes dp-light-drift {
     0% {
       transform: translateX(0) translateY(0);

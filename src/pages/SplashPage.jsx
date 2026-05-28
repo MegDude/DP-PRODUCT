@@ -75,7 +75,7 @@ function ChoosePathStoryboard() {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="relative min-h-[380px] overflow-hidden rounded-md bg-white/90 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_18px_54px_rgba(11,31,51,0.06)] sm:min-h-[330px]">
+      <div className="relative min-h-[420px] overflow-hidden rounded-md bg-white/90 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_18px_54px_rgba(11,31,51,0.06)] sm:min-h-[360px]">
         <div className="absolute inset-0">
           <div className="dp-section-light absolute left-[12%] top-[16%] h-40 w-40 bg-white/76 blur-3xl" />
           <div className="dp-section-light absolute bottom-[8%] right-[14%] h-44 w-44 bg-[#0B1F33]/7 blur-3xl [animation-delay:-5s]" />
@@ -132,7 +132,7 @@ function ChoosePathStoryboard() {
           />
         </svg>
 
-        <div className="pointer-events-none absolute left-1/2 top-[47%] z-[15] w-[min(74vw,330px)] -translate-x-1/2 -translate-y-1/2 sm:top-[46%] sm:w-[340px]">
+        <div className="pointer-events-none absolute left-1/2 top-[43%] z-[15] w-[min(74vw,330px)] -translate-x-1/2 -translate-y-1/2 sm:top-[43%] sm:w-[360px]">
           <motion.div
             className="bg-white/76 px-3 py-2.5 text-center shadow-[0_18px_46px_rgba(11,31,51,0.10),0_0_34px_rgba(179,143,79,0.10)] sm:px-4 sm:py-3"
             initial={false}
@@ -144,7 +144,7 @@ function ChoosePathStoryboard() {
               Search less. Spend less. Do more.
             </div>
             <div className="mt-1.5 font-heading text-[17px] font-medium leading-tight text-[#0B1F33] sm:text-[20px]">
-              The map, the card, and what is happening nearby.
+              One downtown layer for resident plans and partner visibility.
             </div>
             <div className="mt-2 flex flex-wrap justify-center gap-x-2.5 gap-y-1 text-[8px] font-semibold uppercase tracking-[0.13em] text-[#B38F4F]/76 sm:text-[9px]">
               <span>Launch</span>
@@ -153,37 +153,37 @@ function ChoosePathStoryboard() {
             </div>
           </motion.div>
         </div>
-      </div>
 
-      <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-        {signalPoints.map((point) => {
-          const Icon = point.icon;
+        <div className="absolute inset-x-3 bottom-3 z-30 flex gap-2 overflow-x-auto pb-1 sm:inset-x-4 sm:bottom-4">
+          {signalPoints.map((point) => {
+            const Icon = point.icon;
 
-          return (
-            <motion.div
-              key={point.label}
-              whileHover={{ y: -1, backgroundColor: "rgba(255,255,255,0.94)" }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="min-w-[150px] shrink-0 bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_12px_30px_rgba(11,31,51,0.04)] sm:min-w-0 sm:flex-1"
-            >
-              <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
-                <Icon className="h-3.5 w-3.5 text-[#B38F4F]" />
-                {point.label}
-              </div>
-              <div className="mt-1 text-[13px] font-semibold text-[#0B1F33]">{point.value}</div>
-            </motion.div>
-          );
-        })}
-        <Link
-          to="/map?mode=resident&tab=map"
-          className="min-w-[150px] shrink-0 bg-[linear-gradient(90deg,#0B1F33,#132b45,#0B1F33)] bg-[length:200%_100%] p-3 text-white shadow-[0_12px_30px_rgba(11,31,51,0.10)] transition-[background-position,box-shadow] duration-300 hover:bg-[position:100%_0] hover:shadow-[0_24px_60px_rgba(11,31,51,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:min-w-0 sm:flex-1"
-        >
-          <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
-            <ArrowRight className="h-3.5 w-3.5 text-[#B38F4F]" />
-            Open map
-          </div>
-          <div className="mt-1 text-[13px] font-semibold text-white">Resident map</div>
-        </Link>
+            return (
+              <motion.div
+                key={point.label}
+                whileHover={{ y: -1, backgroundColor: "rgba(255,255,255,0.94)" }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="min-w-[132px] shrink-0 bg-white/82 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_12px_30px_rgba(11,31,51,0.04)] sm:min-w-0 sm:flex-1"
+              >
+                <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
+                  <Icon className="h-3.5 w-3.5 text-[#B38F4F]" />
+                  {point.label}
+                </div>
+                <div className="mt-1 text-[13px] font-semibold text-[#0B1F33]">{point.value}</div>
+              </motion.div>
+            );
+          })}
+          <Link
+            to="/map?mode=resident&tab=map"
+            className="min-w-[132px] shrink-0 bg-[linear-gradient(90deg,#0B1F33,#132b45,#0B1F33)] bg-[length:200%_100%] p-3 text-white shadow-[0_12px_30px_rgba(11,31,51,0.10)] transition-[background-position,box-shadow] duration-300 hover:bg-[position:100%_0] hover:shadow-[0_24px_60px_rgba(11,31,51,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:min-w-0 sm:flex-1"
+          >
+            <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
+              <ArrowRight className="h-3.5 w-3.5 text-[#B38F4F]" />
+              Open map
+            </div>
+            <div className="mt-1 text-[13px] font-semibold text-white">Resident view</div>
+          </Link>
+        </div>
       </div>
     </motion.section>
   );
@@ -205,7 +205,8 @@ export default function SplashPage() {
             aria-label="Downtown Perks opening animation"
           >
             <div className="absolute inset-0 bg-[#0B1F33]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_24%,rgba(179,143,79,0.13),transparent_34%),linear-gradient(135deg,#0B1F33,#081521)]" />
+            <div className="dp-intro-fallback absolute inset-0 bg-[radial-gradient(circle_at_30%_24%,rgba(179,143,79,0.16),transparent_34%),radial-gradient(circle_at_74%_68%,rgba(255,255,255,0.08),transparent_30%),linear-gradient(135deg,#0B1F33,#081521)]" />
+            <div className="dp-intro-sheen absolute inset-y-0 left-[-28%] w-[42%] bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.10),transparent)] blur-2xl" />
             <video
               className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
                 introReady ? "opacity-100" : "opacity-0"
@@ -234,9 +235,9 @@ export default function SplashPage() {
 
             <div className="absolute inset-x-0 bottom-0 px-5 pb-8 md:pb-12">
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.38, delay: 0.03, ease: [0.22, 1, 0.36, 1] }}
                 className="mx-auto max-w-6xl"
               >
                 <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38F4F]">

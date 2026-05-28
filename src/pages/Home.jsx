@@ -125,7 +125,7 @@ export default function Home() {
   return (
     <main className="bg-[#F7F8FB] text-[#0B1F33]">
       <section className="relative overflow-hidden px-5 pb-14 pt-28 md:pb-20">
-        <div className="pointer-events-none absolute left-[6%] top-28 h-56 w-56 rounded-full bg-[#B38F4F]/10 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute left-[6%] top-28 h-56 w-56 rounded-full bg-white/76 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute right-[10%] top-20 h-72 w-72 rounded-full bg-white/74 blur-[80px]" aria-hidden="true" />
         <div className="relative mx-auto max-w-6xl">
           <div className="mb-8 inline-flex bg-white/78 p-1 shadow-[0_0_0_1px_rgba(11,31,51,0.05),0_12px_34px_rgba(11,31,51,0.07)]">
@@ -281,9 +281,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="pricing" className="relative overflow-hidden bg-[#0B1F33] px-5 py-12 text-[#F7F1E8] shadow-[inset_0_1px_0_rgba(179,143,79,0.18),0_-18px_60px_rgba(11,31,51,0.08)] md:py-16">
+      <section id="pricing" className="relative overflow-hidden bg-[#0B1F33] px-5 py-12 text-[#F7F8FB] shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_-18px_60px_rgba(11,31,51,0.08)] md:py-16">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.5),transparent)]" aria-hidden="true" />
-        <div className="pointer-events-none absolute -left-16 top-1/2 h-56 w-56 -translate-y-1/2 bg-[#B38F4F]/12 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute -left-16 top-1/2 h-56 w-56 -translate-y-1/2 bg-white/8 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute right-[8%] top-0 h-40 w-40 bg-white/6 blur-3xl" aria-hidden="true" />
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="relative">
@@ -291,7 +291,7 @@ export default function Home() {
             <h2 className="font-heading text-3xl font-medium">
               {isPartner ? "A smarter way to activate downtown" : "Ready when you are."}
             </h2>
-            <p className="mt-3 text-[14px] leading-relaxed text-[#F7F1E8]/66">
+            <p className="mt-3 text-[14px] leading-relaxed text-[#F7F8FB]/66">
               {isPartner
                 ? "Final pricing reflects footprint, visibility, and activation."
                 : "It’s 6:30. You’re home. You want dinner, a drink, or something to do without scrolling for 20 minutes. You pick what’s close, what’s open, and what sounds fun."}

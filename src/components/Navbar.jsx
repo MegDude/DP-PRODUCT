@@ -74,7 +74,7 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
         className={`inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-[12px] font-semibold uppercase tracking-[0.14em] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
           isActiveGroup
             ? "bg-[#B38F4F] text-[#0B1F33] shadow-[0_10px_28px_rgba(0,0,0,0.18),0_0_24px_rgba(179,143,79,0.14)]"
-            : "text-[#F7F1E8]/72 hover:bg-white/8 hover:text-[#F7F1E8]"
+            : "text-[#F7F8FB]/72 hover:bg-white/8 hover:text-[#F7F8FB]"
         }`}
       >
         {label}
@@ -197,8 +197,8 @@ export default function Navbar() {
       data-dp-nav-root
       className={`fixed left-0 right-0 top-0 z-[1200] pointer-events-auto isolate transition-all duration-300 ${
         scrolled
-          ? "bg-[#0B1F33] text-[#F7F1E8] shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_14px_40px_rgba(11,31,51,0.20)]"
-          : "bg-[#0B1F33] text-[#F7F1E8] shadow-[0_0_0_1px_rgba(179,143,79,0.10)]"
+          ? "bg-[#0B1F33] text-[#F7F8FB] shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_14px_40px_rgba(11,31,51,0.20)]"
+          : "bg-[#0B1F33] text-[#F7F8FB] shadow-[0_0_0_1px_rgba(179,143,79,0.10)]"
       }`}
     >
       <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-5">
@@ -206,7 +206,7 @@ export default function Navbar() {
           <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#B38F4F] shadow-[0_0_0_1px_rgba(255,255,255,0.10),0_8px_22px_rgba(0,0,0,0.16)]">
             <MapPin className="h-3.5 w-3.5 text-[#0B1F33]" />
           </div>
-          <span className="font-heading text-[15px] font-medium tracking-normal text-[#F7F1E8]">
+          <span className="font-heading text-[15px] font-medium tracking-normal text-[#F7F8FB]">
             Downtown Perks
           </span>
         </Link>
@@ -239,7 +239,7 @@ export default function Navbar() {
                 className={`inline-flex h-9 items-center justify-center rounded-md px-3 text-[11px] font-semibold uppercase tracking-[0.14em] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
                   isActive(link.to)
                     ? "bg-[#B38F4F] text-[#0B1F33]"
-                    : "bg-white/8 text-[#F7F1E8]/72 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] hover:bg-white/12 hover:text-[#F7F1E8] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(0,0,0,0.14)]"
+                    : "bg-white/8 text-[#F7F8FB]/72 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] hover:bg-white/12 hover:text-[#F7F8FB] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(0,0,0,0.14)]"
                 }`}
               />
             ))}
@@ -250,7 +250,7 @@ export default function Navbar() {
             onClick={() => setOpen(!open)}
             aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white/10 text-[#F7F1E8] shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_8px_24px_rgba(0,0,0,0.14)] transition-all hover:-translate-y-0.5 hover:bg-white/14 hover:text-[#B38F4F] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_10px_26px_rgba(0,0,0,0.16),0_0_24px_rgba(179,143,79,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white/10 text-[#F7F8FB] shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_8px_24px_rgba(0,0,0,0.14)] transition-all hover:-translate-y-0.5 hover:bg-white/14 hover:text-[#B38F4F] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_10px_26px_rgba(0,0,0,0.16),0_0_24px_rgba(179,143,79,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
           >
             {open ? <X className="h-[18px] w-[18px]" /> : <Menu className="h-[18px] w-[18px]" />}
           </button>
@@ -275,7 +275,7 @@ export default function Navbar() {
                   <span className="font-heading text-[16px] font-medium text-[#0B1F33]">Downtown Perks</span>
                 </Link>
 
-                <div className="flex shrink-0 items-center gap-1 bg-[#F7F8FB] p-1 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.045)]" role="tablist" aria-label="Navigation audience">
+                <div className="flex shrink-0 items-center gap-5" role="tablist" aria-label="Navigation audience">
                   {[
                     ["residents", "Residents"],
                     ["partners", "Partners"],
@@ -286,10 +286,10 @@ export default function Navbar() {
                       role="tab"
                       aria-selected={mobileAudience === value}
                       onClick={() => setMobileAudience(value)}
-                      className={`h-8 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
+                      className={`relative h-8 px-0 text-[11px] font-semibold uppercase tracking-[0.14em] transition focus-visible:outline-none ${
                         mobileAudience === value
-                          ? "bg-[#0B1F33] text-white shadow-[0_10px_24px_rgba(11,31,51,0.12)]"
-                          : "text-[#0B1F33]/54 hover:text-[#0B1F33]"
+                          ? "text-[#0B1F33] after:absolute after:bottom-1 after:left-0 after:h-px after:w-full after:bg-[#B38F4F]"
+                          : "text-[#0B1F33]/50 hover:text-[#0B1F33]"
                       }`}
                     >
                       {label}

@@ -60,16 +60,16 @@ export default function PartnerMapIntelligenceLayer({
   const totalSaves = points.reduce((sum, point) => sum + (point.saves || 0), 0);
 
   return (
-    <div className="relative h-full min-h-[420px] overflow-hidden rounded-xl bg-[#0B1F33] text-white shadow-[0_0_0_1px_rgba(255,255,255,0.10),0_26px_80px_rgba(11,31,51,0.20),0_0_70px_rgba(179,143,79,0.12)]">
+    <div className="relative h-full min-h-[420px] overflow-hidden rounded-xl bg-[#0B1F33] text-white shadow-[0_0_0_1px_rgba(255,255,255,0.10),0_26px_80px_rgba(11,31,51,0.20),0_0_54px_rgba(11,31,51,0.16)]">
       <div className="pointer-events-none absolute inset-0 opacity-70">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_24%_18%,rgba(179,143,79,0.26),transparent_28%),radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.12),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.08),transparent_38%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_24%_18%,rgba(255,255,255,0.10),transparent_28%),radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.12),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.08),transparent_38%)]" />
         <div className="absolute left-[14%] top-0 h-full w-px bg-white/7" />
         <div className="absolute left-[38%] top-0 h-full w-px bg-white/5" />
         <div className="absolute left-[66%] top-0 h-full w-px bg-white/6" />
         <div className="absolute left-0 top-[24%] h-px w-full bg-white/6" />
         <div className="absolute left-0 top-[52%] h-px w-full bg-white/5" />
         <div className="absolute left-0 top-[78%] h-px w-full bg-white/6" />
-        <div className="absolute -bottom-10 left-[8%] h-32 w-[70%] rotate-[-9deg] rounded-full bg-[#B38F4F]/18 blur-2xl" />
+        <div className="absolute -bottom-10 left-[8%] h-32 w-[70%] rotate-[-9deg] rounded-full bg-white/8 blur-2xl" />
       </div>
 
       <div className="absolute left-4 right-4 top-4 z-10 flex items-start justify-between gap-3">
@@ -155,7 +155,7 @@ export default function PartnerMapIntelligenceLayer({
         </div>
       )}
 
-      <div className="absolute bottom-5 right-5 hidden items-center gap-1.5 rounded-md bg-[#B38F4F]/18 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/78 shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18)] lg:flex">
+      <div className="absolute bottom-5 right-5 hidden items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/78 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.10)] lg:flex">
         <Navigation className="h-3.5 w-3.5 text-[#B38F4F]" />
         Downtown layer
       </div>

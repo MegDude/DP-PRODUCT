@@ -228,8 +228,8 @@ html {
 @layer components {
   .dp-glass {
     background: rgba(255, 255, 255, 0.82);
-    border: 1px solid rgba(255, 255, 255, 0.52);
-    box-shadow: var(--dp-shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    border: 1px solid transparent;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.30), var(--dp-shadow-md), 0 0 40px rgba(179, 143, 79, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.72);
     backdrop-filter: var(--dp-glass-blur);
     -webkit-backdrop-filter: var(--dp-glass-blur);
     position: relative;
@@ -266,8 +266,8 @@ html {
     overflow: hidden;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.84);
-    border: 1px solid rgba(11, 31, 51, 0.08);
-    box-shadow: var(--dp-shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.70);
+    border: 1px solid transparent;
+    box-shadow: 0 0 0 1px rgba(11, 31, 51, 0.035), var(--dp-shadow-sm), 0 0 34px rgba(179, 143, 79, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.70);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 240ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -289,8 +289,8 @@ html {
 
   .dp-glass-card:hover {
     transform: translateY(-1px);
-    border-color: rgba(179, 143, 79, 0.30);
-    box-shadow: var(--dp-shadow-glow);
+    border-color: rgba(179, 143, 79, 0.18);
+    box-shadow: 0 0 0 1px rgba(179, 143, 79, 0.16), var(--dp-shadow-glow);
   }
 
   .dp-map-pin {

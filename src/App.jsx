@@ -39,6 +39,7 @@ import CivicPartner from "./pages/partners/Civic";
 import PartnerWorkspace from "./pages/PartnerWorkspace";
 import Dashboard from "./pages/Dashboard";
 import PartnerDashboard from "./pages/PartnerDashboard";
+import BuildingIntelligence from "./pages/BuildingIntelligence";
 import PropertiesPartner from "./pages/partners/Properties";
 import HotelsPartner from "./pages/partners/Hotels";
 import VenuesPartner from "./pages/partners/Venues";
@@ -142,6 +143,8 @@ const AuthenticatedApp = () => {
         <Route path="/partners/civic" element={<CivicPartner />} />
         <Route path="/partners/residential" element={<ResidentialPartner />} />
         <Route path="/partners/properties" element={<PropertiesPartner />} />
+        <Route path="/partners/properties/:buildingId" element={<BuildingIntelligence />} />
+        <Route path="/partners/properties/:buildingId/:tabId" element={<BuildingIntelligence />} />
         <Route path="/partners/pricing" element={<Pricing />} />
         <Route path="/property-and-building-management" element={<PropertiesPartner />} />
         <Route path="/partner-workspace" element={<PartnerWorkspace />} />
@@ -156,6 +159,12 @@ const AuthenticatedApp = () => {
         <Route path="/perk-analytics" element={<Dashboard />} />
         <Route path="/building-engagement" element={<PropertiesPartner />} />
         <Route path="/building-intelligence" element={<PropertiesPartner />} />
+        <Route path="/building-intelligence/:buildingId" element={<BuildingIntelligence />} />
+        <Route path="/building-intelligence/:buildingId/:tabId" element={<BuildingIntelligence />} />
+        <Route path="/buildings/:buildingId" element={<BuildingIntelligence />} />
+        <Route path="/buildings/:buildingId/:tabId" element={<BuildingIntelligence />} />
+        <Route path="/properties/:buildingId" element={<BuildingIntelligence />} />
+        <Route path="/properties/:buildingId/:tabId" element={<BuildingIntelligence />} />
         <Route path="/buildings-management" element={<PropertiesPartner />} />
         <Route path="/buildings-with-residents" element={<PropertiesPartner />} />
         <Route path="/developer-engagement" element={<PropertiesPartner />} />

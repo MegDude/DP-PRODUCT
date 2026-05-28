@@ -46,7 +46,8 @@ function InteractionFeedback() {
 }
 
 export default function Layout() {
-  const { pathname } = useLocation();
+  const location = useLocation();
+  const { pathname, search } = location;
   const navigate = useNavigate();
 
   // Pages that use the full Downtown Perks editorial footer
@@ -73,12 +74,45 @@ export default function Layout() {
 
   const showBackButton = pathname !== "/";
 
+  function getBackFallbackPath() {
+    const params = new URLSearchParams(search);
+    const mode = params.get("mode");
+    const filter = params.get("filter");
+
+    if (pathname === "/map" || pathname === "/explore" || pathname === "/residents/map" || pathname === "/residents/discover") {
+      if (mode === "partner") {
+        if (filter === "Properties") return "/partners/properties";
+        if (filter === "Hotels") return "/partners/hotels";
+        if (filter === "Brands") return "/partners/brands";
+        if (filter === "Venues") return "/partners/venues";
+        if (filter === "Happy Hours") return "/partners/happy-hours";
+        if (filter === "Events") return "/partners/campaigns";
+        return "/partners";
+      }
+      return "/residents";
+    }
+
+    if (pathname.startsWith("/partners/")) return "/partners";
+    if (pathname.startsWith("/partner-workspace")) return "/partners/dashboard";
+    if (pathname.startsWith("/buildings/") || pathname.startsWith("/properties/") || pathname.startsWith("/building-intelligence/")) {
+      return "/partners/properties";
+    }
+    if (pathname.startsWith("/residents/")) return "/residents";
+    if (pathname.startsWith("/brands/")) return "/brands";
+    if (pathname.startsWith("/downtown-perks/")) return "/downtown-perks";
+    if (pathname === "/events") return "/residents";
+    if (pathname === "/about" || pathname === "/card" || pathname === "/perks") return "/residents";
+
+    return "/";
+  }
+
   function goBack() {
-    if (window.history.length > 1) {
+    const routerHistoryIndex = window.history.state?.idx;
+    if (Number.isInteger(routerHistoryIndex) && routerHistoryIndex > 0) {
       navigate(-1);
       return;
     }
-    navigate("/");
+    navigate(getBackFallbackPath());
   }
 
   return (

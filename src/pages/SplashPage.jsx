@@ -71,7 +71,7 @@ export default function SplashPage() {
               <button
                 type="button"
                 onClick={() => setShowIntro(false)}
-                className="inline-flex h-9 items-center gap-2 rounded-md border border-white/18 bg-white/12 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_14px_34px_rgba(0,0,0,0.18)] transition hover:bg-white/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                className="inline-flex h-9 items-center gap-2 rounded-md bg-white/12 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_0_0_1px_rgba(255,255,255,0.10),0_14px_34px_rgba(0,0,0,0.18)] transition hover:bg-white/18 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.24),0_14px_34px_rgba(0,0,0,0.18),0_0_28px_rgba(179,143,79,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                 aria-label="Back to audience gateway"
               >
                 <ArrowLeft className="h-3.5 w-3.5 text-[#B38F4F]" />
@@ -81,14 +81,14 @@ export default function SplashPage() {
                 <button
                   type="button"
                   onClick={() => setShowIntro(false)}
-                  className="inline-flex h-9 items-center rounded-md border border-white/18 bg-white px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33] shadow-[0_14px_34px_rgba(0,0,0,0.18)] transition hover:border-[#B38F4F]/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="inline-flex h-9 items-center rounded-md bg-white px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(255,255,255,0.18),0_14px_34px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.28),0_14px_34px_rgba(0,0,0,0.18),0_0_30px_rgba(179,143,79,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                 >
                   Skip
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowIntro(false)}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/18 bg-white/12 text-white shadow-[0_14px_34px_rgba(0,0,0,0.18)] transition hover:bg-white/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white/12 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.10),0_14px_34px_rgba(0,0,0,0.18)] transition hover:bg-white/18 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.24),0_14px_34px_rgba(0,0,0,0.18),0_0_28px_rgba(179,143,79,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                   aria-label="Close animation"
                 >
                   <X className="h-4 w-4" />
@@ -103,7 +103,7 @@ export default function SplashPage() {
                 transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
                 className="mx-auto max-w-6xl"
               >
-                <div className="inline-flex items-center gap-2 rounded-md border border-white/18 bg-white/12 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/78 shadow-[0_14px_34px_rgba(0,0,0,0.18)] backdrop-blur-md">
+                <div className="inline-flex items-center gap-2 rounded-md bg-white/12 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/78 shadow-[0_0_0_1px_rgba(255,255,255,0.10),0_14px_34px_rgba(0,0,0,0.18)] backdrop-blur-md">
                   <Sparkles className="h-3.5 w-3.5 text-[#B38F4F]" />
                   Downtown Perks
                 </div>
@@ -119,16 +119,15 @@ export default function SplashPage() {
         )}
       </AnimatePresence>
 
-      <section className="relative min-h-[calc(100vh-68px)] border-b border-[#0B1F33]/8 px-5 py-10 md:py-14">
+      <section className="relative min-h-[calc(100vh-68px)] px-5 py-10 md:py-14">
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
           <video className="absolute inset-0 h-full w-full object-cover opacity-[0.18]" src={VIDEO_SRC} autoPlay muted loop playsInline preload="metadata" />
           <div className="absolute inset-0 bg-[#F7F8FB]/82" />
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(247,248,251,0.94),rgba(247,248,251,0.66),rgba(247,248,251,0.96))]" />
-          <div className="absolute left-1/2 top-12 h-[520px] w-[820px] -translate-x-1/2 rounded-[18px] border border-[#0B1F33]/8 bg-white/44 shadow-[0_34px_120px_rgba(11,31,51,0.10)]" />
-          <div className="absolute left-[8%] top-[22%] h-px w-[84%] bg-[#0B1F33]/8" />
-          <div className="absolute left-[14%] top-[46%] h-px w-[72%] bg-[#0B1F33]/8" />
-          <div className="absolute left-[28%] top-[8%] h-[74%] w-px bg-[#0B1F33]/8" />
-          <div className="absolute left-[62%] top-[5%] h-[82%] w-px bg-[#0B1F33]/8" />
+          <div className="absolute left-[4%] top-[18%] h-56 w-56 rounded-full bg-[#B38F4F]/14 blur-3xl" />
+          <div className="absolute right-[8%] top-[12%] h-72 w-72 rounded-full bg-white/52 blur-[82px]" />
+          <div className="absolute bottom-[8%] right-[16%] h-64 w-64 rounded-full bg-[#0B1F33]/10 blur-3xl" />
+          <div className="absolute left-1/2 top-[46%] h-[460px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/34 blur-[92px]" />
         </div>
 
         <div className="relative mx-auto grid min-h-[calc(100vh-180px)] max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
@@ -137,7 +136,7 @@ export default function SplashPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="inline-flex items-center gap-2 rounded-md border border-[#0B1F33]/8 bg-white px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B1F33]/58 shadow-[0_12px_34px_rgba(11,31,51,0.08)]">
+            <div className="inline-flex items-center gap-2 rounded-md bg-white/86 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B1F33]/58 shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_34px_rgba(11,31,51,0.07),0_0_28px_rgba(179,143,79,0.06)]">
               <Sparkles className="h-3.5 w-3.5 text-[#B38F4F]" />
               Audience gateway
             </div>
@@ -155,14 +154,14 @@ export default function SplashPage() {
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
                 to="/residents"
-                className="inline-flex h-10 items-center justify-center rounded-md bg-[#0B1F33] px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white shadow-[0_16px_34px_rgba(11,31,51,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_3px_rgba(179,143,79,0.16),0_18px_36px_rgba(11,31,51,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                className="inline-flex h-10 items-center justify-center rounded-md bg-[#0B1F33] px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white shadow-[0_16px_34px_rgba(11,31,51,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_2px_rgba(179,143,79,0.14),0_18px_36px_rgba(11,31,51,0.18),0_0_32px_rgba(179,143,79,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
               >
                 Start as resident
                 <ArrowRight className="ml-2 h-4 w-4 text-[#B38F4F]" />
               </Link>
               <Link
                 to="/partners"
-                className="inline-flex h-10 items-center justify-center rounded-md border border-[#0B1F33]/10 bg-white px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33] shadow-[0_12px_30px_rgba(11,31,51,0.08)] transition hover:-translate-y-0.5 hover:border-[#B38F4F]/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                className="inline-flex h-10 items-center justify-center rounded-md bg-white/88 px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_30px_rgba(11,31,51,0.07)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_14px_32px_rgba(11,31,51,0.08),0_0_30px_rgba(179,143,79,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
               >
                 Start as partner
               </Link>
@@ -173,9 +172,10 @@ export default function SplashPage() {
             initial={{ opacity: 0, y: 18, scale: 0.985 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.42, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
-            className="rounded-lg border border-[#0B1F33]/8 bg-white p-3 shadow-[0_28px_90px_rgba(11,31,51,0.14)]"
+            className="group relative overflow-hidden rounded-lg bg-white/78 p-3 shadow-[0_0_0_1px_rgba(11,31,51,0.05),0_28px_90px_rgba(11,31,51,0.10),0_0_64px_rgba(179,143,79,0.10)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_30px_92px_rgba(11,31,51,0.12),0_0_82px_rgba(179,143,79,0.16)]"
           >
-            <div className="rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] p-3">
+            <div className="pointer-events-none absolute -right-20 -top-24 h-52 w-52 rounded-full bg-[#B38F4F]/16 blur-3xl transition duration-300 group-hover:bg-[#B38F4F]/22" />
+            <div className="relative rounded-md bg-[#F7F8FB]/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
               <div className="mb-3 flex items-center justify-between gap-3">
                 <div>
                   <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B1F33]/48">Choose path</div>
@@ -189,13 +189,10 @@ export default function SplashPage() {
                 </Link>
               </div>
 
-              <div className="relative min-h-[260px] overflow-hidden rounded-md border border-[#0B1F33]/8 bg-white">
+              <div className="relative min-h-[260px] overflow-hidden rounded-md bg-white/90 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_18px_54px_rgba(11,31,51,0.06)]">
                 <div className="absolute inset-0">
-                  <div className="absolute left-0 top-[24%] h-px w-full bg-[#0B1F33]/8" />
-                  <div className="absolute left-0 top-[54%] h-px w-full bg-[#0B1F33]/8" />
-                  <div className="absolute left-[24%] top-0 h-full w-px bg-[#0B1F33]/8" />
-                  <div className="absolute left-[56%] top-0 h-full w-px bg-[#0B1F33]/8" />
-                  <div className="absolute left-[78%] top-0 h-full w-px bg-[#0B1F33]/8" />
+                  <div className="absolute left-[10%] top-[18%] h-32 w-32 rounded-full bg-[#B38F4F]/12 blur-2xl" />
+                  <div className="absolute bottom-[8%] right-[14%] h-40 w-40 rounded-full bg-[#0B1F33]/8 blur-2xl" />
                 </div>
 
                 <MapNode className="left-[18%] top-[34%]" icon={CreditCard} label="Resident card" />
@@ -206,7 +203,7 @@ export default function SplashPage() {
 
               <div className="mt-3 grid gap-2 sm:grid-cols-3">
                 {signalPoints.map((point) => (
-                  <div key={point.label} className="rounded-md border border-[#0B1F33]/8 bg-white p-3">
+                  <div key={point.label} className="rounded-md bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.16),0_12px_28px_rgba(11,31,51,0.08)]">
                     <div className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/45">{point.label}</div>
                     <div className="mt-1 text-[13px] font-semibold text-[#0B1F33]">{point.value}</div>
                   </div>
@@ -217,7 +214,8 @@ export default function SplashPage() {
         </div>
       </section>
 
-      <section className="px-5 py-10">
+      <section className="relative px-5 py-10">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.28),transparent)]" aria-hidden="true" />
         <div className="mx-auto grid max-w-6xl gap-3 md:grid-cols-2">
           {audienceCards.map((card) => {
             const Icon = card.icon;
@@ -225,10 +223,11 @@ export default function SplashPage() {
               <Link
                 key={card.label}
                 to={card.href}
-                className="group rounded-lg border border-[#0B1F33]/8 bg-white p-5 shadow-[0_18px_50px_rgba(11,31,51,0.08)] transition hover:-translate-y-1 hover:border-[#B38F4F]/45 hover:shadow-[0_0_0_3px_rgba(179,143,79,0.10),0_24px_62px_rgba(11,31,51,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                className="group relative overflow-hidden rounded-lg bg-white/74 p-5 shadow-[0_0_0_1px_rgba(11,31,51,0.05),0_18px_50px_rgba(11,31,51,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_0_58px_rgba(179,143,79,0.14),0_24px_62px_rgba(11,31,51,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
               >
+                <div className="pointer-events-none absolute -right-16 -top-16 h-32 w-32 rounded-full bg-[#B38F4F]/0 blur-2xl transition duration-300 group-hover:bg-[#B38F4F]/14" />
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] text-[#B38F4F]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[#F7F8FB] text-[#B38F4F] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
                     <Icon className="h-5 w-5" />
                   </div>
                   <ArrowRight className="h-4 w-4 text-[#0B1F33]/34 transition group-hover:translate-x-1 group-hover:text-[#B38F4F]" />
@@ -249,10 +248,10 @@ export default function SplashPage() {
 function MapNode({ className, icon: Icon, label, selected = false }) {
   return (
     <div
-      className={`absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-md border px-2.5 py-2 shadow-[0_14px_34px_rgba(11,31,51,0.14)] ${className} ${
+      className={`absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-md px-2.5 py-2 shadow-[0_14px_34px_rgba(11,31,51,0.14)] transition duration-200 hover:-translate-y-[calc(50%+2px)] hover:shadow-[0_0_0_3px_rgba(179,143,79,0.14),0_16px_38px_rgba(11,31,51,0.16)] ${className} ${
         selected
-          ? "border-[#B38F4F]/70 bg-[#0B1F33] text-white"
-          : "border-[#0B1F33]/8 bg-white text-[#0B1F33]"
+          ? "bg-[#0B1F33] text-white shadow-[0_0_0_1px_rgba(179,143,79,0.44),0_14px_34px_rgba(11,31,51,0.16),0_0_38px_rgba(179,143,79,0.18)]"
+          : "bg-white/90 text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.05),0_14px_34px_rgba(11,31,51,0.10)]"
       }`}
     >
       <Icon className="h-4 w-4 text-[#B38F4F]" />

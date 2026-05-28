@@ -124,9 +124,11 @@ export default function Home() {
 
   return (
     <main className="bg-[#F7F8FB] text-[#0B1F33]">
-      <section className="border-b border-[#0B1F33]/8 px-5 pb-14 pt-28 md:pb-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-8 inline-flex border border-[#0B1F33]/10 bg-white p-1">
+      <section className="relative overflow-hidden px-5 pb-14 pt-28 md:pb-20">
+        <div className="pointer-events-none absolute left-[6%] top-28 h-56 w-56 rounded-full bg-[#B38F4F]/10 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute right-[10%] top-20 h-72 w-72 rounded-full bg-white/74 blur-[80px]" aria-hidden="true" />
+        <div className="relative mx-auto max-w-6xl">
+          <div className="mb-8 inline-flex bg-white/78 p-1 shadow-[0_0_0_1px_rgba(11,31,51,0.05),0_12px_34px_rgba(11,31,51,0.07)]">
             {["resident", "partner"].map((item) => (
               <button
                 key={item}
@@ -155,22 +157,22 @@ export default function Home() {
                   {hero.primary}
                   <ArrowRight className="ml-2 h-4 w-4 text-[#B38F4F]" />
                 </Link>
-                <Link to={hero.secondaryHref} className="inline-flex h-10 items-center justify-center rounded-md border border-[#0B1F33]/12 bg-white px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#0B1F33]">
+                <Link to={hero.secondaryHref} className="inline-flex h-10 items-center justify-center rounded-md bg-white px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_12px_28px_rgba(11,31,51,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_14px_30px_rgba(11,31,51,0.08),0_0_28px_rgba(179,143,79,0.10)]">
                   {hero.secondary}
                 </Link>
                 {!isPartner && (
-                  <Link to="/partners" className="inline-flex h-10 items-center justify-center rounded-md border border-[#0B1F33]/12 bg-white px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#0B1F33]">
+                  <Link to="/partners" className="inline-flex h-10 items-center justify-center rounded-md bg-white px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_12px_28px_rgba(11,31,51,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_14px_30px_rgba(11,31,51,0.08),0_0_28px_rgba(179,143,79,0.10)]">
                     Become a Partner
                   </Link>
                 )}
               </div>
             </div>
 
-            <form onSubmit={submitSearch} className="dp-glass p-3">
+            <form onSubmit={submitSearch} className="dp-glass p-3 transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_0_58px_rgba(179,143,79,0.14),0_18px_48px_rgba(11,31,51,0.10)]">
               <div className="mb-3">
                 <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/48">Search intent integration</span>
               </div>
-              <label className="flex h-10 items-center gap-3 border border-[#0B1F33]/8 bg-white/88 px-4">
+              <label className="flex h-10 items-center gap-3 bg-white/88 px-4 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition focus-within:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.22),0_0_26px_rgba(179,143,79,0.10)]">
                 <Search className="h-4 w-4 text-[#0B1F33]/48" />
                 <input
                   value={query}
@@ -186,7 +188,7 @@ export default function Home() {
                       key={title}
                       type="button"
                       onClick={() => setQuery(title)}
-                      className="rounded-md border border-[#0B1F33]/8 bg-white/72 p-3 text-left transition hover:border-[#B38F4F]/45"
+                      className="rounded-md bg-white/72 p-3 text-left shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_12px_28px_rgba(11,31,51,0.08)]"
                     >
                       <span className="block text-[12px] font-semibold text-[#0B1F33]">{title}</span>
                       <span className="mt-1 block text-[11px] leading-4 text-[#0B1F33]/58">{detail}</span>
@@ -250,8 +252,8 @@ export default function Home() {
                         setOpenFaq(0);
                       }}
                       className={item === partnerType
-                        ? "min-w-[145px] border border-[#0B1F33] bg-[#0B1F33] px-4 py-2.5 text-left text-[13px] font-semibold text-white lg:w-full"
-                        : "min-w-[145px] border border-[#0B1F33]/8 bg-white px-4 py-2.5 text-left text-[13px] font-semibold text-[#0B1F33]/66 lg:w-full"}
+                        ? "min-w-[145px] bg-[#0B1F33] px-4 py-2.5 text-left text-[13px] font-semibold text-white shadow-[0_0_0_1px_rgba(179,143,79,0.38),0_12px_30px_rgba(11,31,51,0.14)] lg:w-full"
+                        : "min-w-[145px] bg-white/82 px-4 py-2.5 text-left text-[13px] font-semibold text-[#0B1F33]/66 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.16),0_10px_26px_rgba(11,31,51,0.08)] lg:w-full"}
                     >
                       {item}
                     </button>
@@ -264,7 +266,7 @@ export default function Home() {
                       <p className="mt-4 text-[14px] leading-relaxed text-[#0B1F33]/68">{partner.body}</p>
                       <p className="mt-5 font-heading text-2xl italic">You're not selling square footage. You're selling everything around it.</p>
                     </div>
-                    <div className="border border-[#0B1F33]/8 bg-white p-4">
+                    <div className="bg-white/78 p-4 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_12px_30px_rgba(11,31,51,0.06)]">
                       <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Pricing</div>
                       <div className="mt-2 text-2xl font-semibold">{partner.pricing}</div>
                       <Link to={partner.href} className="mt-5 inline-flex h-10 w-full items-center justify-center rounded-md bg-[#0B1F33] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white">
@@ -279,7 +281,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="pricing" className="border-y border-[#0B1F33]/8 bg-white px-5 py-12 md:py-16">
+      <section id="pricing" className="relative bg-white px-5 py-12 shadow-[inset_0_24px_60px_rgba(247,248,251,0.9),inset_0_-24px_60px_rgba(247,248,251,0.72)] md:py-16">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.24),transparent)]" aria-hidden="true" />
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
             <span className="dp-label mb-3 block">Pricing</span>
@@ -305,7 +308,7 @@ export default function Home() {
                   ["Events", "RSVP in one tap"],
                 ]
             ).map(([label, value]) => (
-              <div key={label} className="border border-[#0B1F33]/8 bg-[#F7F8FB] p-5">
+              <div key={label} className="bg-[#F7F8FB] p-5 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_0_30px_rgba(179,143,79,0.04)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.14),0_16px_34px_rgba(11,31,51,0.08)]">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">{label}</div>
                 <div className="mt-2 text-xl font-semibold">{value}</div>
               </div>
@@ -325,7 +328,7 @@ export default function Home() {
               <button
                 key={question}
                 onClick={() => setOpenFaq(openFaq === index ? -1 : index)}
-                className="border border-[#0B1F33]/8 bg-white p-5 text-left transition-colors hover:border-[#B38F4F]/50"
+                className="bg-white p-5 text-left shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.16),0_14px_34px_rgba(11,31,51,0.08)]"
                 aria-expanded={openFaq === index}
               >
                 <div className="flex items-center justify-between gap-4">
@@ -339,7 +342,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contact" className="border-t border-[#0B1F33]/8 px-5 py-12 md:py-16">
+      <section id="contact" className="relative px-5 py-12 md:py-16">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.2),transparent)]" aria-hidden="true" />
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
             <span className="dp-label mb-3 block">{isPartner ? "Get started" : "Ready When You Are"}</span>
@@ -350,11 +354,11 @@ export default function Home() {
               {isPartner ? "Choose your partner type and send the details. We will find the right setup." : "If you sign up now and your building joins later, you will be refunded."}
             </p>
           </div>
-          <form className="grid gap-3 border border-[#0B1F33]/8 bg-white p-5">
+          <form className="grid gap-3 bg-white/82 p-5 shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_18px_48px_rgba(11,31,51,0.07),0_0_44px_rgba(179,143,79,0.07)]">
             {(isPartner ? ["Organization Name", "Your Name & Role", "Email", "Phone"] : ["Your Name", "Phone Number", "Email", "Building Address", "How did you hear about us?"]).map((label) => (
               <label key={label} className="grid gap-1.5">
                 <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50">{label}</span>
-                <input className="h-10 rounded-md border border-[#0B1F33]/10 bg-[#F7F8FB] px-3 text-[13px] outline-none focus:border-[#B38F4F]" />
+                <input className="h-10 rounded-md bg-[#F7F8FB] px-3 text-[13px] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] outline-none transition focus:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.22),0_0_24px_rgba(179,143,79,0.10)]" />
               </label>
             ))}
             <button type="button" className="mt-2 inline-flex h-10 items-center justify-center rounded-md bg-[#0B1F33] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white">

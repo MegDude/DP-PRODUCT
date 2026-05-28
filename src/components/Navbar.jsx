@@ -98,7 +98,7 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 6, scale: 0.99 }}
             transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-0 top-11 w-[340px] overflow-hidden rounded-lg border border-[#0B1F33]/12 bg-white p-2 shadow-[0_22px_70px_rgba(11,31,51,0.16)] [backdrop-filter:none] [-webkit-backdrop-filter:none]"
+            className="absolute left-0 top-11 w-[340px] overflow-hidden rounded-lg bg-white p-2 shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_22px_70px_rgba(11,31,51,0.16),0_0_48px_rgba(179,143,79,0.08)] [backdrop-filter:none] [-webkit-backdrop-filter:none]"
           >
             <div className="px-2 pb-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/45">
               {label} paths
@@ -109,7 +109,7 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
                   key={link.to}
                   link={link}
                   onClick={() => setOpenMenu(null)}
-                  className="group rounded-md border border-transparent px-3 py-2.5 text-left transition-all hover:border-[#0B1F33]/8 hover:bg-[#F7F8FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="group rounded-md px-3 py-2.5 text-left transition-all hover:-translate-y-0.5 hover:bg-[#F7F8FB] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.14),0_10px_26px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                 >
                   <span className="block text-[13px] font-semibold text-[#0B1F33]">{link.label}</span>
                   <span className="mt-0.5 block text-[11px] leading-4 text-[#0B1F33]/58">{link.description}</span>
@@ -118,7 +118,7 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
               <button
                 type="button"
                 onClick={() => setOpenMenu(null)}
-                className="mt-1 inline-flex items-center justify-center gap-1.5 rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/62 transition hover:border-[#B38F4F]/45 hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                className="mt-1 inline-flex items-center justify-center gap-1.5 rounded-md bg-[#F7F8FB] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.035)] transition hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.16),0_10px_26px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
               >
                 <ChevronUp className="h-3.5 w-3.5" />
                 Roll up
@@ -204,13 +204,13 @@ export default function Navbar() {
       data-dp-nav-root
       className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-[#0B1F33]/8 bg-white shadow-[0_12px_36px_rgba(11,31,51,0.08)]"
-          : "border-b border-[#0B1F33]/6 bg-white"
+          ? "bg-white shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_36px_rgba(11,31,51,0.08)]"
+          : "bg-white shadow-[0_0_0_1px_rgba(11,31,51,0.025)]"
       }`}
     >
       <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-5">
         <Link to="/" className="group flex shrink-0 items-center gap-2.5" aria-label="Downtown Perks home">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md border border-[#0B1F33]/12 bg-white shadow-[0_8px_22px_rgba(11,31,51,0.08)]">
+          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-white shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_8px_22px_rgba(11,31,51,0.08)]">
             <MapPin className="h-3.5 w-3.5 text-[#B38F4F]" />
           </div>
           <span className="font-heading text-[15px] font-medium tracking-normal text-[#0B1F33]">
@@ -246,7 +246,7 @@ export default function Navbar() {
                 className={`inline-flex h-9 items-center justify-center rounded-md px-3 text-[11px] font-semibold uppercase tracking-[0.14em] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
                   isActive(link.to)
                     ? "bg-[#0B1F33] text-white"
-                    : "border border-[#0B1F33]/10 bg-white text-[#0B1F33]/70 hover:border-[#B38F4F]/45 hover:text-[#0B1F33]"
+                    : "bg-white text-[#0B1F33]/70 shadow-[0_0_0_1px_rgba(11,31,51,0.035)] hover:text-[#0B1F33] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_10px_24px_rgba(11,31,51,0.06)]"
                 }`}
               />
             ))}
@@ -257,7 +257,7 @@ export default function Navbar() {
             onClick={() => setOpen(!open)}
             aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#0B1F33]/10 bg-white text-[#0B1F33]/78 shadow-[0_8px_24px_rgba(11,31,51,0.08)] transition-all hover:border-[#B38F4F]/45 hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white text-[#0B1F33]/78 shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_8px_24px_rgba(11,31,51,0.08)] transition-all hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_10px_26px_rgba(11,31,51,0.08),0_0_24px_rgba(179,143,79,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
           >
             {open ? <X className="h-[18px] w-[18px]" /> : <Menu className="h-[18px] w-[18px]" />}
           </button>
@@ -271,7 +271,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-0 right-0 top-[68px] border-b border-[#0B1F33]/10 bg-white shadow-[0_24px_80px_rgba(11,31,51,0.14)] [backdrop-filter:none] [-webkit-backdrop-filter:none]"
+            className="absolute left-0 right-0 top-[68px] bg-white shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_24px_80px_rgba(11,31,51,0.14),0_0_54px_rgba(179,143,79,0.08)] [backdrop-filter:none] [-webkit-backdrop-filter:none]"
           >
             <div className="mx-auto grid max-h-[calc(100vh-68px)] max-w-5xl gap-3 overflow-y-auto px-5 py-4 md:grid-cols-2">
               <NavSection
@@ -299,8 +299,8 @@ export default function Navbar() {
 
 function NavSection({ eyebrow, title, cta, links, close }) {
   return (
-    <div className="overflow-hidden rounded-lg border border-[#0B1F33]/10 bg-white [backdrop-filter:none] [-webkit-backdrop-filter:none]">
-      <div className="flex items-center justify-between gap-3 border-b border-[#0B1F33]/8 bg-[#0B1F33] px-4 py-3 text-white">
+    <div className="overflow-hidden rounded-lg bg-white shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_16px_42px_rgba(11,31,51,0.08)] [backdrop-filter:none] [-webkit-backdrop-filter:none]">
+      <div className="flex items-center justify-between gap-3 bg-[#0B1F33] px-4 py-3 text-white shadow-[0_12px_30px_rgba(11,31,51,0.12)]">
         <div>
           <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/52">{eyebrow}</div>
           <div className="mt-0.5 text-[13px] font-semibold text-white">{title}</div>
@@ -308,7 +308,7 @@ function NavSection({ eyebrow, title, cta, links, close }) {
         <NavLinkItem
           link={cta}
           onClick={close}
-          className="inline-flex h-8 items-center justify-center rounded-md border border-[#B38F4F]/45 bg-white px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33] transition hover:border-[#B38F4F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+          className="inline-flex h-8 items-center justify-center rounded-md bg-white px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_8px_20px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.28),0_10px_24px_rgba(0,0,0,0.14),0_0_24px_rgba(179,143,79,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
         />
       </div>
       <div className="grid gap-0 p-2">
@@ -317,7 +317,7 @@ function NavSection({ eyebrow, title, cta, links, close }) {
             key={link.to}
             link={link}
             onClick={close}
-            className="flex items-center justify-between rounded-md border border-transparent px-3 py-2.5 text-[13px] font-semibold text-[#0B1F33] transition-all hover:border-[#B38F4F]/35 hover:bg-[#F7F8FB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+            className="flex items-center justify-between rounded-md px-3 py-2.5 text-[13px] font-semibold text-[#0B1F33] transition-all hover:-translate-y-0.5 hover:bg-[#F7F8FB] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.14),0_10px_26px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
           >
             <span>{link.label}</span>
             <span className="text-[#B38F4F]">→</span>

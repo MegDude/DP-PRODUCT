@@ -431,7 +431,7 @@ export default function SplashPage() {
         </div>
       </section>
 
-      <section className="relative bg-white px-5 py-10 md:py-14">
+      <section className="relative bg-[#F7F8FB] px-5 py-14 md:px-8 md:py-20">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.22),transparent)]" aria-hidden="true" />
         <div className="relative mx-auto max-w-[760px] text-left">
           <motion.div
@@ -440,15 +440,15 @@ export default function SplashPage() {
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h2 className="font-heading text-[44px] font-medium leading-[0.94] tracking-[-0.03em] text-[#0B1F33] md:text-[82px]">
+            <h2 className="font-heading text-[48px] font-medium leading-[0.92] tracking-[-0.045em] text-[#0B1F33] md:text-[92px] md:leading-[0.9]">
               More charm than a biscuit with honey.
             </h2>
-            <p className="mt-3 max-w-[620px] font-heading text-[22px] font-medium leading-tight text-[#0B1F33]/70 md:text-[30px]">
+            <p className="mt-3 max-w-[620px] font-heading text-[24px] font-medium leading-[1.08] text-[#0B1F33]/70 md:text-[34px]">
               Downtown Perks brings the heat — and the hospitality.
             </p>
           </motion.div>
 
-          <div className="mt-8 max-w-[760px] text-[15px] leading-7 text-[#0B1F33]/68 md:text-[16px] md:leading-8">
+          <div className="mt-8 max-w-[620px] text-[16px] leading-[1.72] text-[#0B1F33]/68 md:text-[17px] md:leading-[1.75]">
             <motion.div
               className="max-w-[620px] space-y-4"
               initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
@@ -473,7 +473,7 @@ export default function SplashPage() {
               <p className="max-w-[720px] font-heading text-[42px] font-medium leading-[0.98] tracking-[-0.03em] text-[#0B1F33] md:text-[58px]">
                 Downtown should feel easier than it does.
               </p>
-              <div className="mt-5 max-w-[700px] space-y-1 text-[20px] leading-[1.42] text-[#0B1F33]/78 md:text-[24px]">
+              <div className="mt-5 max-w-[680px] space-y-1 text-[19px] leading-[1.4] tracking-[-0.01em] text-[#0B1F33]/78 md:text-[24px] md:leading-[1.42]">
                 <p>The coffee shop you keep meaning to try.</p>
                 <p>The workout class you always hear about too late.</p>
                 <p>The rooftop before it gets crowded.</p>
@@ -485,24 +485,24 @@ export default function SplashPage() {
               </div>
             </motion.div>
             <motion.div
-              className="mt-10 max-w-[660px]"
+              className="mt-12 max-w-[640px]"
               initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, amount: 0.45 }}
               transition={{ duration: 0.45, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
             >
-              <p className="text-[18px] leading-8 text-[#0B1F33]/82 md:text-[19px]">
+              <p className="text-[18px] leading-[1.8] text-[#0B1F33]/74">
                 Most things already exist. They’re just scattered across too many apps, group chats, tabs, feeds, newsletters, screenshots, and half-finished plans.
               </p>
             </motion.div>
             <motion.div
-              className="mt-12 max-w-[700px] space-y-4"
+              className="mt-10 max-w-[660px] space-y-3"
               initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, amount: 0.45 }}
               transition={{ duration: 0.45, delay: 0.36, ease: [0.22, 1, 0.36, 1] }}
             >
-              <p className="font-heading text-[30px] font-medium leading-tight text-[#0B1F33] md:text-[40px]">
+              <p className="font-heading text-[34px] font-medium leading-[1] tracking-[-0.025em] text-[#0B1F33] md:text-[48px]">
                 So we built one map to bring it together.
               </p>
               <p>
@@ -519,7 +519,7 @@ export default function SplashPage() {
                 A last-minute dinner plan.<br />
                 That place you finally decide to try after walking past it for months.
               </p>
-              <div className="mt-6 space-y-4 text-[#0B1F33]/62">
+              <div className="mt-8 max-w-[660px] space-y-3 text-[#0B1F33]/62">
                 <p>Downtown Perks helps residents make better plans faster — while helping local businesses stay relevant in the moments that actually matter.</p>
                 <p>And when people choose local, they unlock perks, offers, rewards, and little extras from the places that keep downtown interesting.</p>
               </div>
@@ -535,13 +535,13 @@ export default function SplashPage() {
           >
             <Link
               to="/residents"
-              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold tracking-[0.08em] text-white shadow-[0_12px_26px_rgba(11,31,51,0.13)] transition hover:-translate-y-px hover:shadow-[0_14px_30px_rgba(11,31,51,0.15),0_0_20px_rgba(179,143,79,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
+              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-[#0B1F33] px-6 text-[12px] font-medium tracking-[0.08em] text-white shadow-[0_10px_22px_rgba(11,31,51,0.12)] transition hover:-translate-y-px hover:shadow-[0_12px_26px_rgba(11,31,51,0.14),0_0_16px_rgba(179,143,79,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
             >
               Enter Resident View
             </Link>
             <Link
               to="/partners"
-              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-white px-5 text-[12px] font-semibold tracking-[0.08em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_10px_24px_rgba(11,31,51,0.055)] transition hover:-translate-y-px hover:shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_12px_26px_rgba(11,31,51,0.07)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
+              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-white px-6 text-[12px] font-medium tracking-[0.08em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_8px_20px_rgba(11,31,51,0.05)] transition hover:-translate-y-px hover:shadow-[0_0_0_1px_rgba(179,143,79,0.14),0_10px_22px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
             >
               Enter Partner View
             </Link>

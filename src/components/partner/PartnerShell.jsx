@@ -39,74 +39,52 @@ export default function PartnerShell({ children }) {
       <main className="pt-[68px]">{children}</main>
 
       {/* Footer */}
-      <footer className="border-t border-[#0B1F33]/8 bg-white py-12">
-        <div className="max-w-7xl mx-auto px-5">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <footer className="relative overflow-hidden bg-white py-10">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0B1F33]/12 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_50%_0%,rgba(179,143,79,0.10),transparent_58%)]" />
+        <div className="relative mx-auto max-w-7xl px-5">
+          <div className="grid gap-8 md:grid-cols-3">
             <div>
-              <h4 className="text-[12px] font-bold uppercase tracking-[.12em] text-[#0B1F33]/50 mb-4">
+              <h4 className="mb-4 text-[10px] font-semibold uppercase tracking-[.16em] text-[#0B1F33]/46">
                 Partners
               </h4>
-              <div className="space-y-2 text-[13px]">
+              <div className="grid grid-cols-2 gap-x-5 gap-y-2.5 text-[13px] md:grid-cols-1">
                 {PARTNER_NAV.map((item) => (
-                  <Link
-                    key={item.href}
-                    to={item.href}
-                    className="block text-[#0B1F33]/58 hover:text-[#0B1F33] transition-colors"
-                  >
+                  <Link key={item.href} to={item.href} className="w-fit text-[#0B1F33]/58 transition hover:-translate-y-px hover:text-[#0B1F33]">
                     {item.label}
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div>
-              <h4 className="text-[12px] font-bold uppercase tracking-[.12em] text-[#0B1F33]/50 mb-4">
+            <div className="md:border-l md:border-[#0B1F33]/6 md:pl-8">
+              <h4 className="mb-4 text-[10px] font-semibold uppercase tracking-[.16em] text-[#0B1F33]/46">
                 Product
               </h4>
-              <div className="space-y-2 text-[13px]">
-                <a href="/map?mode=resident&tab=map" className="block text-[#0B1F33]/58 hover:text-[#0B1F33]">
-                  Explore
-                </a>
-                <a href="/downtown-perks/events" className="block text-[#0B1F33]/58 hover:text-[#0B1F33]">
-                  Events
-                </a>
-                <a href="/downtown-perks/perks" className="block text-[#0B1F33]/58 hover:text-[#0B1F33]">
-                  Perks
-                </a>
+              <div className="grid grid-cols-2 gap-x-5 gap-y-2.5 text-[13px] md:grid-cols-1">
+                <Link to="/map?mode=resident&tab=map" className="w-fit text-[#0B1F33]/58 transition hover:-translate-y-px hover:text-[#0B1F33]">Explore</Link>
+                <Link to="/events" className="w-fit text-[#0B1F33]/58 transition hover:-translate-y-px hover:text-[#0B1F33]">Events</Link>
+                <Link to="/perks" className="w-fit text-[#0B1F33]/58 transition hover:-translate-y-px hover:text-[#0B1F33]">Perks</Link>
+                <Link to="/card" className="w-fit text-[#0B1F33]/58 transition hover:-translate-y-px hover:text-[#0B1F33]">Perks Card</Link>
               </div>
             </div>
 
-            <div>
-              <h4 className="text-[12px] font-bold uppercase tracking-[.12em] text-[#0B1F33]/50 mb-4">
+            <div className="md:border-l md:border-[#0B1F33]/6 md:pl-8">
+              <h4 className="mb-4 text-[10px] font-semibold uppercase tracking-[.16em] text-[#0B1F33]/46">
                 Company
               </h4>
-              <div className="space-y-2 text-[13px]">
-                <a href="/downtown-perks/about" className="block text-[#0B1F33]/58 hover:text-[#0B1F33]">
-                  About
-                </a>
-                <a href="#" className="block text-[#0B1F33]/58 hover:text-[#0B1F33]">
-                  Contact
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="text-[12px] font-bold uppercase tracking-[.12em] text-[#0B1F33]/50 mb-4">
-                Legal
-              </h4>
-              <div className="space-y-2 text-[13px]">
-                <a href="#" className="block text-[#0B1F33]/58 hover:text-[#0B1F33]">
-                  Privacy
-                </a>
-                <a href="#" className="block text-[#0B1F33]/58 hover:text-[#0B1F33]">
-                  Terms
-                </a>
+              <div className="grid grid-cols-2 gap-x-5 gap-y-2.5 text-[13px] md:grid-cols-1">
+                <Link to="/about" className="w-fit text-[#0B1F33]/58 transition hover:-translate-y-px hover:text-[#0B1F33]">About</Link>
+                <Link to="/contact" className="w-fit text-[#0B1F33]/58 transition hover:-translate-y-px hover:text-[#0B1F33]">Contact</Link>
+                <span className="text-[#0B1F33]/40">Privacy</span>
+                <span className="text-[#0B1F33]/40">Terms</span>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-[#0B1F33]/8 pt-8 text-[12px] text-[#0B1F33]/50">
+          <div className="mt-9 flex flex-col gap-2 pt-6 text-[12px] text-[#0B1F33]/50 shadow-[inset_0_1px_0_rgba(11,31,51,0.06)] md:flex-row md:items-center md:justify-between">
             <p>&copy; 2026 Downtown Perks. All rights reserved.</p>
+            <p className="font-heading italic text-[#0B1F33]/46">Search Less. Spend Less. Do More.</p>
           </div>
         </div>
       </footer>

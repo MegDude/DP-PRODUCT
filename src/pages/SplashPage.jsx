@@ -169,10 +169,11 @@ function ChoosePathStoryboard() {
 
 export default function SplashPage() {
   const [showIntro, setShowIntro] = useState(true);
+  const [introReady, setIntroReady] = useState(false);
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#F7F8FB] pt-[68px] text-[#0B1F33]">
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {showIntro && (
           <motion.section
             className="fixed inset-0 z-[900] bg-[#0B1F33] text-white"
@@ -181,13 +182,19 @@ export default function SplashPage() {
             transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
             aria-label="Downtown Perks opening animation"
           >
+            <div className="absolute inset-0 bg-[#0B1F33]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_24%,rgba(179,143,79,0.13),transparent_34%),linear-gradient(135deg,#0B1F33,#081521)]" />
             <video
-              className="absolute inset-0 h-full w-full object-cover"
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+                introReady ? "opacity-100" : "opacity-0"
+              }`}
               src={VIDEO_SRC}
               autoPlay
               muted
               playsInline
               preload="auto"
+              onLoadedData={() => setIntroReady(true)}
+              onCanPlay={() => setIntroReady(true)}
               onEnded={() => setShowIntro(false)}
             />
             <div className="absolute inset-0 bg-[#0B1F33]/42" />
@@ -197,7 +204,7 @@ export default function SplashPage() {
               <button
                 type="button"
                 onClick={() => setShowIntro(false)}
-                className="inline-flex h-9 items-center px-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70 transition hover:-translate-y-0.5 hover:text-white focus-visible:outline-none focus-visible:text-white"
+                className="inline-flex h-9 items-center px-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70 transition hover:text-white focus-visible:outline-none focus-visible:text-white"
               >
                 Skip
               </button>

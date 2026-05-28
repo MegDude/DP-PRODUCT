@@ -71,10 +71,10 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
         onClick={() => setOpenMenu(isOpen ? null : id)}
         aria-expanded={isOpen}
         aria-controls={`${id}-navigation`}
-        className={`inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-[12px] font-semibold uppercase tracking-[0.14em] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
+        className={`relative inline-flex h-9 items-center gap-1.5 px-1 text-[12px] font-semibold uppercase tracking-[0.14em] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
           isActiveGroup
-            ? "bg-[#B38F4F] text-[#0B1F33] shadow-[0_10px_28px_rgba(0,0,0,0.18),0_0_24px_rgba(179,143,79,0.14)]"
-            : "text-[#F7F8FB]/72 hover:bg-white/8 hover:text-[#F7F8FB]"
+            ? "text-[#0B1F33] after:absolute after:bottom-0 after:left-1 after:h-px after:w-[calc(100%-0.5rem)] after:bg-[#B38F4F]"
+            : "text-[#0B1F33]/56 hover:text-[#0B1F33]"
         }`}
       >
         {label}
@@ -89,7 +89,7 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 6, scale: 0.99 }}
             transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-0 top-11 w-[340px] overflow-hidden rounded-lg bg-white p-2 shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_22px_70px_rgba(11,31,51,0.16),0_0_48px_rgba(179,143,79,0.08)] [backdrop-filter:none] [-webkit-backdrop-filter:none]"
+            className="absolute left-0 top-11 w-[340px] overflow-hidden rounded-md bg-white/94 p-2 shadow-[0_0_0_1px_rgba(11,31,51,0.045),0_22px_70px_rgba(11,31,51,0.13)] backdrop-blur-xl"
           >
             <div className="px-2 pb-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/45">
               {label} paths
@@ -195,18 +195,18 @@ export default function Navbar() {
   return (
     <nav
       data-dp-nav-root
-      className={`fixed left-0 right-0 top-0 z-[1200] pointer-events-auto isolate transition-all duration-300 ${
+      className={`fixed left-0 right-0 top-0 z-[1200] pointer-events-auto isolate transition-all duration-300 backdrop-blur-xl ${
         scrolled
-          ? "bg-[#0B1F33] text-[#F7F8FB] shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_14px_40px_rgba(11,31,51,0.20)]"
-          : "bg-[#0B1F33] text-[#F7F8FB] shadow-[0_0_0_1px_rgba(179,143,79,0.10)]"
+          ? "bg-white/92 text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.055),0_14px_40px_rgba(11,31,51,0.10)]"
+          : "bg-white/78 text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_12px_34px_rgba(11,31,51,0.07)]"
       }`}
     >
       <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-5">
         <Link to="/" className="group flex shrink-0 items-center gap-2.5" aria-label="Downtown Perks home">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#B38F4F] shadow-[0_0_0_1px_rgba(255,255,255,0.10),0_8px_22px_rgba(0,0,0,0.16)]">
-            <MapPin className="h-3.5 w-3.5 text-[#0B1F33]" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#F7F8FB]/76 text-[#B38F4F] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.055)]">
+            <MapPin className="h-3.5 w-3.5" />
           </div>
-          <span className="font-heading text-[15px] font-medium tracking-normal text-[#F7F8FB]">
+          <span className="font-heading text-[15px] font-medium tracking-normal text-[#0B1F33]">
             Downtown Perks
           </span>
         </Link>
@@ -236,10 +236,10 @@ export default function Navbar() {
               <NavLinkItem
                 key={link.to}
                 link={link}
-                className={`inline-flex h-9 items-center justify-center rounded-md px-3 text-[11px] font-semibold uppercase tracking-[0.14em] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
+                className={`relative inline-flex h-9 items-center justify-center px-1 text-[11px] font-semibold uppercase tracking-[0.12em] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
                   isActive(link.to)
-                    ? "bg-[#B38F4F] text-[#0B1F33]"
-                    : "bg-white/8 text-[#F7F8FB]/72 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] hover:bg-white/12 hover:text-[#F7F8FB] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(0,0,0,0.14)]"
+                    ? "text-[#0B1F33] after:absolute after:bottom-0 after:left-1 after:h-px after:w-[calc(100%-0.5rem)] after:bg-[#B38F4F]"
+                    : "text-[#0B1F33]/56 hover:text-[#0B1F33]"
                 }`}
               />
             ))}
@@ -250,7 +250,7 @@ export default function Navbar() {
             onClick={() => setOpen(!open)}
             aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white/10 text-[#F7F8FB] shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_8px_24px_rgba(0,0,0,0.14)] transition-all hover:-translate-y-0.5 hover:bg-white/14 hover:text-[#B38F4F] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_10px_26px_rgba(0,0,0,0.16),0_0_24px_rgba(179,143,79,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-[#F7F8FB]/72 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.055),0_8px_22px_rgba(11,31,51,0.06)] transition-all hover:-translate-y-px hover:bg-white hover:text-[#B38F4F] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
           >
             {open ? <X className="h-[18px] w-[18px]" /> : <Menu className="h-[18px] w-[18px]" />}
           </button>

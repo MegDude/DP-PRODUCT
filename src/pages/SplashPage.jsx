@@ -85,8 +85,22 @@ function ChoosePathStoryboard() {
               <motion.div
                 key={tile.label}
                 className={`absolute z-0 overflow-hidden bg-white/70 opacity-70 shadow-[0_18px_42px_rgba(11,31,51,0.10),0_0_34px_rgba(179,143,79,0.08)] ${tile.className}`}
+                animate={
+                  reduceMotion
+                    ? undefined
+                    : {
+                        x: tile.drift.x,
+                        y: tile.drift.y,
+                        opacity: tile.drift.opacity,
+                      }
+                }
                 whileHover={{ y: -6 }}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                transition={{
+                  duration: 8,
+                  repeat: reduceMotion ? 0 : Infinity,
+                  repeatType: "mirror",
+                  ease: "easeInOut",
+                }}
               >
                 <img src={tile.image} alt="" loading="eager" decoding="async" className="h-full w-full object-cover" />
                 <div className="absolute bottom-0 left-0 right-0 bg-white/66 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.12em] text-[#B38F4F]">
@@ -105,8 +119,16 @@ function ChoosePathStoryboard() {
             strokeWidth="2"
             strokeDasharray="8 10"
             initial={false}
-            animate={{ pathLength: 1, opacity: 0.52 }}
-            transition={{ duration: 1.1, ease: "easeInOut" }}
+            animate={
+              reduceMotion
+                ? { pathLength: 1, opacity: 0.52 }
+                : { pathLength: 1, opacity: [0.42, 0.68, 0.42], strokeDashoffset: [0, -36] }
+            }
+            transition={{
+              pathLength: { duration: 1.1, ease: "easeInOut" },
+              opacity: { duration: 4.8, repeat: reduceMotion ? 0 : Infinity, ease: "easeInOut" },
+              strokeDashoffset: { duration: 6.5, repeat: reduceMotion ? 0 : Infinity, ease: "linear" },
+            }}
           />
         </svg>
 
@@ -114,8 +136,8 @@ function ChoosePathStoryboard() {
           <motion.div
             className="bg-white/76 px-3 py-2.5 text-center shadow-[0_18px_46px_rgba(11,31,51,0.10),0_0_34px_rgba(179,143,79,0.10)] sm:px-4 sm:py-3"
             initial={false}
-            animate={{ opacity: 0.94, y: 0, scale: 1 }}
-            transition={{ duration: 0.45, ease: "easeOut" }}
+            animate={reduceMotion ? { opacity: 0.94, y: 0, scale: 1 } : { opacity: 0.94, y: [0, -3, 0], scale: [1, 1.01, 1] }}
+            transition={{ duration: reduceMotion ? 0.45 : 5.4, repeat: reduceMotion ? 0 : Infinity, ease: "easeInOut" }}
           >
             <div className="flex items-center justify-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F] sm:text-[9px]">
               <Sparkles className="h-3 w-3 text-[#B38F4F]" />

@@ -27,7 +27,7 @@ const audienceCards = [
   {
     label: "Partners",
     eyebrow: "Activate downtown",
-    title: "Show up when decisions happen.",
+    title: "Show up in the moments that matter",
     body: "Use map visibility, QR entry, surveys, campaigns, and district intelligence for properties, hotels, venues, brands, and civic teams.",
     href: "/partners",
     action: "Enter partner view",

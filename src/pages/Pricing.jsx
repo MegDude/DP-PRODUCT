@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   BarChart3,
@@ -95,6 +96,25 @@ const SURVEY_STEPS = [
   ["04", "Engine explains", "The AI-powered insight layer turns the responses into plain-English audience notes and next steps."],
 ];
 
+const moduleListVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.075,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const moduleItemVariants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
 function Section({ id, eyebrow, title, children, className = "" }) {
   return (
     <section id={id} className={`border-t border-[#0B1F33]/8 px-5 py-14 md:py-18 ${className}`}>
@@ -117,6 +137,16 @@ function PillLink({ href, children }) {
       {children}
     </a>
   );
+}
+
+function ModuleIcon({ title }) {
+  const iconClassName = "h-4 w-4";
+
+  if (title.includes("QR")) return <QrCode className={iconClassName} />;
+  if (title.includes("Survey")) return <ClipboardList className={iconClassName} />;
+  if (title.includes("AI")) return <Sparkles className={iconClassName} />;
+  if (title.includes("dashboard") || title.includes("report")) return <BarChart3 className={iconClassName} />;
+  return <MapPin className={iconClassName} />;
 }
 
 export default function Pricing() {
@@ -202,40 +232,76 @@ export default function Pricing() {
             <p className="mt-4 text-[12px] leading-5 text-[#0B1F33]/58">{activePartner.notes}</p>
           </div>
 
-          <div className="overflow-hidden rounded-lg border border-[#0B1F33]/8 bg-white shadow-[0_14px_34px_rgba(11,31,51,0.05)]">
+          <div className="overflow-hidden rounded-lg border border-[#0B1F33]/8 bg-white shadow-[0_14px_34px_rgba(11,31,51,0.045)]">
             <div className="overflow-x-auto">
-              <table className="min-w-[760px] w-full border-collapse text-left">
-                <thead className="bg-[#0B1F33] text-white">
+              <table className="w-full min-w-[760px] table-fixed border-collapse text-left">
+                <thead className="border-b border-[#0B1F33]/10 bg-[#F7F8FB]/80">
                   <tr>
-                    <th className="px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em]">Partner</th>
-                    <th className="px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em]">Pricing</th>
-                    <th className="px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em]">Best fit</th>
-                    <th className="px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em]">Core expectation</th>
+                    <th className="w-[18%] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Partner</th>
+                    <th className="w-[18%] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Pricing</th>
+                    <th className="w-[34%] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Best fit</th>
+                    <th className="w-[30%] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Core expectation</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {PARTNER_TYPES.map((type) => (
-                    <tr key={type.id} className="border-b border-[#0B1F33]/8">
-                      <td className="px-4 py-4 text-[13px] font-semibold">{type.label}</td>
-                      <td className="px-4 py-4 text-[13px]">{type.price}</td>
-                      <td className="px-4 py-4 text-[12px] leading-5 text-[#0B1F33]/62">{type.bestFor}</td>
-                      <td className="px-4 py-4 text-[12px] leading-5 text-[#0B1F33]/62">{type.promise}</td>
-                    </tr>
-                  ))}
+                  {PARTNER_TYPES.map((type) => {
+                    const isActive = activeType === type.id;
+
+                    return (
+                      <motion.tr
+                        key={type.id}
+                        tabIndex={0}
+                        role="button"
+                        aria-selected={isActive}
+                        onClick={() => setActiveType(type.id)}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            setActiveType(type.id);
+                          }
+                        }}
+                        whileHover={{ x: 3 }}
+                        className={`cursor-pointer border-b border-[#0B1F33]/8 align-top outline-none transition focus-visible:bg-[#F7F8FB] ${
+                          isActive ? "bg-[#B38F4F]/[0.07]" : "bg-white hover:bg-[#F7F8FB]/70"
+                        }`}
+                      >
+                        <td className="whitespace-normal break-words px-4 py-4 text-[13px] font-semibold leading-5 text-[#0B1F33]">
+                          <span className={`inline-flex border-b pb-1 transition ${isActive ? "border-[#B38F4F]" : "border-transparent"}`}>{type.label}</span>
+                        </td>
+                        <td className="whitespace-normal break-words px-4 py-4 text-[13px] font-medium leading-5 text-[#0B1F33]/78">{type.price}</td>
+                        <td className="whitespace-normal break-words px-4 py-4 text-[12px] leading-5 text-[#0B1F33]/62">{type.bestFor}</td>
+                        <td className="whitespace-normal break-words px-4 py-4 text-[12px] leading-5 text-[#0B1F33]/62">{type.promise}</td>
+                      </motion.tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
+            <p className="border-t border-[#0B1F33]/8 px-4 py-3 text-[11px] leading-5 text-[#0B1F33]/52">
+              Select a row to update the partner summary. Text wraps inside each column so the table stays readable instead of forcing clipped copy.
+            </p>
           </div>
         </div>
       </Section>
 
       <Section id="modules" eyebrow="Platform modules" title="What the platform offers.">
-        <div className="grid gap-3 md:grid-cols-2">
+        <motion.div
+          variants={moduleListVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.18 }}
+          className="grid gap-3 md:grid-cols-2"
+        >
           {MODULES.map(([title, availability, body]) => (
-            <article key={title} className="rounded-md border border-[#0B1F33]/8 bg-white p-4 shadow-[0_10px_26px_rgba(11,31,51,0.04)]">
+            <motion.article
+              key={title}
+              variants={moduleItemVariants}
+              whileHover={{ y: -2 }}
+              className="rounded-md border border-[#0B1F33]/8 bg-white p-4 shadow-[0_10px_26px_rgba(11,31,51,0.035)] transition hover:border-[#B38F4F]/25"
+            >
               <div className="flex items-start gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[#0B1F33] text-[#B38F4F]">
-                  {title.includes("QR") ? <QrCode className="h-4 w-4" /> : title.includes("Survey") ? <ClipboardList className="h-4 w-4" /> : title.includes("AI") ? <Sparkles className="h-4 w-4" /> : title.includes("dashboard") || title.includes("report") ? <BarChart3 className="h-4 w-4" /> : <MapPin className="h-4 w-4" />}
+                <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#B38F4F]/25 bg-[#F7F8FB] text-[#B38F4F]">
+                  <ModuleIcon title={title} />
                 </div>
                 <div>
                   <h3 className="text-[13px] font-semibold">{title}</h3>
@@ -243,9 +309,9 @@ export default function Pricing() {
                   <p className="mt-2 text-[12px] leading-5 text-[#0B1F33]/60">{body}</p>
                 </div>
               </div>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
       </Section>
 
       <Section id="add-ons" eyebrow="Add-ons and campaign additions" title="Add only what the activation needs." className="bg-white">

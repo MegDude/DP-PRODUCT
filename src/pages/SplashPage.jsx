@@ -293,11 +293,11 @@ export default function SplashPage() {
         </div>
       </section>
 
-      <section className="relative bg-[#F7F8FB] px-5 py-12 md:px-8 md:py-16">
+      <section className="relative bg-[#F7F8FB] px-5 py-14 md:px-8 md:py-20">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179, 143, 79, 0.08),transparent)]" aria-hidden="true" />
         <div className="relative mx-auto max-w-[760px] text-left">
           <EditorialReveal amount={0.28}>
-            <h2 className="font-heading text-[48px] font-medium leading-[0.92] tracking-[-0.045em] text-[#0B1F33] md:text-[92px] md:leading-[0.9]">
+            <h2 className="font-heading text-[52px] font-medium leading-[0.9] tracking-[-0.045em] text-[#0B1F33] max-[420px]:text-[48px] max-[420px]:leading-[0.92] md:text-[92px]">
               More charm than a biscuit with honey.
             </h2>
             <p className="mt-3 max-w-[620px] font-heading text-[24px] font-medium leading-[1.08] text-[#0B1F33]/70 md:text-[34px]">
@@ -305,9 +305,9 @@ export default function SplashPage() {
             </p>
           </EditorialReveal>
 
-          <div className="mt-6 max-w-[640px] text-[17px] leading-[1.66] text-[#0B1F33]/70 md:text-[18px] md:leading-[1.68]">
+          <div className="mt-8 max-w-[640px] text-[16px] leading-[1.72] text-[#0B1F33]/70 md:text-[18px] md:leading-[1.75]">
             <EditorialReveal
-              className="max-w-[620px] space-y-3"
+              className="max-w-[620px] space-y-4"
               delay={0.04}
               amount={0.24}
             >
@@ -319,14 +319,14 @@ export default function SplashPage() {
               </p>
             </EditorialReveal>
             <EditorialReveal
-              className="mt-8"
+              className="mt-10"
               delay={0.06}
               amount={0.2}
             >
               <p className="max-w-[720px] font-heading text-[42px] font-medium leading-[0.98] tracking-[-0.03em] text-[#0B1F33] md:text-[58px]">
                 Downtown should feel easier than it does.
               </p>
-              <div className="mt-4 max-w-[680px] space-y-0.5 text-[20px] leading-[1.35] tracking-[-0.01em] text-[#0B1F33]/80 md:text-[24px] md:leading-[1.36]">
+              <div className="mt-5 max-w-[680px] space-y-1 text-[19px] leading-[1.4] tracking-[-0.01em] text-[#0B1F33]/80 md:text-[24px] md:leading-[1.42]">
                 <p>The coffee shop you keep meaning to try.</p>
                 <p>The workout class you always hear about too late.</p>
                 <p>The rooftop before it gets crowded.</p>
@@ -338,21 +338,21 @@ export default function SplashPage() {
               </div>
             </EditorialReveal>
             <EditorialReveal
-              className="mt-8 max-w-[640px]"
+              className="mt-12 max-w-[640px]"
               delay={0.04}
               amount={0.2}
             >
-              <p className="text-[18px] leading-[1.62] text-[#0B1F33]/76 md:text-[19px]">
+              <p className="text-[18px] leading-[1.8] text-[#0B1F33]/74">
                 Most things already exist. They’re just scattered across too many apps, group chats, tabs, feeds, newsletters, screenshots, and half-finished plans.
               </p>
             </EditorialReveal>
             <EditorialReveal
-              className="mt-8 max-w-[660px] space-y-2.5"
+              className="mt-10 max-w-[660px] space-y-3"
               delay={0.04}
               amount={0.18}
             >
               <p className="font-heading text-[34px] font-medium leading-[1] tracking-[-0.025em] text-[#0B1F33] md:text-[48px]">
-                So we built one map to bring everything together.
+                So we built one map to bring it together.
               </p>
               <p>
                 Not another app to manage. Not another feed to scroll. Just a better way to figure out what’s nearby, what’s happening, and what feels worth getting out for.
@@ -364,7 +364,7 @@ export default function SplashPage() {
                 A last-minute dinner plan.<br />
                 That place you finally decide to try after walking past it for months.
               </p>
-              <div className="mt-5 max-w-[660px] space-y-2.5 text-[#0B1F33]/64">
+              <div className="mt-6 max-w-[660px] space-y-3 text-[#0B1F33]/64">
                 <p>Downtown Perks helps residents make better plans faster — while helping local businesses stay relevant in the moments that actually matter.</p>
                 <p>And when people choose local, they unlock perks, offers, rewards, and little extras from the places that keep downtown interesting.</p>
               </div>
@@ -372,7 +372,7 @@ export default function SplashPage() {
           </div>
 
           <EditorialReveal
-            className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"
+            className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"
             delay={0.04}
             amount={0.2}
           >

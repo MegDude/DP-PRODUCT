@@ -14,27 +14,6 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const VIDEO_SRC = "/videos/downtown-austin-drone-cinematic.mp4";
 
-const audienceCards = [
-  {
-    label: "Residents",
-    eyebrow: "Live downtown",
-    title: "Find what is useful nearby.",
-    body: "Open the resident map for places, perks, events, the card, and walkable decisions without another app.",
-    href: "/residents",
-    action: "Enter resident view",
-    icon: CreditCard,
-  },
-  {
-    label: "Partners",
-    eyebrow: "Activate downtown",
-    title: "Show up in the moments that matter",
-    body: "Use map visibility, QR entry, surveys, campaigns, and district intelligence for properties, hotels, venues, brands, and civic teams.",
-    href: "/partners",
-    action: "Enter partner view",
-    icon: Building2,
-  },
-];
-
 const signalPoints = [
   { label: "Resident access", value: "Card + map", icon: CreditCard },
   { label: "Partner readout", value: "QR + RSVPs", icon: QrCode },
@@ -47,8 +26,8 @@ const pathCards = [
     label: "Resident card",
     detail: "Access active",
     icon: CreditCard,
-    x: "18%",
-    y: "34%",
+    x: "17%",
+    y: "24%",
     variant: "light",
   },
   {
@@ -337,7 +316,7 @@ export default function SplashPage() {
   const [showIntro, setShowIntro] = useState(true);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#F7F8FB] pt-[68px] text-[#0B1F33]">
+    <main className="min-h-screen overflow-hidden bg-[#FBFAF7] pt-[68px] text-[#0B1F33]">
       <AnimatePresence>
         {showIntro && (
           <motion.section
@@ -395,8 +374,8 @@ export default function SplashPage() {
       <section className="relative min-h-[calc(100vh-68px)] px-5 py-10 md:py-14">
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
           <video className="absolute inset-0 h-full w-full object-cover opacity-[0.18]" src={VIDEO_SRC} autoPlay muted loop playsInline preload="metadata" />
-          <div className="absolute inset-0 bg-[#F7F8FB]/82" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(247,248,251,0.94),rgba(247,248,251,0.66),rgba(247,248,251,0.96))]" />
+          <div className="absolute inset-0 bg-[#FBFAF7]/84" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(251,250,247,0.95),rgba(251,250,247,0.68),rgba(251,250,247,0.97))]" />
           <div className="absolute left-[4%] top-[18%] h-56 w-56 rounded-full bg-[#B38F4F]/14 blur-3xl" />
           <div className="absolute right-[8%] top-[12%] h-72 w-72 rounded-full bg-white/52 blur-[82px]" />
           <div className="absolute bottom-[8%] right-[16%] h-64 w-64 rounded-full bg-[#0B1F33]/10 blur-3xl" />
@@ -418,7 +397,7 @@ export default function SplashPage() {
               Whether you’re making plans or part of them.
             </h1>
             <p className="mt-5 max-w-xl text-[14px] leading-7 text-[#0B1F33]/64">
-              Built for the people who actually live downtown — helping residents find what’s nearby and helping local businesses get noticed.
+              Downtown Perks helps residents figure out what’s nearby, what’s happening, and what's worth going out for — while helping local businesses stay relevant in the moments that actually matter.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -445,38 +424,113 @@ export default function SplashPage() {
             className="group relative overflow-hidden rounded-lg bg-white/78 p-3 shadow-[0_0_0_1px_rgba(11,31,51,0.05),0_28px_90px_rgba(11,31,51,0.10),0_0_64px_rgba(179,143,79,0.10)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_30px_92px_rgba(11,31,51,0.12),0_0_82px_rgba(179,143,79,0.16)]"
           >
             <div className="pointer-events-none absolute -right-20 -top-24 h-52 w-52 rounded-full bg-[#B38F4F]/16 blur-3xl transition duration-300 group-hover:bg-[#B38F4F]/22" />
-            <div className="relative rounded-md bg-[#F7F8FB]/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
+            <div className="relative rounded-md bg-[#FBFAF7]/78 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
               <ChoosePathStoryboard />
             </div>
           </motion.div>
         </div>
       </section>
 
-      <section className="relative px-5 py-10">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.28),transparent)]" aria-hidden="true" />
-        <div className="mx-auto grid max-w-6xl gap-3 md:grid-cols-2">
-          {audienceCards.map((card) => {
-            const Icon = card.icon;
-            return (
-              <Link
-                key={card.label}
-                to={card.href}
-                className="group relative overflow-hidden rounded-lg bg-white/74 p-5 shadow-[0_0_0_1px_rgba(11,31,51,0.05),0_18px_50px_rgba(11,31,51,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_0_58px_rgba(179,143,79,0.14),0_24px_62px_rgba(11,31,51,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
-              >
-                <div className="pointer-events-none absolute -right-16 -top-16 h-32 w-32 rounded-full bg-[#B38F4F]/0 blur-2xl transition duration-300 group-hover:bg-[#B38F4F]/14" />
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[#F7F8FB] text-[#B38F4F] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <ArrowRight className="h-4 w-4 text-[#0B1F33]/34 transition group-hover:translate-x-1 group-hover:text-[#B38F4F]" />
-                </div>
-                <div className="mt-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B1F33]/48">{card.eyebrow}</div>
-                <h2 className="mt-2 font-heading text-3xl font-medium text-[#0B1F33]">{card.title}</h2>
-                <p className="mt-3 max-w-xl text-[13px] leading-6 text-[#0B1F33]/62">{card.body}</p>
-                <div className="mt-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]">{card.action}</div>
-              </Link>
-            );
-          })}
+      <section className="relative bg-[#FBFAF7] px-5 py-10 md:py-14">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.22),transparent)]" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(circle_at_50%_0%,rgba(179,143,79,0.10),transparent_62%)]" aria-hidden="true" />
+        <div className="relative mx-auto max-w-[820px] text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h2 className="font-heading text-[34px] font-medium leading-[1.02] text-[#0B1F33] md:text-[52px]">
+              More charm than a biscuit with honey.
+            </h2>
+            <p className="mx-auto mt-3 max-w-[620px] font-heading text-[22px] font-medium leading-tight text-[#0B1F33]/82 md:text-[30px]">
+              Downtown Perks brings the heat — and the hospitality.
+            </p>
+          </motion.div>
+
+          <div className="mx-auto mt-7 max-w-[700px] space-y-5 text-[14px] leading-7 text-[#0B1F33]/68 md:text-[15px] md:leading-8">
+            <motion.div
+              className="space-y-4"
+              initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.45, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <p>
+                Built for the folks who still call it Town Lake, know the shortcut through the alley off South Congress, and somehow always know where happy hour starts before everyone else gets there.
+              </p>
+              <p>
+                For the people planning around rooftop weather, happy hour, workout classes, taco runs, live music, and “just one drink” that turns into the whole night.
+              </p>
+            </motion.div>
+            <motion.div
+              className="space-y-4"
+              initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.45, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <p className="font-heading text-[24px] font-medium leading-tight text-[#0B1F33] md:text-[30px]">
+                It all started with a simple observation: downtown should feel easier than it does.
+              </p>
+              <p>
+                The coffee shop you keep meaning to try. The workout class you always hear about too late. The rooftop before it gets crowded. The happy hour two blocks away. The local business you pass all the time until someone finally says, “Wait — you’ve never been there?”
+              </p>
+            </motion.div>
+            <motion.div
+              className="space-y-4"
+              initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.45 }}
+              transition={{ duration: 0.45, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <p>Most things already exist. They’re just scattered across too many apps, group chats, tabs, feeds, newsletters, screenshots, and half-finished plans.</p>
+              <p className="font-heading text-[24px] font-medium leading-tight text-[#0B1F33] md:text-[30px]">So we built one map to bring it together.</p>
+              <p>Not another app to manage. Not another feed to scroll.</p>
+              <p>Just a better way to figure out what’s nearby, what’s happening, and what feels worth getting out for.</p>
+            </motion.div>
+            <motion.div
+              className="space-y-4"
+              initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.45 }}
+              transition={{ duration: 0.45, delay: 0.36, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <p>People usually go with what feels familiar, nearby, and easy to say yes to.</p>
+              <p>Coffee before work. A workout class after work. A last-minute dinner plan. That place you finally decide to try after walking past it for months.</p>
+              <p>Downtown Perks helps residents make better plans faster — while helping local businesses stay relevant in the moments that actually matter.</p>
+            </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.45 }}
+              transition={{ duration: 0.45, delay: 0.44, ease: [0.22, 1, 0.36, 1] }}
+            >
+              And when people choose local, they unlock perks, offers, rewards, and little extras from the places that keep downtown interesting.
+            </motion.p>
+          </div>
+
+          <motion.div
+            className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
+            initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, amount: 0.55 }}
+            transition={{ duration: 0.45, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Link
+              to="/residents"
+              className="inline-flex h-10 w-full items-center justify-center rounded-md bg-[#0B1F33] px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white shadow-[0_16px_34px_rgba(11,31,51,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_2px_rgba(179,143,79,0.14),0_18px_36px_rgba(11,31,51,0.18),0_0_32px_rgba(179,143,79,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
+            >
+              Enter Resident View
+            </Link>
+            <Link
+              to="/partners"
+              className="inline-flex h-10 w-full items-center justify-center rounded-md bg-white/88 px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_30px_rgba(11,31,51,0.07)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_14px_32px_rgba(11,31,51,0.08),0_0_30px_rgba(179,143,79,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
+            >
+              Enter Partner View
+            </Link>
+          </motion.div>
         </div>
       </section>
     </main>

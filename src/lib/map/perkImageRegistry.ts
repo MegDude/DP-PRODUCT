@@ -15,6 +15,8 @@ export const categoryImageFallbacks: Record<string, string> = {
   perk: "/pins/downtown-perks/dp-perk-graphic.svg",
   brand: "/pins/downtown-perks/dp-brand-graphic.svg",
   civic: "/pins/downtown-perks/dp-civic-graphic.svg",
+  service: "/pins/downtown-perks/dp-place-graphic.svg",
+  "restoration-emergency-services": "/pins/downtown-perks/dp-place-graphic.svg",
   venue: "/pins/downtown-perks/dp-place-graphic.svg",
   default: "/pins/downtown-perks/dp-place-graphic.svg",
 };

@@ -6,6 +6,7 @@ import L from "leaflet";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
+  Building2,
   ChevronUp,
   CreditCard,
   Gift,
@@ -449,9 +450,10 @@ function pinIcon(place, selected, pulsing = false) {
   const isEventPin = isEventEntity(place);
   const isHappyHourPin = isHappyHourEntity(place);
   const legendsListing = getLegendsListing(place);
+  const isLegendsPin = legendsListing || String(place?.pinKey || place?.brand || place?.source || "").toLowerCase().includes("legends");
   const eventPinClass = isEventPin ? "dp-live-pin--event" : "";
   const happyHourPinClass = isHappyHourPin ? "dp-live-pin--happy-hour" : "";
-  const legendsPinClass = legendsListing ? "dp-live-pin--legends" : "";
+  const legendsPinClass = isLegendsPin ? "dp-live-pin--legends" : "";
   const iconSize = isEventPin || isHappyHourPin ? (selected ? [36, 36] : [32, 32]) : selected ? [42, 42] : [38, 38];
   const iconAnchor = isEventPin || isHappyHourPin ? (selected ? [18, 18] : [16, 16]) : selected ? [21, 21] : [19, 19];
   const ariaLabel = legendsListing ? `Legends listing at ${legendsListing.address}` : `${place.name} details`;
@@ -691,6 +693,71 @@ function getResidentFallbackOffer(place) {
   };
 }
 
+function BusinessServiceDetails({ place }) {
+  const panel = place.raw?.resident_panel || {};
+  const phone = place.raw?.contact_phone || place.phone;
+  const website = place.raw?.website || place.website;
+  const gallery = [place.image, ...(Array.isArray(place.raw?.gallery) ? place.raw.gallery : [])].filter(Boolean);
+
+  return (
+    <section className="mt-4 dp-soft-panel p-3">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/52">
+            <Building2 className="h-3.5 w-3.5 text-[#B38F4F]" />
+            {panel.eyebrow || "Local service"}
+          </div>
+          <h3 className="mt-1 font-heading text-xl font-medium text-[#0B1F33]">
+            {panel.title || "Useful downtown service"}
+          </h3>
+          <p className="mt-1.5 max-w-2xl text-[12px] leading-5 text-[#0B1F33]/64">
+            {panel.description || place.raw?.summary || "Save this local service for later, get directions, or contact the business directly."}
+          </p>
+        </div>
+        <div className="shrink-0 rounded-md bg-white/72 px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.09em] text-[#0B1F33]/58 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)]">
+          Service
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-2 sm:grid-cols-3">
+        <div className="dp-soft-tile p-2.5">
+          <div className="text-[9px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/45">Address</div>
+          <div className="mt-1 text-[12px] font-semibold leading-5 text-[#0B1F33]">{place.address || "Downtown Austin"}</div>
+        </div>
+        <div className="dp-soft-tile p-2.5">
+          <div className="text-[9px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/45">Phone</div>
+          <div className="mt-1 text-[12px] font-semibold leading-5 text-[#0B1F33]">{phone || "Not listed"}</div>
+        </div>
+        <div className="dp-soft-tile p-2.5">
+          <div className="text-[9px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/45">Best for</div>
+          <div className="mt-1 text-[12px] font-semibold leading-5 text-[#0B1F33]">Water, fire, storm, mold</div>
+        </div>
+      </div>
+
+      {gallery.length > 1 && (
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          {gallery.slice(1, 3).map((src) => (
+            <div key={src} className="h-24 overflow-hidden rounded-[10px] shadow-[0_10px_26px_rgba(11,31,51,0.08)]">
+              <img src={src} alt={`${place.name} service context`} className="h-full w-full object-cover" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {website && (
+        <a
+          href={website}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-4 inline-flex text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33] transition hover:text-[#B38F4F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+        >
+          Visit website
+        </a>
+      )}
+    </section>
+  );
+}
+
 function ResidentPerkDetails({ place }) {
   const perk = getResidentPerkDetails(place);
   const hasOffer = Boolean(perk.offer);
@@ -791,14 +858,14 @@ function LegendsContactForm({ listing }) {
     >
       <div className="flex items-start gap-3">
         <img
-          src="/pins/downtown-perks/legends-logo.png"
+          src="/pins/downtown-perks/legends-logo.avif"
           alt=""
-          className="h-9 w-9 rounded-lg bg-[#0B1F33] object-cover shadow-[0_10px_24px_rgba(11,31,51,0.12)]"
+          className="h-10 w-10 shrink-0 object-contain"
         />
         <div>
           <h3 className="text-[15px] font-semibold text-[#0B1F33]">Contact Legends Real Estate about this listing</h3>
           <p className="mt-1 text-[12px] leading-5 text-[#0B1F33]/64">
-            Send a quick request and the Legends Real Estate team will follow up with details, availability, and next steps for this property.
+            Send a quick request tied to this listing. Legends Real Estate will follow up with availability, showing options, and the next useful details.
           </p>
         </div>
       </div>
@@ -864,9 +931,9 @@ function LegendsListingDetails({ listing }) {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex min-w-0 items-start gap-3">
           <img
-            src="/pins/downtown-perks/legends-logo.png"
+            src="/pins/downtown-perks/legends-logo.avif"
             alt="Legends Real Estate"
-            className="h-11 w-11 shrink-0 rounded-xl bg-[#0B1F33] object-cover shadow-[0_12px_28px_rgba(11,31,51,0.14)]"
+            className="h-12 w-12 shrink-0 object-contain"
           />
           <div className="min-w-0">
             <div className="inline-flex rounded-md bg-[#0B1F33] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-white shadow-[0_0_20px_rgba(179,143,79,0.14)]">
@@ -904,6 +971,13 @@ function LegendsListingDetails({ listing }) {
 }
 
 function getLifestyleImage(place, mode) {
+  if (typeof place?.image === "string" && place.image.trim()) {
+    return place.image;
+  }
+  if (typeof place?.raw?.image === "string" && place.raw.image.trim()) {
+    return place.raw.image;
+  }
+
   const text = placeText(place);
   if (mode === "partner" && (text.includes("hotel") || text.includes("hospitality"))) {
     return "/images/partners/hospitality-rooftop-social.png";
@@ -922,6 +996,9 @@ function getResidentDetailAction(place) {
   const category = String(place?.category || "").toLowerCase();
   const type = String(place?.type || "").toLowerCase();
 
+  if (type === "service" || category.includes("service") || category.includes("restoration") || coreText.includes("restoration")) {
+    return { label: "More Services", href: "/map?mode=resident&tab=map&filter=Services" };
+  }
   if (isHappyHourEntity(place)) {
     return { label: "Happy Hours", href: "/map?mode=resident&tab=map&filter=Happy%20Hours" };
   }
@@ -944,6 +1021,10 @@ function getResidentEntityKind(place) {
   const text = placeCoreText(place);
   const category = String(place?.category || "").toLowerCase();
   const type = String(place?.type || "").toLowerCase();
+
+  if (type === "service" || category.includes("service") || category.includes("restoration") || text.includes("restoration")) {
+    return "service";
+  }
 
   if (isHappyHourEntity(place)) {
     return "happy_hour";
@@ -2531,12 +2612,15 @@ export default function MapPage() {
                   const legendsListing = getLegendsListing(selected);
                   const isProperty = entityKind === "property";
                   const isEvent = entityKind === "event";
+                  const isService = entityKind === "service";
                   const isHappyHour = entityKind === "happy_hour";
                   const isPerk = entityKind === "perk" || entityKind === "place" || entityKind === "hotel" || entityKind === "brand" || isHappyHour;
                   return (
                     <>
                       {legendsListing ? (
                         <LegendsListingDetails listing={legendsListing} />
+                      ) : isService ? (
+                        <BusinessServiceDetails place={selected} />
                       ) : isHappyHour ? (
                         <HappyHourDetails place={selected} />
                       ) : (
@@ -2566,7 +2650,7 @@ export default function MapPage() {
                           </button>
                         )}
                         <button type="button" onClick={() => toggleSaved(selected)} className="dp-drawer-action">
-                          {savedIds.has(selected.id) ? "Added to Card" : "Save to Card"}
+                          {isService ? (savedIds.has(selected.id) ? "Saved" : "Save") : (savedIds.has(selected.id) ? "Added to Card" : "Save to Card")}
                         </button>
                         <a href={directionsUrl(selected)} target="_blank" rel="noreferrer" className="dp-drawer-action">
                           Get Directions
@@ -2576,7 +2660,7 @@ export default function MapPage() {
                             {selectedResidentAction.label}
                           </Link>
                         )}
-                        {!isProperty && !isEvent && (
+                        {!isProperty && !isEvent && !isService && (
                           <Link to={mapRoutes.partners} className="dp-drawer-action">List Your Business</Link>
                         )}
                       </div>

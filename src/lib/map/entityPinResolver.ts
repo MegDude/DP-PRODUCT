@@ -48,10 +48,6 @@ export function resolveEntityPin(entity: Record<string, unknown>) {
   if (entityTypeText.includes("happy_hour") || entityTypeText.includes("happy hour")) return getPinAsset("happy-hour");
   if (entityTypeText.includes("event")) return getPinAsset("event");
 
-  const categoryText = [entity.category, entity.category_key, entity.type].filter(Boolean).join(" ").toLowerCase();
-  const categoryMatch = CATEGORY_PIN_MAP.find(([, tokens]) => tokens.some((token) => categoryText.includes(token)));
-  if (categoryMatch) return getPinAsset(categoryMatch[0]);
-
   const text = [
     entity.id,
     entity.name,
@@ -60,10 +56,19 @@ export function resolveEntityPin(entity: Record<string, unknown>) {
     entity.partnerType,
     entity.brand,
     entity.source,
+    entity.osm_type,
   ]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
+
+  if (PIN_MATCHERS.find(([, tokens]) => tokens.some((token) => text.includes(token)))?.[0] === "legends") {
+    return getPinAsset("legends");
+  }
+
+  const categoryText = [entity.category, entity.category_key, entity.type].filter(Boolean).join(" ").toLowerCase();
+  const categoryMatch = CATEGORY_PIN_MAP.find(([, tokens]) => tokens.some((token) => categoryText.includes(token)));
+  if (categoryMatch) return getPinAsset(categoryMatch[0]);
 
   const match = PIN_MATCHERS.find(([, tokens]) => tokens.some((token) => text.includes(token)));
   const fallbackByType = String(entity.type || entity.category || "").toLowerCase();

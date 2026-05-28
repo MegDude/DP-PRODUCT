@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  ArrowLeft,
   ArrowRight,
   Building2,
   CheckCircle2,
@@ -10,7 +9,6 @@ import {
   Navigation,
   QrCode,
   Sparkles,
-  X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -84,28 +82,29 @@ const pathCards = [
 
 const lifestyleTiles = [
   {
-    image:
-      "https://images.unsplash.com/photo-1531218150217-54595bc2b934?auto=format&fit=crop&w=600&q=80",
-    label: "Walkable plans",
-    className: "left-[6%] top-[9%] h-20 w-28",
+    image: "/images/splash/walkable-map.png",
+    label: "Walkable map",
+    className: "left-[5%] top-[7%] h-24 w-36 sm:h-28 sm:w-44",
+    drift: { x: [0, 8, -3, 0], y: [0, -8, 5, 0], opacity: [0.62, 0.9, 0.7, 0.62] },
   },
   {
     image:
       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80",
     label: "Coffee nearby",
-    className: "right-[7%] top-[12%] h-24 w-32",
+    className: "right-[6%] top-[10%] h-24 w-36 sm:h-28 sm:w-40",
+    drift: { x: [0, -6, 3, 0], y: [0, 7, -4, 0], opacity: [0.52, 0.76, 0.58, 0.52] },
   },
   {
-    image:
-      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
+    image: "/images/splash/resident-access.jpeg",
     label: "Resident access",
-    className: "left-[10%] bottom-[10%] h-24 w-36",
+    className: "left-[9%] bottom-[8%] h-28 w-40 sm:h-32 sm:w-48",
+    drift: { x: [0, 7, -5, 0], y: [0, 8, -5, 0], opacity: [0.58, 0.86, 0.68, 0.58] },
   },
   {
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80",
+    image: "/images/splash/rooftop-nearby.jpeg",
     label: "Rooftop nearby",
-    className: "right-[10%] bottom-[12%] h-20 w-32",
+    className: "right-[8%] bottom-[9%] h-24 w-40 sm:h-28 sm:w-48",
+    drift: { x: [0, -8, 4, 0], y: [0, -6, 6, 0], opacity: [0.58, 0.88, 0.66, 0.58] },
   },
 ];
 
@@ -186,15 +185,24 @@ function ChoosePathStoryboard() {
           {lifestyleTiles.map((tile, index) => (
             <motion.div
               key={tile.label}
-              className={`absolute z-0 overflow-hidden bg-white/70 shadow-[0_14px_34px_rgba(11,31,51,0.10)] ${tile.className}`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: current === "load" ? 0 : 0.34, y: 0 }}
-              transition={{ delay: 0.2 + index * 0.1, duration: 0.55 }}
+              className={`absolute z-0 overflow-hidden bg-white/70 shadow-[0_18px_42px_rgba(11,31,51,0.13),0_0_34px_rgba(179,143,79,0.14)] ${tile.className}`}
+              initial={{ opacity: 0, y: 10, scale: 0.96 }}
+              animate={{
+                opacity: tile.drift.opacity,
+                x: tile.drift.x,
+                y: tile.drift.y,
+                scale: [0.98, 1.035, 1],
+              }}
+              transition={{
+                delay: index * 0.12,
+                duration: 7 + index * 0.7,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
               aria-hidden="true"
             >
-              <img src={tile.image} alt="" className="h-full w-full object-cover" />
-              <div className="absolute inset-0 bg-white/28" />
-              <div className="absolute bottom-0 left-0 right-0 bg-white/82 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.12em] text-[#0B1F33]/48">
+              <img src={tile.image} alt="" loading="eager" decoding="async" className="h-full w-full object-cover" />
+              <div className="absolute bottom-0 left-0 right-0 bg-white/66 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.12em] text-[#0B1F33]/60">
                 {tile.label}
               </div>
             </motion.div>
@@ -213,27 +221,6 @@ function ChoosePathStoryboard() {
             transition={{ duration: 1.1, ease: "easeInOut" }}
           />
         </svg>
-
-        <AnimatePresence>
-          {current === "load" && (
-            <div className="absolute inset-0 z-10 grid grid-cols-3 gap-2 p-4 sm:gap-3 sm:p-6">
-              {[0, 1, 2].map((item) => (
-                <motion.div
-                  key={item}
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 0.54, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ delay: item * 0.12, duration: 0.4 }}
-                  className="bg-[#EEF0F2] p-3 sm:p-4"
-                >
-                  <div className="h-20 bg-white/70" />
-                  <div className="mt-4 h-2 w-2/3 bg-white/80" />
-                  <div className="mt-2 h-2 w-1/2 bg-white/80" />
-                </motion.div>
-              ))}
-            </div>
-          )}
-        </AnimatePresence>
 
         {current !== "load" &&
           pathCards.map((card) => (
@@ -283,7 +270,7 @@ function ChoosePathStoryboard() {
         </AnimatePresence>
       </div>
 
-      <div className="mt-3 grid gap-2 sm:grid-cols-3">
+      <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
         {signalPoints.map((point, index) => {
           const Icon = point.icon;
           const isActive = activeSignalByStep[current] === index;
@@ -292,7 +279,7 @@ function ChoosePathStoryboard() {
             <motion.div
               key={point.label}
               animate={{ y: isActive ? -2 : 0 }}
-              className={`bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition ${
+              className={`min-w-[150px] shrink-0 bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition sm:min-w-0 sm:flex-1 ${
                 isActive ? "shadow-[inset_0_0_0_1px_rgba(179,143,79,0.28),0_12px_28px_rgba(11,31,51,0.08)]" : ""
               }`}
             >
@@ -304,6 +291,16 @@ function ChoosePathStoryboard() {
             </motion.div>
           );
         })}
+        <Link
+          to="/map?mode=resident&tab=map"
+          className="min-w-[150px] shrink-0 bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.28),0_12px_28px_rgba(11,31,51,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:min-w-0 sm:flex-1"
+        >
+          <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/45">
+            <ArrowRight className="h-3.5 w-3.5 text-[#B38F4F]" />
+            Open map
+          </div>
+          <div className="mt-1 text-[13px] font-semibold text-[#0B1F33]">Resident map</div>
+        </Link>
       </div>
     </>
   );
@@ -335,34 +332,38 @@ export default function SplashPage() {
             <div className="absolute inset-0 bg-[#0B1F33]/42" />
             <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(11,31,51,0.86),rgba(11,31,51,0.18)_48%,rgba(11,31,51,0.62))]" />
 
-            <div className="absolute left-4 right-4 top-4 flex items-center justify-between gap-3 md:left-6 md:right-6">
+            <div className="absolute left-4 right-4 top-[84px] z-10 flex justify-end md:left-6 md:right-6">
               <button
                 type="button"
                 onClick={() => setShowIntro(false)}
-                className="inline-flex h-9 items-center gap-2 rounded-md bg-white/12 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_0_0_1px_rgba(255,255,255,0.10),0_14px_34px_rgba(0,0,0,0.18)] transition hover:bg-white/18 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.24),0_14px_34px_rgba(0,0,0,0.18),0_0_28px_rgba(179,143,79,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
-                aria-label="Back to audience gateway"
+                className="inline-flex h-9 items-center rounded-md bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/76 shadow-[0_14px_34px_rgba(0,0,0,0.14),0_0_24px_rgba(255,255,255,0.06)] backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/16 hover:text-white hover:shadow-[0_14px_34px_rgba(0,0,0,0.16),0_0_28px_rgba(179,143,79,0.12)] focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_rgba(179,143,79,0.32),0_14px_34px_rgba(0,0,0,0.16)]"
               >
-                <ArrowLeft className="h-3.5 w-3.5 text-[#B38F4F]" />
-                Back
+                Skip
               </button>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setShowIntro(false)}
-                  className="inline-flex h-9 items-center rounded-md bg-white px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(255,255,255,0.18),0_14px_34px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.28),0_14px_34px_rgba(0,0,0,0.18),0_0_30px_rgba(179,143,79,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
-                >
-                  Skip
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowIntro(false)}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white/12 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.10),0_14px_34px_rgba(0,0,0,0.18)] transition hover:bg-white/18 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.24),0_14px_34px_rgba(0,0,0,0.18),0_0_28px_rgba(179,143,79,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
-                  aria-label="Close animation"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
             </div>
+
+            <motion.div
+              className="pointer-events-none absolute left-1/2 top-[45%] z-10 w-[min(88vw,520px)] -translate-x-1/2 -translate-y-1/2 text-center"
+              initial={{ opacity: 0, y: 14, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="mx-auto inline-flex items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/70 shadow-[0_14px_34px_rgba(0,0,0,0.14),0_0_24px_rgba(255,255,255,0.06)] backdrop-blur-md">
+                <Sparkles className="h-3.5 w-3.5 text-[#B38F4F]" />
+                Search less. Spend less. Do more.
+              </div>
+              <div className="mt-4 rounded-md bg-white/[0.075] px-4 py-4 shadow-[0_18px_48px_rgba(0,0,0,0.16),0_0_32px_rgba(179,143,79,0.08)] backdrop-blur-md">
+                <p className="font-heading text-[22px] font-medium leading-tight text-white/88 md:text-[28px]">
+                  The map, the card, and what is happening nearby.
+                </p>
+                <div className="mt-3 flex flex-wrap justify-center gap-x-3 gap-y-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/48">
+                  <span>Places</span>
+                  <span className="text-[#B38F4F]/75">Perks</span>
+                  <span>Events</span>
+                  <span className="text-[#B38F4F]/75">Listings</span>
+                </div>
+              </div>
+            </motion.div>
 
             <div className="absolute inset-x-0 bottom-0 px-5 pb-8 md:pb-12">
               <motion.div
@@ -406,17 +407,14 @@ export default function SplashPage() {
           >
             <div className="inline-flex items-center gap-2 rounded-md bg-white/86 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B1F33]/58 shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_34px_rgba(11,31,51,0.07),0_0_28px_rgba(179,143,79,0.06)]">
               <Sparkles className="h-3.5 w-3.5 text-[#B38F4F]" />
-              Audience gateway
+              Downtown Perks
             </div>
 
             <h1 className="mt-6 max-w-3xl font-heading text-[42px] font-medium leading-[0.98] md:text-[72px]">
-              Pick your experience.
+              Whether you’re making plans or part of them.
             </h1>
-            <p className="mt-5 max-w-2xl font-heading text-2xl italic leading-tight text-[#0B1F33] md:text-3xl">
-              One downtown layer. Two useful paths.
-            </p>
             <p className="mt-5 max-w-xl text-[14px] leading-7 text-[#0B1F33]/64">
-              Residents use Downtown Perks to decide what to do nearby. Partners use it to understand where and when to participate.
+              Built for the people who actually live downtown — helping residents find what’s nearby and helping local businesses get noticed.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -444,19 +442,6 @@ export default function SplashPage() {
           >
             <div className="pointer-events-none absolute -right-20 -top-24 h-52 w-52 rounded-full bg-[#B38F4F]/16 blur-3xl transition duration-300 group-hover:bg-[#B38F4F]/22" />
             <div className="relative rounded-md bg-[#F7F8FB]/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <div>
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B1F33]/48">Choose path</div>
-                  <div className="mt-1 text-[13px] font-semibold text-[#0B1F33]">Resident or partner</div>
-                </div>
-                <Link
-                  to="/map?mode=resident&tab=map"
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-[#0B1F33] px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-white transition hover:shadow-[0_0_0_3px_rgba(179,143,79,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
-                >
-                  Open map
-                </Link>
-              </div>
-
               <ChoosePathStoryboard />
             </div>
           </motion.div>

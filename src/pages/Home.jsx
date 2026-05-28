@@ -281,21 +281,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="pricing" className="relative bg-white px-5 py-12 shadow-[inset_0_24px_60px_rgba(247,248,251,0.9),inset_0_-24px_60px_rgba(247,248,251,0.72)] md:py-16">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.24),transparent)]" aria-hidden="true" />
+      <section id="pricing" className="relative overflow-hidden bg-[#0B1F33] px-5 py-12 text-[#F7F1E8] shadow-[inset_0_1px_0_rgba(179,143,79,0.18),0_-18px_60px_rgba(11,31,51,0.08)] md:py-16">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.5),transparent)]" aria-hidden="true" />
+        <div className="pointer-events-none absolute -left-16 top-1/2 h-56 w-56 -translate-y-1/2 bg-[#B38F4F]/12 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute right-[8%] top-0 h-40 w-40 bg-white/6 blur-3xl" aria-hidden="true" />
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-          <div>
+          <div className="relative">
             <span className="dp-label mb-3 block">Pricing</span>
             <h2 className="font-heading text-3xl font-medium">
               {isPartner ? "A smarter way to activate downtown" : "Ready when you are."}
             </h2>
-            <p className="mt-3 text-[14px] leading-relaxed text-[#0B1F33]/64">
+            <p className="mt-3 text-[14px] leading-relaxed text-[#F7F1E8]/66">
               {isPartner
                 ? "Final pricing reflects footprint, visibility, and activation."
                 : "It’s 6:30. You’re home. You want dinner, a drink, or something to do without scrolling for 20 minutes. You pick what’s close, what’s open, and what sounds fun."}
             </p>
           </div>
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="relative grid gap-3 md:grid-cols-3">
             {(isPartner
                 ? [
                   ["Properties", "$199 / year"],
@@ -308,9 +310,9 @@ export default function Home() {
                   ["Events", "RSVP in one tap"],
                 ]
             ).map(([label, value]) => (
-              <div key={label} className="bg-[#F7F8FB] p-5 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_0_30px_rgba(179,143,79,0.04)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.14),0_16px_34px_rgba(11,31,51,0.08)]">
-                <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">{label}</div>
-                <div className="mt-2 text-xl font-semibold">{value}</div>
+              <div key={label} className="bg-white/7 p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0_16px_34px_rgba(0,0,0,0.10),0_0_30px_rgba(179,143,79,0.06)] transition hover:-translate-y-0.5 hover:bg-white/10 hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.22),0_18px_38px_rgba(0,0,0,0.14),0_0_34px_rgba(179,143,79,0.10)]">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">{label}</div>
+                <div className="mt-2 text-xl font-semibold text-white">{value}</div>
               </div>
             ))}
           </div>

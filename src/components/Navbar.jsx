@@ -33,23 +33,14 @@ const FEATURED_LINKS = [
 ];
 
 const HAMBURGER_RESIDENT_LINKS = [
-  { to: "/residents", label: "Resident home" },
-  { to: "/residents/map", label: "Live map" },
+  { to: "/residents/map", label: "Map" },
   { to: "/residents/events", label: "Events" },
-  { to: "/residents/perks", label: "Perks" },
-  { to: "/residents/card", label: "Perks card" },
-  { to: "/residents/about", label: "About" },
+  { to: "/residents/card", label: "Perks Card" },
 ];
 
 const HAMBURGER_PARTNER_LINKS = [
-  { to: "/partners", label: "Partner home" },
   { to: "/partners/pricing", label: "Pricing" },
-  { to: "/partners/properties", label: "Properties" },
-  { to: "/partners/hospitality", label: "Hotels" },
-  { to: "/partners/venues", label: "Venues" },
-  { to: "/partners/brands", label: "Brands" },
-  { to: "/partners/civic", label: "Civic" },
-  { to: "/partners/dashboard", label: "Dashboard" },
+  { to: "/partners#contact", label: "Contact" },
 ];
 
 function NavLinkItem({ link, className, onClick, children }) {
@@ -82,8 +73,8 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
         aria-controls={`${id}-navigation`}
         className={`inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-[12px] font-semibold uppercase tracking-[0.14em] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
           isActiveGroup
-            ? "bg-[#0B1F33] text-white shadow-[0_10px_28px_rgba(11,31,51,0.14)]"
-            : "text-[#0B1F33]/68 hover:bg-white hover:text-[#0B1F33]"
+            ? "bg-[#B38F4F] text-[#0B1F33] shadow-[0_10px_28px_rgba(0,0,0,0.18),0_0_24px_rgba(179,143,79,0.14)]"
+            : "text-[#F7F1E8]/72 hover:bg-white/8 hover:text-[#F7F1E8]"
         }`}
       >
         {label}
@@ -134,6 +125,7 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(null);
+  const [mobileAudience, setMobileAudience] = useState("residents");
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
@@ -146,6 +138,7 @@ export default function Navbar() {
   useEffect(() => {
     setOpen(false);
     setOpenMenu(null);
+    setMobileAudience(location.pathname.startsWith("/partners") || location.search.includes("mode=partner") ? "partners" : "residents");
   }, [location.pathname, location.search, location.hash]);
 
   useEffect(() => {
@@ -202,18 +195,18 @@ export default function Navbar() {
   return (
     <nav
       data-dp-nav-root
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
+      className={`fixed left-0 right-0 top-0 z-[1200] pointer-events-auto isolate transition-all duration-300 ${
         scrolled
-          ? "bg-white shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_36px_rgba(11,31,51,0.08)]"
-          : "bg-white shadow-[0_0_0_1px_rgba(11,31,51,0.025)]"
+          ? "bg-[#0B1F33] text-[#F7F1E8] shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_14px_40px_rgba(11,31,51,0.20)]"
+          : "bg-[#0B1F33] text-[#F7F1E8] shadow-[0_0_0_1px_rgba(179,143,79,0.10)]"
       }`}
     >
       <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-5">
         <Link to="/" className="group flex shrink-0 items-center gap-2.5" aria-label="Downtown Perks home">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-white shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_8px_22px_rgba(11,31,51,0.08)]">
-            <MapPin className="h-3.5 w-3.5 text-[#B38F4F]" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#B38F4F] shadow-[0_0_0_1px_rgba(255,255,255,0.10),0_8px_22px_rgba(0,0,0,0.16)]">
+            <MapPin className="h-3.5 w-3.5 text-[#0B1F33]" />
           </div>
-          <span className="font-heading text-[15px] font-medium tracking-normal text-[#0B1F33]">
+          <span className="font-heading text-[15px] font-medium tracking-normal text-[#F7F1E8]">
             Downtown Perks
           </span>
         </Link>
@@ -245,8 +238,8 @@ export default function Navbar() {
                 link={link}
                 className={`inline-flex h-9 items-center justify-center rounded-md px-3 text-[11px] font-semibold uppercase tracking-[0.14em] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
                   isActive(link.to)
-                    ? "bg-[#0B1F33] text-white"
-                    : "bg-white text-[#0B1F33]/70 shadow-[0_0_0_1px_rgba(11,31,51,0.035)] hover:text-[#0B1F33] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_10px_24px_rgba(11,31,51,0.06)]"
+                    ? "bg-[#B38F4F] text-[#0B1F33]"
+                    : "bg-white/8 text-[#F7F1E8]/72 shadow-[0_0_0_1px_rgba(255,255,255,0.06)] hover:bg-white/12 hover:text-[#F7F1E8] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(0,0,0,0.14)]"
                 }`}
               />
             ))}
@@ -257,7 +250,7 @@ export default function Navbar() {
             onClick={() => setOpen(!open)}
             aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white text-[#0B1F33]/78 shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_8px_24px_rgba(11,31,51,0.08)] transition-all hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.16),0_10px_26px_rgba(11,31,51,0.08),0_0_24px_rgba(179,143,79,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white/10 text-[#F7F1E8] shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_8px_24px_rgba(0,0,0,0.14)] transition-all hover:-translate-y-0.5 hover:bg-white/14 hover:text-[#B38F4F] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_10px_26px_rgba(0,0,0,0.16),0_0_24px_rgba(179,143,79,0.10)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
           >
             {open ? <X className="h-[18px] w-[18px]" /> : <Menu className="h-[18px] w-[18px]" />}
           </button>
@@ -271,23 +264,49 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-0 right-0 top-[68px] bg-white shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_24px_80px_rgba(11,31,51,0.14),0_0_54px_rgba(179,143,79,0.08)] [backdrop-filter:none] [-webkit-backdrop-filter:none]"
+            className="fixed left-0 right-0 top-[68px] z-[1201] pointer-events-auto bg-white/94 shadow-[0_0_0_1px_rgba(179,143,79,0.12),0_24px_80px_rgba(11,31,51,0.14),0_0_54px_rgba(179,143,79,0.05)] backdrop-blur-xl"
           >
-            <div className="mx-auto grid max-h-[calc(100vh-68px)] max-w-5xl gap-3 overflow-y-auto px-5 py-4 md:grid-cols-2">
-              <NavSection
-                eyebrow="Residents"
-                title="Live downtown"
-                cta={{ to: "/residents/map", label: "Open map" }}
-                links={HAMBURGER_RESIDENT_LINKS}
-                close={() => setOpen(false)}
-              />
-              <NavSection
-                eyebrow="Partners"
-                title="Work with Downtown Perks"
-                cta={{ to: "/partners/pricing", label: "Pricing" }}
-                links={HAMBURGER_PARTNER_LINKS}
-                close={() => setOpen(false)}
-              />
+            <div className="mx-auto max-h-[calc(100vh-68px)] max-w-4xl overflow-y-auto px-5 py-5">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-sm bg-[#0B1F33] text-[#B38F4F] shadow-[0_10px_24px_rgba(11,31,51,0.10)]">
+                    <MapPin className="h-3.5 w-3.5" />
+                  </span>
+                  <span className="font-heading text-[16px] font-medium text-[#0B1F33]">Downtown Perks</span>
+                </Link>
+
+                <div className="flex shrink-0 items-center gap-1 bg-[#F7F8FB] p-1 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.045)]" role="tablist" aria-label="Navigation audience">
+                  {[
+                    ["residents", "Residents"],
+                    ["partners", "Partners"],
+                  ].map(([value, label]) => (
+                    <button
+                      key={value}
+                      type="button"
+                      role="tab"
+                      aria-selected={mobileAudience === value}
+                      onClick={() => setMobileAudience(value)}
+                      className={`h-8 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
+                        mobileAudience === value
+                          ? "bg-[#0B1F33] text-white shadow-[0_10px_24px_rgba(11,31,51,0.12)]"
+                          : "text-[#0B1F33]/54 hover:text-[#0B1F33]"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-5 h-px bg-[linear-gradient(90deg,rgba(11,31,51,0.08),rgba(179,143,79,0.22),rgba(11,31,51,0.04))]" />
+
+              <div className="pt-5">
+                <NavSection
+                  title={mobileAudience === "residents" ? "Residents" : "Partners"}
+                  links={mobileAudience === "residents" ? HAMBURGER_RESIDENT_LINKS : HAMBURGER_PARTNER_LINKS}
+                  close={() => setOpen(false)}
+                />
+              </div>
             </div>
           </motion.div>
         )}
@@ -297,30 +316,22 @@ export default function Navbar() {
   );
 }
 
-function NavSection({ eyebrow, title, cta, links, close }) {
+function NavSection({ title, links, close }) {
   return (
-    <div className="overflow-hidden rounded-lg bg-white shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_16px_42px_rgba(11,31,51,0.08)] [backdrop-filter:none] [-webkit-backdrop-filter:none]">
-      <div className="flex items-center justify-between gap-3 bg-[#0B1F33] px-4 py-3 text-white shadow-[0_12px_30px_rgba(11,31,51,0.12)]">
-        <div>
-          <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/52">{eyebrow}</div>
-          <div className="mt-0.5 text-[13px] font-semibold text-white">{title}</div>
-        </div>
-        <NavLinkItem
-          link={cta}
-          onClick={close}
-          className="inline-flex h-8 items-center justify-center rounded-md bg-white px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_8px_20px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179,143,79,0.28),0_10px_24px_rgba(0,0,0,0.14),0_0_24px_rgba(179,143,79,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
-        />
+    <div>
+      <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38F4F]">
+        {title}
       </div>
-      <div className="grid gap-0 p-2">
+      <div className="mt-3 grid gap-1">
         {links.map((link) => (
           <NavLinkItem
             key={link.to}
             link={link}
             onClick={close}
-            className="flex items-center justify-between rounded-md px-3 py-2.5 text-[13px] font-semibold text-[#0B1F33] transition-all hover:-translate-y-0.5 hover:bg-[#F7F8FB] hover:shadow-[inset_0_0_0_1px_rgba(179,143,79,0.14),0_10px_26px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+            className="group flex items-center justify-between px-0 py-2 text-[15px] font-medium text-[#0B1F33] transition-all hover:translate-x-0.5 hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
           >
             <span>{link.label}</span>
-            <span className="text-[#B38F4F]">→</span>
+            <span className="text-[#B38F4F]/70 transition group-hover:translate-x-0.5 group-hover:text-[#B38F4F]">→</span>
           </NavLinkItem>
         ))}
       </div>

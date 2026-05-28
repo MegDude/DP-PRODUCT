@@ -69,7 +69,7 @@ export default function UnifiedSearchBar() {
 
   return (
     <motion.div
-      className="w-full max-w-4xl mx-auto px-4 md:px-5"
+      className="relative z-[1300] w-full max-w-4xl mx-auto px-4 md:px-5"
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
     >
@@ -110,8 +110,8 @@ export default function UnifiedSearchBar() {
             disabled={!isAI || aiLoading}
             className={`p-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
               isAI && !aiLoading
-                ? 'dp-glass-deep hover:border-[#B38F4F]/50'
-                : 'text-[#0B1F33]/50 opacity-60'
+                ? 'bg-white/82 text-[#B38F4F] shadow-[0_0_0_1px_rgba(179,143,79,0.18),0_10px_24px_rgba(11,31,51,0.06)] hover:text-[#B38F4F] hover:shadow-[0_0_0_1px_rgba(179,143,79,0.28),0_12px_30px_rgba(11,31,51,0.08)]'
+                : 'bg-white/58 text-[#B38F4F] opacity-80 shadow-[0_0_0_1px_rgba(179,143,79,0.10)]'
             }`}
             title="Ask the Map AI"
           >
@@ -130,7 +130,7 @@ export default function UnifiedSearchBar() {
               initial={{ opacity: 0, y: -8, height: 0 }}
               animate={{ opacity: 1, y: 0, height: 'auto' }}
               exit={{ opacity: 0, y: -8, height: 0 }}
-              className="dp-glass-card absolute top-full left-0 right-0 mt-2 overflow-hidden"
+              className="dp-glass-card absolute left-0 right-0 top-full z-[1400] mt-2 max-h-[min(420px,calc(100vh-150px))] overflow-y-auto bg-white/94 shadow-[0_24px_70px_rgba(11,31,51,0.16),0_0_0_1px_rgba(179,143,79,0.10)]"
             >
               {SEARCH_PROMPTS.map((prompt, i) => (
                 <button

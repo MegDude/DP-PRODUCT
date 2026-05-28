@@ -57,9 +57,9 @@ export default function AskMapAgent() {
             </p>
           </div>
 
-          <form onSubmit={submit} className="dp-glass p-3">
-            <label className="flex h-10 items-center gap-3 border border-[#0B1F33]/10 bg-white/78 px-4">
-              <Search className="h-4 w-4 text-[#0B1F33]/48" />
+          <form onSubmit={submit} className="dp-glass p-3 shadow-[0_18px_48px_rgba(11,31,51,0.08),0_0_34px_rgba(179,143,79,0.08)]">
+            <label className="flex h-10 items-center gap-3 border border-[#B38F4F]/18 bg-white/82 px-4 focus-within:border-[#B38F4F]/42">
+              <Search className="h-4 w-4 text-[#B38F4F]" />
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
@@ -73,7 +73,7 @@ export default function AskMapAgent() {
                   key={prompt}
                   type="button"
                   onClick={() => setQuery(prompt)}
-                  className="border border-[#0B1F33]/8 bg-white/72 px-3 py-2 text-left text-[12px] text-[#0B1F33]/68 transition-colors hover:border-[#B38F4F]/50 hover:text-[#0B1F33]"
+                  className="border border-[#B38F4F]/12 bg-white/72 px-3 py-2 text-left text-[12px] text-[#0B1F33]/68 transition-colors hover:border-[#B38F4F]/50 hover:text-[#0B1F33]"
                 >
                   {prompt}
                 </button>

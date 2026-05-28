@@ -143,7 +143,7 @@ export default function ExploreRebuilt() {
           </UnifiedMapShell>
 
           {/* Floating search + filters (overlay) */}
-          <motion.div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-background/80 via-background/40 to-transparent p-4 space-y-3 pointer-events-none">
+          <motion.div className="absolute top-0 left-0 right-0 z-[1200] bg-gradient-to-b from-background/80 via-background/40 to-transparent p-4 space-y-3 pointer-events-none">
             <div className="pointer-events-auto">
               <UnifiedSearchBar />
             </div>
@@ -180,7 +180,7 @@ export default function ExploreRebuilt() {
           />
 
           {/* Floating controls (top overlay) */}
-          <motion.div className="absolute top-6 left-6 right-6 z-20 space-y-3 pointer-events-none">
+          <motion.div className="absolute top-6 left-6 right-6 z-[1200] space-y-3 pointer-events-none">
             <div className="pointer-events-auto">
               <UnifiedSearchBar />
             </div>

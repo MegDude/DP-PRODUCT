@@ -139,13 +139,13 @@ export default function PerksCard() {
 
             <div className="relative mt-5 h-44 w-full overflow-hidden rounded-[14px] border border-[#0B1F33]/8 shadow-[0_8px_24px_rgba(11,31,51,.06)]">
               <img
-                src="/images/residents/downtown-rooftop-evening.png"
-                alt="Downtown Austin resident lifestyle"
+                src="/images/venues/downtown-dining-patio.png"
+                alt="Residents using Downtown Perks at a partner venue"
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F33]/30 via-transparent to-transparent" />
-              <div className="absolute bottom-3 left-3 rounded-md border border-white/30 bg-white/82 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33] backdrop-blur-md">
-                Walkable resident access
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F33]/14 via-transparent to-transparent" />
+              <div className="absolute bottom-3 left-3 rounded-md border border-white/45 bg-white/90 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/86 shadow-[0_10px_26px_rgba(11,31,51,0.08)] backdrop-blur-[10px]">
+                Scan at partner venues
               </div>
             </div>
 

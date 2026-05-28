@@ -245,7 +245,12 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed left-0 right-0 top-[68px] z-[1201] pointer-events-auto border-t border-[#0B1F33]/8 bg-[#FAFAFC] shadow-[0_22px_72px_rgba(11,31,51,0.14)]"
+            className="fixed left-0 right-0 top-[68px] z-[1201] pointer-events-auto border-t border-[#0B1F33]/6 shadow-[0_22px_72px_rgba(11,31,51,0.12),inset_0_1px_0_rgba(255,255,255,0.72)]"
+            style={{
+              backgroundColor: "rgba(250, 250, 252, 0.91)",
+              backdropFilter: "blur(18px) saturate(1.08)",
+              WebkitBackdropFilter: "blur(18px) saturate(1.08)",
+            }}
           >
             <div className="mx-auto max-h-[calc(100vh-68px)] max-w-4xl overflow-y-auto px-5 py-5">
               <div className="flex items-center justify-between gap-4">

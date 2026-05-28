@@ -354,6 +354,7 @@ html {
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     transition: transform 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
+    overflow: visible;
   }
 
   .dp-live-pin::after {
@@ -364,6 +365,11 @@ html {
     border-radius: 999px;
     opacity: 0;
     content: "";
+  }
+
+  .leaflet-marker-icon.dp-leaflet-pin {
+    overflow: visible !important;
+    pointer-events: auto;
   }
 
   .dp-spatial-map {
@@ -400,10 +406,11 @@ html {
   }
 
   .dp-live-pin.is-pulsing {
-    border-color: rgba(179, 143, 79, 0.08);
+    border-color: rgba(179, 143, 79, 0.42);
     transform: translateY(-1px) scale(1.035);
     box-shadow:
-      0 0 0 5px rgba(255, 255, 255, 0.72),
+      0 0 0 5px rgba(255, 255, 255, 0.76),
+      0 0 26px rgba(179, 143, 79, 0.14),
       0 16px 38px rgba(11, 31, 51, 0.18);
   }
 
@@ -505,23 +512,52 @@ html {
   }
 
   .dp-live-pin--legends {
+    height: 48px;
+    width: 48px;
     border-color: rgba(179, 143, 79, 0.08);
     background: rgba(255, 255, 255, 0.96);
+    border-radius: 16px;
+    box-shadow:
+      0 0 0 4px rgba(255, 255, 255, 0.74),
+      0 0 28px rgba(179, 143, 79, 0.10),
+      0 14px 34px rgba(11, 31, 51, 0.14);
   }
 
   .dp-live-pin--legends .dp-live-pin__core {
+    height: 42px;
+    width: 42px;
     background: transparent;
     box-shadow: none;
+    overflow: visible;
   }
 
   .dp-live-pin--legends .dp-pin-logo {
+    height: 42px;
+    width: 42px;
     border-radius: 0;
     object-fit: contain;
+    transform: scale(1.08);
+    transform-origin: center;
   }
 
   .dp-live-pin--legends.is-selected {
+    height: 54px;
+    width: 54px;
     border-color: #B38F4F;
     box-shadow: 0 0 0 4px rgba(179, 143, 79, 0.08), 0 14px 32px rgba(11, 31, 51, 0.18);
+  }
+
+  .dp-live-pin--legends.is-selected .dp-live-pin__core,
+  .dp-live-pin--legends.is-pulsing .dp-live-pin__core {
+    height: 48px;
+    width: 48px;
+  }
+
+  .dp-live-pin--legends.is-selected .dp-pin-logo,
+  .dp-live-pin--legends.is-pulsing .dp-pin-logo {
+    height: 48px;
+    width: 48px;
+    transform: scale(1.06);
   }
 
   @keyframes dpPinPulse {
@@ -567,6 +603,17 @@ html {
     width: 24px;
   }
 
+  .dp-live-pin--legends .dp-live-pin__core .dp-pin-logo {
+    height: 42px;
+    width: 42px;
+  }
+
+  .dp-live-pin--legends.is-selected .dp-live-pin__core .dp-pin-logo,
+  .dp-live-pin--legends.is-pulsing .dp-live-pin__core .dp-pin-logo {
+    height: 48px;
+    width: 48px;
+  }
+
   [title] > .dp-pin-svg,
   [title] > span > .dp-pin-svg {
     height: 18px;
@@ -589,6 +636,17 @@ html {
       height: 28px;
       width: 28px;
     }
+  }
+
+  .leaflet-marker-icon .dp-live-pin--legends .dp-pin-logo {
+    height: 42px !important;
+    width: 42px !important;
+  }
+
+  .leaflet-marker-icon .dp-live-pin--legends.is-selected .dp-pin-logo,
+  .leaflet-marker-icon .dp-live-pin--legends.is-pulsing .dp-pin-logo {
+    height: 48px !important;
+    width: 48px !important;
   }
 
   .dp-map-cluster {

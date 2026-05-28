@@ -438,6 +438,29 @@ function getLegendsListing(place) {
   return listing && typeof listing === "object" ? listing : null;
 }
 
+function isLegendsMapPlace(place) {
+  return Boolean(getLegendsListing(place)) || String(place?.pinKey || place?.brand || place?.source || "").toLowerCase().includes("legends");
+}
+
+function getPlaceCoords(place) {
+  if (Array.isArray(place?.coords) && place.coords.length >= 2) return place.coords;
+  if (Number.isFinite(place?.latitude) && Number.isFinite(place?.longitude)) return [place.latitude, place.longitude];
+  return null;
+}
+
+function getMapDistanceScore(origin, candidate) {
+  const originCoords = getPlaceCoords(origin);
+  const candidateCoords = getPlaceCoords(candidate);
+  if (!originCoords || !candidateCoords) return Number.POSITIVE_INFINITY;
+
+  const [originLat, originLng] = originCoords;
+  const [candidateLat, candidateLng] = candidateCoords;
+  const latitudeScale = Math.cos(((originLat + candidateLat) / 2) * (Math.PI / 180));
+  const latDelta = candidateLat - originLat;
+  const lngDelta = (candidateLng - originLng) * latitudeScale;
+  return latDelta * latDelta + lngDelta * lngDelta;
+}
+
 function escapeHtmlAttribute(value) {
   return String(value || "")
     .replace(/&/g, "&amp;")
@@ -451,12 +474,24 @@ function pinIcon(place, selected, pulsing = false) {
   const isEventPin = isEventEntity(place);
   const isHappyHourPin = isHappyHourEntity(place);
   const legendsListing = getLegendsListing(place);
-  const isLegendsPin = legendsListing || String(place?.pinKey || place?.brand || place?.source || "").toLowerCase().includes("legends");
+  const isLegendsPin = isLegendsMapPlace(place);
   const eventPinClass = isEventPin ? "dp-live-pin--event" : "";
   const happyHourPinClass = isHappyHourPin ? "dp-live-pin--happy-hour" : "";
   const legendsPinClass = isLegendsPin ? "dp-live-pin--legends" : "";
-  const iconSize = isEventPin || isHappyHourPin ? (selected ? [32, 32] : [29, 29]) : selected ? [38, 38] : [34, 34];
-  const iconAnchor = isEventPin || isHappyHourPin ? (selected ? [16, 16] : [14.5, 14.5]) : selected ? [19, 19] : [17, 17];
+  const iconSize = isLegendsPin
+    ? (selected ? [54, 54] : [48, 48])
+    : isEventPin || isHappyHourPin
+      ? (selected ? [32, 32] : [29, 29])
+      : selected
+        ? [38, 38]
+        : [34, 34];
+  const iconAnchor = isLegendsPin
+    ? (selected ? [27, 27] : [24, 24])
+    : isEventPin || isHappyHourPin
+      ? (selected ? [16, 16] : [14.5, 14.5])
+      : selected
+        ? [19, 19]
+        : [17, 17];
   const ariaLabel = legendsListing ? `Legends listing at ${legendsListing.address}` : `${place.name} details`;
   return L.divIcon({
     className: "dp-leaflet-pin",
@@ -1438,6 +1473,10 @@ export default function MapPage() {
     ? `${contextCount} ${activeFilter === "All" ? "downtown places" : activeFilter.toLowerCase()}`
     : `No ${activeFilter === "All" ? "downtown places" : activeFilter.toLowerCase()} in this view`;
   const mapPlaces = displayPlaces.slice(0, 350);
+  const visibleLegendsPlaces = useMemo(
+    () => displayPlaces.filter((place) => isLegendsMapPlace(place) && getPlaceCoords(place)),
+    [displayPlaces],
+  );
   const clusteredMapItems = useMemo(
     () => clusterPlaces(mapPlaces, mapZoom, selectedId),
     [mapPlaces, mapZoom, selectedId],
@@ -1489,6 +1528,20 @@ export default function MapPage() {
     setPulsingPinId(place.id);
     setSelectedId(place.id);
     urlState.update({ entityId: place.id });
+  }
+
+  function selectNearestLegendsListing(place) {
+    if (!isLegendsMapPlace(place)) {
+      selectPlace(place);
+      return;
+    }
+
+    const nearest = visibleLegendsPlaces
+      .filter((candidate) => candidate.id !== place.id)
+      .map((candidate) => ({ candidate, score: getMapDistanceScore(place, candidate) }))
+      .sort((a, b) => a.score - b.score)[0]?.candidate;
+
+    selectPlace(nearest || place);
   }
 
   useEffect(() => {
@@ -1692,6 +1745,11 @@ export default function MapPage() {
                 eventHandlers={{
                   click: () => {
                     selectPlace(item.place);
+                  },
+                  dblclick: (event) => {
+                    event.originalEvent?.preventDefault?.();
+                    event.originalEvent?.stopPropagation?.();
+                    selectNearestLegendsListing(item.place);
                   },
                   tap: () => {
                     selectPlace(item.place);

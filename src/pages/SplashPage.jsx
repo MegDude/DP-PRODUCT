@@ -222,6 +222,33 @@ function ChoosePathStoryboard() {
           />
         </svg>
 
+        <div className="pointer-events-none absolute left-1/2 top-[47%] z-[15] w-[min(74vw,330px)] -translate-x-1/2 -translate-y-1/2 sm:top-[46%] sm:w-[340px]">
+          <motion.div
+            className="bg-white/76 px-3 py-2.5 text-center shadow-[0_18px_46px_rgba(11,31,51,0.10),0_0_34px_rgba(179,143,79,0.10)] sm:px-4 sm:py-3"
+            initial={{ opacity: 0, y: 8, scale: 0.98 }}
+            animate={{
+              opacity: current === "resolve" ? 0.78 : 0.94,
+              y: current === "load" ? 4 : 0,
+              scale: current === "load" ? 0.98 : 1,
+            }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+          >
+            <div className="flex items-center justify-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50 sm:text-[9px]">
+              <Sparkles className="h-3 w-3 text-[#B38F4F]" />
+              Search less. Spend less. Do more.
+            </div>
+            <div className="mt-1.5 font-heading text-[17px] font-medium leading-tight text-[#0B1F33] sm:text-[20px]">
+              The map, the card, and what is happening nearby.
+            </div>
+            <div className="mt-2 flex flex-wrap justify-center gap-x-2.5 gap-y-1 text-[8px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/42 sm:text-[9px]">
+              <span>Places</span>
+              <span className="text-[#B38F4F]">Perks</span>
+              <span>Events</span>
+              <span className="text-[#B38F4F]">Listings</span>
+            </div>
+          </motion.div>
+        </div>
+
         {current !== "load" &&
           pathCards.map((card) => (
             <FlowChip
@@ -336,34 +363,11 @@ export default function SplashPage() {
               <button
                 type="button"
                 onClick={() => setShowIntro(false)}
-                className="inline-flex h-9 items-center rounded-md bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/76 shadow-[0_14px_34px_rgba(0,0,0,0.14),0_0_24px_rgba(255,255,255,0.06)] backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/16 hover:text-white hover:shadow-[0_14px_34px_rgba(0,0,0,0.16),0_0_28px_rgba(179,143,79,0.12)] focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_rgba(179,143,79,0.32),0_14px_34px_rgba(0,0,0,0.16)]"
+                className="inline-flex h-9 items-center px-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70 transition hover:-translate-y-0.5 hover:text-white focus-visible:outline-none focus-visible:text-white"
               >
                 Skip
               </button>
             </div>
-
-            <motion.div
-              className="pointer-events-none absolute left-1/2 top-[45%] z-10 w-[min(88vw,520px)] -translate-x-1/2 -translate-y-1/2 text-center"
-              initial={{ opacity: 0, y: 14, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <div className="mx-auto inline-flex items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/70 shadow-[0_14px_34px_rgba(0,0,0,0.14),0_0_24px_rgba(255,255,255,0.06)] backdrop-blur-md">
-                <Sparkles className="h-3.5 w-3.5 text-[#B38F4F]" />
-                Search less. Spend less. Do more.
-              </div>
-              <div className="mt-4 rounded-md bg-white/[0.075] px-4 py-4 shadow-[0_18px_48px_rgba(0,0,0,0.16),0_0_32px_rgba(179,143,79,0.08)] backdrop-blur-md">
-                <p className="font-heading text-[22px] font-medium leading-tight text-white/88 md:text-[28px]">
-                  The map, the card, and what is happening nearby.
-                </p>
-                <div className="mt-3 flex flex-wrap justify-center gap-x-3 gap-y-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/48">
-                  <span>Places</span>
-                  <span className="text-[#B38F4F]/75">Perks</span>
-                  <span>Events</span>
-                  <span className="text-[#B38F4F]/75">Listings</span>
-                </div>
-              </div>
-            </motion.div>
 
             <div className="absolute inset-x-0 bottom-0 px-5 pb-8 md:pb-12">
               <motion.div
@@ -372,7 +376,7 @@ export default function SplashPage() {
                 transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
                 className="mx-auto max-w-6xl"
               >
-                <div className="inline-flex items-center gap-2 rounded-md bg-white/12 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/78 shadow-[0_0_0_1px_rgba(255,255,255,0.10),0_14px_34px_rgba(0,0,0,0.18)] backdrop-blur-md">
+                <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/70">
                   <Sparkles className="h-3.5 w-3.5 text-[#B38F4F]" />
                   Downtown Perks
                 </div>

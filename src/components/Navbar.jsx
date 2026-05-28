@@ -86,7 +86,7 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
             transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
             className="absolute left-0 top-11 w-[340px] overflow-hidden rounded-md border border-[#0B1F33]/8 bg-[#FAFAFC] p-2 shadow-[0_18px_58px_rgba(11,31,51,0.13)]"
           >
-            <div className="px-2 pb-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/45">
+            <div className="px-2 pb-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
               {label} paths
             </div>
             <div className="grid max-h-[min(62vh,460px)] gap-1 overflow-y-auto pr-1">
@@ -98,7 +98,7 @@ function DropdownGroup({ id, label, links, openMenu, setOpenMenu, isActiveGroup 
                   className="group rounded-md px-3 py-2.5 text-left transition-all hover:-translate-y-0.5 hover:bg-[#F7F8FB] hover:shadow-[0_12px_40px_rgba(11,31,51,0.05)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                 >
                   <span className="block text-[13px] font-semibold text-[#0B1F33]">{link.label}</span>
-                  <span className="mt-0.5 block text-[11px] leading-4 text-[#0B1F33]/58">{link.description}</span>
+                  <span className="mt-0.5 block text-[11px] leading-4 text-[#B38F4F]/80">{link.description}</span>
                 </NavLinkItem>
               ))}
               <button

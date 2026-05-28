@@ -89,7 +89,7 @@ function ChoosePathStoryboard() {
                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               >
                 <img src={tile.image} alt="" loading="eager" decoding="async" className="h-full w-full object-cover" />
-                <div className="absolute bottom-0 left-0 right-0 bg-white/66 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.12em] text-[#0B1F33]/60">
+                <div className="absolute bottom-0 left-0 right-0 bg-white/66 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.12em] text-[#B38F4F]">
                   {tile.label}
                 </div>
               </motion.div>
@@ -117,14 +117,14 @@ function ChoosePathStoryboard() {
             animate={{ opacity: 0.94, y: 0, scale: 1 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
           >
-            <div className="flex items-center justify-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50 sm:text-[9px]">
+            <div className="flex items-center justify-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F] sm:text-[9px]">
               <Sparkles className="h-3 w-3 text-[#B38F4F]" />
               Search less. Spend less. Do more.
             </div>
             <div className="mt-1.5 font-heading text-[17px] font-medium leading-tight text-[#0B1F33] sm:text-[20px]">
               The map, the card, and what is happening nearby.
             </div>
-            <div className="mt-2 flex flex-wrap justify-center gap-x-2.5 gap-y-1 text-[8px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/42 sm:text-[9px]">
+            <div className="mt-2 flex flex-wrap justify-center gap-x-2.5 gap-y-1 text-[8px] font-semibold uppercase tracking-[0.13em] text-[#B38F4F]/76 sm:text-[9px]">
               <span>Launch</span>
               <span className="text-[#B38F4F]">Measure</span>
               <span>Decide</span>
@@ -144,7 +144,7 @@ function ChoosePathStoryboard() {
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="min-w-[150px] shrink-0 bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_12px_30px_rgba(11,31,51,0.04)] sm:min-w-0 sm:flex-1"
             >
-              <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/45">
+              <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
                 <Icon className="h-3.5 w-3.5 text-[#B38F4F]" />
                 {point.label}
               </div>
@@ -156,7 +156,7 @@ function ChoosePathStoryboard() {
           to="/map?mode=resident&tab=map"
           className="min-w-[150px] shrink-0 bg-[linear-gradient(90deg,#0B1F33,#132b45,#0B1F33)] bg-[length:200%_100%] p-3 text-white shadow-[0_12px_30px_rgba(11,31,51,0.10)] transition-[background-position,box-shadow] duration-300 hover:bg-[position:100%_0] hover:shadow-[0_24px_60px_rgba(11,31,51,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:min-w-0 sm:flex-1"
         >
-          <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-white/58">
+          <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
             <ArrowRight className="h-3.5 w-3.5 text-[#B38F4F]" />
             Open map
           </div>
@@ -217,7 +217,7 @@ export default function SplashPage() {
                 transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
                 className="mx-auto max-w-6xl"
               >
-                <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/70">
+                <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38F4F]">
                   <Sparkles className="h-3.5 w-3.5 text-[#B38F4F]" />
                   Downtown Perks
                 </div>
@@ -249,7 +249,7 @@ export default function SplashPage() {
             amount={0.28}
             className="max-w-[760px]"
           >
-            <div className="inline-flex items-center gap-2 rounded-md bg-white/80 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B1F33]/58 shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_34px_rgba(11,31,51,0.06)]">
+            <div className="inline-flex items-center gap-2 rounded-md bg-white/80 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38F4F] shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_34px_rgba(11,31,51,0.06)]">
               <Sparkles className="h-3.5 w-3.5 text-[#B38F4F]" />
               Downtown Perks
             </div>

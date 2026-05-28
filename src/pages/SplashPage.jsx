@@ -233,98 +233,79 @@ export default function SplashPage() {
         )}
       </AnimatePresence>
 
-      <section className="relative min-h-[calc(100vh-68px)] px-5 py-10 md:py-14">
+      <section className="relative px-5 py-14 md:px-8 md:py-20">
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
           <video className="absolute inset-0 h-full w-full object-cover opacity-[0.18]" src={VIDEO_SRC} autoPlay muted loop playsInline preload="metadata" />
           <div className="absolute inset-0 bg-[#F7F8FB]/84" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(247,248,251,0.95),rgba(247,248,251,0.68),rgba(247,248,251,0.97))]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(247,248,251,0.98),rgba(247,248,251,0.78),rgba(247,248,251,1))]" />
           <div className="absolute left-[4%] top-[18%] h-56 w-56 rounded-full bg-white/72 blur-3xl" />
           <div className="absolute right-[8%] top-[12%] h-72 w-72 rounded-full bg-white/52 blur-[82px]" />
           <div className="absolute bottom-[8%] right-[16%] h-64 w-64 rounded-full bg-[#0B1F33]/10 blur-3xl" />
           <div className="absolute left-1/2 top-[46%] h-[460px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/34 blur-[92px]" />
         </div>
 
-        <div className="relative mx-auto grid min-h-[calc(100vh-180px)] max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
+        <div className="relative mx-auto max-w-[840px] text-left">
+          <EditorialReveal
+            amount={0.28}
+            className="max-w-[760px]"
           >
-            <div className="inline-flex items-center gap-2 rounded-md bg-white/86 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B1F33]/58 shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_34px_rgba(11,31,51,0.07),0_0_28px_rgba(179,143,79,0.06)]">
+            <div className="inline-flex items-center gap-2 rounded-md bg-white/80 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B1F33]/58 shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_34px_rgba(11,31,51,0.06)]">
               <Sparkles className="h-3.5 w-3.5 text-[#B38F4F]" />
               Downtown Perks
             </div>
-
-            <h1 className="mt-6 max-w-3xl font-heading text-[42px] font-medium leading-[0.98] md:text-[72px]">
-              Whether you’re making plans or part of them.
-            </h1>
-            <p className="mt-5 max-w-xl text-[14px] leading-7 text-[#0B1F33]/64">
-              Downtown Perks helps residents figure out what’s nearby, what’s happening, and what's worth going out for — while helping local businesses stay relevant in the moments that actually matter.
-            </p>
-
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link
-                to="/residents"
-                className="inline-flex h-10 items-center justify-center rounded-md bg-[#0B1F33] px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white shadow-[0_16px_34px_rgba(11,31,51,0.16)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_2px_rgba(179, 143, 79, 0.08),0_18px_36px_rgba(11,31,51,0.18),0_0_32px_rgba(179, 143, 79, 0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
-              >
-                Start as resident
-                <ArrowRight className="ml-2 h-4 w-4 text-[#B38F4F]" />
-              </Link>
-              <Link
-                to="/partners"
-                className="inline-flex h-10 items-center justify-center rounded-md bg-white/88 px-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.035),0_12px_30px_rgba(11,31,51,0.07)] transition hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(179, 143, 79, 0.08),0_14px_32px_rgba(11,31,51,0.08),0_0_30px_rgba(179, 143, 79, 0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
-              >
-                Start as partner
-              </Link>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 18, scale: 0.985 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.42, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
-            className="group relative overflow-hidden rounded-lg bg-white/78 p-3 shadow-[0_0_0_1px_rgba(11,31,51,0.05),0_28px_90px_rgba(11,31,51,0.10),0_0_46px_rgba(11,31,51,0.04)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_0_1px_rgba(11,31,51,0.08),0_30px_92px_rgba(11,31,51,0.12),0_0_54px_rgba(11,31,51,0.05)]"
-          >
-            <div className="pointer-events-none absolute -right-20 -top-24 h-52 w-52 rounded-full bg-white/76 blur-3xl transition duration-300 group-hover:bg-white/90" />
-            <div className="relative rounded-md bg-[#FAFAFC]/78 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
-              <ChoosePathStoryboard />
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="relative bg-[#F7F8FB] px-5 py-14 md:px-8 md:py-20">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179, 143, 79, 0.08),transparent)]" aria-hidden="true" />
-        <div className="relative mx-auto max-w-[760px] text-left">
-          <EditorialReveal amount={0.28}>
-            <h2 className="font-heading text-[52px] font-medium leading-[0.9] tracking-[-0.045em] text-[#0B1F33] max-[420px]:text-[48px] max-[420px]:leading-[0.92] md:text-[92px]">
+            <h1 className="mt-5 font-heading text-[52px] font-medium leading-[0.9] tracking-[-0.045em] text-[#0B1F33] max-[420px]:text-[48px] max-[420px]:leading-[0.92] md:text-[92px]">
               More charm than a biscuit with honey.
-            </h2>
+            </h1>
             <p className="mt-3 max-w-[620px] font-heading text-[24px] font-medium leading-[1.08] text-[#0B1F33]/70 md:text-[34px]">
               Downtown Perks brings the heat — and the hospitality.
             </p>
           </EditorialReveal>
 
-          <div className="mt-8 max-w-[640px] text-[16px] leading-[1.72] text-[#0B1F33]/70 md:text-[18px] md:leading-[1.75]">
-            <EditorialReveal
-              className="max-w-[620px] space-y-4"
-              delay={0.04}
-              amount={0.24}
+          <EditorialReveal
+            className="mt-8 max-w-[620px] space-y-4 text-[16px] leading-[1.72] text-[#0B1F33]/70 md:text-[18px] md:leading-[1.75]"
+            delay={0.04}
+            amount={0.24}
+          >
+            <p>
+              Built for the folks who still call it Town Lake, know the shortcut through the alley off South Congress, and somehow always know where happy hour starts before everyone else gets there.
+            </p>
+            <p>
+              For the people planning around rooftop weather, happy hour, workout classes, taco runs, live music, and “just one drink” that turns into the whole night.
+            </p>
+          </EditorialReveal>
+
+          <EditorialReveal
+            className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"
+            delay={0.06}
+            amount={0.2}
+          >
+            <Link
+              to="/residents"
+              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-[#0B1F33] px-6 text-[12px] font-medium tracking-[0.08em] text-white shadow-[0_10px_22px_rgba(11,31,51,0.12)] transition hover:-translate-y-px hover:shadow-[0_12px_26px_rgba(11,31,51,0.14),0_0_16px_rgba(179,143,79,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
             >
-              <p>
-                Built for the folks who still call it Town Lake, know the shortcut through the alley off South Congress, and somehow always know where happy hour starts before everyone else gets there.
-              </p>
-              <p>
-                For the people planning around rooftop weather, happy hour, workout classes, taco runs, live music, and “just one drink” that turns into the whole night.
-              </p>
-            </EditorialReveal>
-            <EditorialReveal
-              className="mt-10"
-              delay={0.06}
-              amount={0.2}
+              Start as resident
+              <ArrowRight className="ml-2 h-4 w-4 text-[#B38F4F]" />
+            </Link>
+            <Link
+              to="/partners"
+              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-white px-6 text-[12px] font-medium tracking-[0.08em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_8px_20px_rgba(11,31,51,0.05)] transition hover:-translate-y-px hover:shadow-[0_0_0_1px_rgba(179,143,79,0.08),0_10px_22px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
             >
-              <p className="max-w-[720px] font-heading text-[42px] font-medium leading-[0.98] tracking-[-0.03em] text-[#0B1F33] md:text-[58px]">
-                Downtown should feel easier than it does.
+              Start as partner
+            </Link>
+          </EditorialReveal>
+        </div>
+      </section>
+
+      <section className="relative bg-[#FAFAFC] px-5 py-12 md:px-8 md:py-16">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179, 143, 79, 0.08),transparent)]" aria-hidden="true" />
+        <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
+          <div className="max-w-[720px] text-left">
+            <EditorialReveal
+              className="max-w-[720px]"
+              amount={0.22}
+            >
+              <p className="font-heading text-[42px] font-medium leading-[0.98] tracking-[-0.03em] text-[#0B1F33] md:text-[58px]">
+                Downtown should be easier to use.
               </p>
               <div className="mt-5 max-w-[680px] space-y-1 text-[19px] leading-[1.4] tracking-[-0.01em] text-[#0B1F33]/80 md:text-[24px] md:leading-[1.42]">
                 <p>The coffee shop you keep meaning to try.</p>
@@ -337,8 +318,9 @@ export default function SplashPage() {
                 </p>
               </div>
             </EditorialReveal>
+
             <EditorialReveal
-              className="mt-12 max-w-[640px]"
+              className="mt-10 max-w-[640px]"
               delay={0.04}
               amount={0.2}
             >
@@ -346,30 +328,76 @@ export default function SplashPage() {
                 Most things already exist. They’re just scattered across too many apps, group chats, tabs, feeds, newsletters, screenshots, and half-finished plans.
               </p>
             </EditorialReveal>
+
             <EditorialReveal
-              className="mt-10 max-w-[660px] space-y-3"
+              className="mt-10 max-w-[660px] space-y-3 text-[16px] leading-[1.72] text-[#0B1F33]/70 md:text-[18px] md:leading-[1.72]"
               delay={0.04}
               amount={0.18}
             >
               <p className="font-heading text-[34px] font-medium leading-[1] tracking-[-0.025em] text-[#0B1F33] md:text-[48px]">
-                So we built one map to bring it together.
+                So we built one map to bring everything together.
               </p>
               <p>
                 Not another app to manage. Not another feed to scroll. Just a better way to figure out what’s nearby, what’s happening, and what feels worth getting out for.
               </p>
-              <p className="pt-1">People usually go with what feels familiar, nearby, and easy to say yes to:</p>
-              <p className="text-[19px] leading-[1.36] text-[#0B1F33]/76 md:text-[21px]">
-                Coffee before work.<br />
-                A workout class after hours.<br />
-                A last-minute dinner plan.<br />
-                That place you finally decide to try after walking past it for months.
-              </p>
-              <div className="mt-6 max-w-[660px] space-y-3 text-[#0B1F33]/64">
-                <p>Downtown Perks helps residents make better plans faster — while helping local businesses stay relevant in the moments that actually matter.</p>
-                <p>And when people choose local, they unlock perks, offers, rewards, and little extras from the places that keep downtown interesting.</p>
-              </div>
+            </EditorialReveal>
+
+            <EditorialReveal
+              className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"
+              delay={0.04}
+              amount={0.2}
+            >
+              <Link
+                to="/residents"
+                className="inline-flex h-11 w-full items-center justify-center rounded-md bg-[#0B1F33] px-6 text-[12px] font-medium uppercase tracking-[0.08em] text-white shadow-[0_10px_22px_rgba(11,31,51,0.12)] transition hover:-translate-y-px hover:shadow-[0_12px_26px_rgba(11,31,51,0.14),0_0_16px_rgba(179,143,79,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
+              >
+                Start as resident
+              </Link>
+              <Link
+                to="/partners"
+                className="inline-flex h-11 w-full items-center justify-center rounded-md bg-white px-6 text-[12px] font-medium uppercase tracking-[0.08em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_8px_20px_rgba(11,31,51,0.05)] transition hover:-translate-y-px hover:shadow-[0_0_0_1px_rgba(179,143,79,0.08),0_10px_22px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
+              >
+                Start as partner
+              </Link>
             </EditorialReveal>
           </div>
+
+          <EditorialReveal
+            className="relative overflow-hidden rounded-lg bg-white/72 p-3 shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_24px_70px_rgba(11,31,51,0.08),0_0_42px_rgba(11,31,51,0.04)]"
+            delay={0.08}
+            amount={0.18}
+          >
+            <div className="relative rounded-md bg-[#FAFAFC]/82 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
+              <ChoosePathStoryboard />
+            </div>
+          </EditorialReveal>
+        </div>
+      </section>
+
+      <section className="relative bg-[#F7F8FB] px-5 py-14 md:px-8 md:py-20">
+        <div className="relative mx-auto max-w-[760px] text-left">
+          <EditorialReveal
+            className="max-w-[700px]"
+            amount={0.24}
+          >
+            <h2 className="font-heading text-[42px] font-medium leading-[0.98] tracking-[-0.03em] text-[#0B1F33] md:text-[64px]">
+              Whether you’re making plans or part of them.
+            </h2>
+            <div className="mt-6 space-y-4 text-[16px] leading-[1.72] text-[#0B1F33]/68 md:text-[18px] md:leading-[1.75]">
+              <p>
+                Downtown Perks helps residents make better plans faster — while helping local businesses stay relevant in the moments that actually matter.
+              </p>
+              <p>
+                And when you choose local, you unlock perks, offers, rewards, and little extras from the places that keep downtown interesting.
+              </p>
+              <p>
+                For residents, it means less searching and better plans. For local businesses, it means showing up naturally while people nearby are already deciding where to go.
+              </p>
+            </div>
+            <p className="mt-8 max-w-[620px] font-heading text-[28px] font-medium leading-tight text-[#0B1F33]/82 md:text-[38px]">
+              Come on in. Open the map. And maybe grab something cold while you’re at it.
+            </p>
+          </EditorialReveal>
 
           <EditorialReveal
             className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"

@@ -323,7 +323,7 @@ export default function CivicPartner() {
             {CIVIC_EXAMPLES.map((example, i) => (
               <motion.a
                 key={i}
-                href="#"
+                href="/map?mode=partner&tab=map&filter=Events"
                 initial={{ opacity: 0, y: 8 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

@@ -15,7 +15,16 @@ export default function UnifiedSearchBar() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isAI, setIsAI] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
+  const [promptIndex, setPromptIndex] = useState(0);
   const inputRef = useRef(null);
+  const activePrompt = SEARCH_PROMPTS[promptIndex % SEARCH_PROMPTS.length];
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setPromptIndex((index) => (index + 1) % SEARCH_PROMPTS.length);
+    }, 3200);
+    return () => window.clearInterval(timer);
+  }, []);
 
   // Detect if query looks like an AI intent
   useEffect(() => {
@@ -86,7 +95,7 @@ export default function UnifiedSearchBar() {
             onKeyDown={handleSearch}
             onFocus={() => setIsExpanded(true)}
             onBlur={() => setTimeout(() => setIsExpanded(false), 200)}
-            placeholder="Search downtown..."
+            placeholder={activePrompt.q}
             className="flex-1 bg-transparent outline-none text-[13px] md:text-[14px] text-[#0B1F33] placeholder:text-[#0B1F33]/42"
           />
 

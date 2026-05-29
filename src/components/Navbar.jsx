@@ -161,6 +161,11 @@ export default function Navbar() {
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [openMenu]);
 
+  useEffect(() => {
+    document.documentElement.toggleAttribute("data-dp-nav-open", open);
+    return () => document.documentElement.removeAttribute("data-dp-nav-open");
+  }, [open]);
+
   const isActive = (to) => {
     if (!to) return false;
     if (to === "/partners/dashboard") return location.pathname === "/partners/dashboard";
@@ -206,29 +211,26 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <div
-          className={`hidden items-center gap-1 transition-all duration-200 md:flex ${
-            open ? "md:pointer-events-none md:opacity-0 md:blur-[2px]" : "md:opacity-100 md:blur-0"
-          }`}
-          aria-hidden={open ? "true" : undefined}
-        >
-          <DropdownGroup
-            id="residents"
-            label="Residents"
-            links={RESIDENT_LINKS}
-            openMenu={openMenu}
-            setOpenMenu={setOpenMenu}
-            isActiveGroup={residentActive}
-          />
-          <DropdownGroup
-            id="partners"
-            label="Partners"
-            links={PARTNER_LINKS}
-            openMenu={openMenu}
-            setOpenMenu={setOpenMenu}
-            isActiveGroup={partnerActive}
-          />
-        </div>
+        {!open && (
+          <div className="hidden items-center gap-1 transition-all duration-200 md:flex">
+            <DropdownGroup
+              id="residents"
+              label="Residents"
+              links={RESIDENT_LINKS}
+              openMenu={openMenu}
+              setOpenMenu={setOpenMenu}
+              isActiveGroup={residentActive}
+            />
+            <DropdownGroup
+              id="partners"
+              label="Partners"
+              links={PARTNER_LINKS}
+              openMenu={openMenu}
+              setOpenMenu={setOpenMenu}
+              isActiveGroup={partnerActive}
+            />
+          </div>
+        )}
 
         <div className="flex items-center gap-2">
           <button
@@ -246,20 +248,21 @@ export default function Navbar() {
       <AnimatePresence mode="wait" initial={false}>
         {open && (
           <motion.div
+            data-dp-nav-menu
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed left-0 right-0 top-[68px] z-[1201] pointer-events-auto border-t border-white/60 shadow-[0_24px_80px_rgba(11,31,51,0.10),inset_0_1px_0_rgba(255,255,255,0.78)]"
+            className="fixed left-0 right-0 top-[68px] z-[1400] pointer-events-auto border-t border-[#0B1F33]/8 shadow-[0_24px_80px_rgba(11,31,51,0.12),inset_0_1px_0_rgba(255,255,255,0.86)]"
             style={{
-              backgroundColor: "rgba(250, 250, 252, 0.86)",
-              backdropFilter: "blur(22px) saturate(1.12)",
-              WebkitBackdropFilter: "blur(22px) saturate(1.12)",
+              backgroundColor: "rgba(250, 250, 252, 0.94)",
+              backdropFilter: "blur(18px) saturate(1.08)",
+              WebkitBackdropFilter: "blur(18px) saturate(1.08)",
             }}
           >
-            <div className="mx-auto max-h-[calc(100vh-68px)] max-w-4xl overflow-y-auto px-5 py-5">
+            <div className="mx-auto max-h-[calc(100vh-68px)] max-w-4xl overflow-y-auto px-5 py-5 text-[#0B1F33]">
               <div className="flex items-center justify-between gap-4">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#425466]/62">
+                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#425466]">
                   Navigation
                 </div>
                 <div className="flex shrink-0 items-center gap-5" role="tablist" aria-label="Navigation audience">
@@ -276,7 +279,7 @@ export default function Navbar() {
                       className={`relative h-8 px-0 text-[11px] font-semibold uppercase tracking-[0.14em] transition focus-visible:outline-none ${
                         mobileAudience === value
                           ? "text-[#0B1F33] after:absolute after:bottom-1 after:left-0 after:h-px after:w-full after:bg-[#B38F4F]"
-                          : "text-[#425466]/68 hover:text-[#0B1F33]"
+                          : "text-[#425466] hover:text-[#0B1F33]"
                       }`}
                     >
                       {label}

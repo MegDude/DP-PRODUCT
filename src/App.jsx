@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClientInstance } from "@/lib/query-client";
-import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import PageNotFound from "./lib/PageNotFound";
 import { AuthProvider } from "@/lib/AuthContext";
 import Layout from "./components/Layout";
@@ -11,7 +12,6 @@ import DashboardHub from "./pages/DashboardHub";
 import Pricing from "./pages/Pricing";
 // Downtown Perks pages
 import Landing from "./pages/downtown-perks/Landing";
-import ExploreRebuilt from "./pages/downtown-perks/ExploreRebuilt";
 import Events from "./pages/downtown-perks/Events";
 import PerksPage from "./pages/downtown-perks/PerksPage";
 import PerksCard from "./pages/downtown-perks/PerksCard";
@@ -52,11 +52,47 @@ import MapPage from "./pages/Map";
 import AskMapAgent from "./pages/AskMapAgent";
 import HappyHourMap from "./pages/HappyHourMap";
 
+function HashScroll() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      return;
+    }
+
+    const id = decodeURIComponent(location.hash.slice(1));
+    let frame = 0;
+    let timeoutId;
+
+    const scrollToAnchor = () => {
+      const target = document.getElementById(id);
+      if (target) {
+        const top = target.getBoundingClientRect().top + window.scrollY - 76;
+        window.scrollTo({ top: Math.max(0, top), left: 0, behavior: "smooth" });
+        return;
+      }
+
+      if (frame < 8) {
+        frame += 1;
+        timeoutId = window.setTimeout(scrollToAnchor, 80);
+      }
+    };
+
+    timeoutId = window.setTimeout(scrollToAnchor, 0);
+    return () => window.clearTimeout(timeoutId);
+  }, [location.pathname, location.search, location.hash]);
+
+  return null;
+}
+
 const AuthenticatedApp = () => {
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<SplashPage />} />
+    <>
+      <HashScroll />
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<SplashPage />} />
         {/* Downtown Perks routes */}
         <Route path="/downtown-perks" element={<Landing />} />
         <Route path="/residents" element={<Home />} />
@@ -71,7 +107,7 @@ const AuthenticatedApp = () => {
         <Route path="/residents/happy-hour" element={<HappyHourMap />} />
         <Route path="/residents/workspace" element={<ResidentApp />} />
         <Route path="/resident-home" element={<Home />} />
-        <Route path="/downtown-perks/explore" element={<ExploreRebuilt />} />
+        <Route path="/downtown-perks/explore" element={<MapPage />} />
         <Route path="/explore" element={<MapPage />} />
         <Route path="/downtown-perks/events" element={<Events />} />
         <Route path="/events" element={<Events />} />
@@ -190,8 +226,9 @@ const AuthenticatedApp = () => {
         <Route path="/map" element={<MapPage />} />
         {/* Catch-all route */}
         <Route path="*" element={<PageNotFound />} />
-      </Route>
-    </Routes>
+        </Route>
+      </Routes>
+    </>
   );
 };
 

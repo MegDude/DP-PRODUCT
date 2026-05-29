@@ -55,23 +55,18 @@ export const FILTER_CHIPS = [
 export const SEARCH_PROMPTS = [
   {
     q: 'Where do you want to go?',
-    a: 'Coffee, dinner, fitness—all within walking distance.',
-    fill: 'coffee near me',
+    a: 'Find coffee, dinner, drinks, perks, listings, and nearby places worth leaving for.',
+    fill: 'Where do you want to go?',
+  },
+  {
+    q: 'What do you want to see?',
+    a: 'Surface events, happy hours, listings, local businesses, and useful downtown signals.',
+    fill: 'What do you want to see?',
   },
   {
     q: 'What do you want to do?',
-    a: 'See what\'s on tonight. Find something worth showing up for.',
-    fill: 'events tonight',
-  },
-  {
-    q: 'Who do you want to meet?',
-    a: 'See who\'s going. Join in. Make a plan.',
-    fill: 'what\'s happening',
-  },
-  {
-    q: 'Where should I eat?',
-    a: 'Best spots for your vibe—happy hour, quick bite, date night.',
-    fill: 'best happy hour',
+    a: 'Ask the map for a plan, a place, a perk, or a partner opportunity nearby.',
+    fill: 'What do you want to do?',
   },
 ];
 

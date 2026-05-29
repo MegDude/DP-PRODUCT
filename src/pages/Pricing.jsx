@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import {
   ArrowRight,
   BarChart3,
@@ -96,28 +95,9 @@ const SURVEY_STEPS = [
   ["04", "Engine explains", "The AI-powered insight layer turns the responses into plain-English audience notes and next steps."],
 ];
 
-const moduleListVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.075,
-      delayChildren: 0.05,
-    },
-  },
-};
-
-const moduleItemVariants = {
-  hidden: { opacity: 0, y: 14 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
 function Section({ id, eyebrow, title, children, className = "" }) {
   return (
-    <section id={id} className={`border-t border-[#0B1F33]/8 px-5 py-14 md:py-18 ${className}`}>
+    <section id={id} className={`px-5 py-12 md:py-16 ${className}`}>
       <div className="mx-auto max-w-6xl">
         {(eyebrow || title) && (
           <div className="mb-8 max-w-3xl">
@@ -133,20 +113,10 @@ function Section({ id, eyebrow, title, children, className = "" }) {
 
 function PillLink({ href, children }) {
   return (
-    <a href={href} className="inline-flex h-9 items-center justify-center rounded-md border border-[#0B1F33]/10 bg-white px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33] transition hover:border-[#B38F4F]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
+    <a href={href} className="dp-text-chip focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
       {children}
     </a>
   );
-}
-
-function ModuleIcon({ title }) {
-  const iconClassName = "h-4 w-4";
-
-  if (title.includes("QR")) return <QrCode className={iconClassName} />;
-  if (title.includes("Survey")) return <ClipboardList className={iconClassName} />;
-  if (title.includes("AI")) return <Sparkles className={iconClassName} />;
-  if (title.includes("dashboard") || title.includes("report")) return <BarChart3 className={iconClassName} />;
-  return <MapPin className={iconClassName} />;
 }
 
 export default function Pricing() {
@@ -159,10 +129,10 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-[#F7F8FB] pt-[68px] text-[#0B1F33]">
-      <section className="relative overflow-hidden px-5 py-16 md:py-22">
-        <div className="absolute inset-0 pointer-events-none opacity-[0.035]" style={{ backgroundImage: "linear-gradient(rgba(11,31,51,0.24) 1px, transparent 1px), linear-gradient(90deg, rgba(11,31,51,0.24) 1px, transparent 1px)", backgroundSize: "56px 56px" }} />
+      <section className="relative overflow-hidden px-5 py-14 md:py-20">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.12),transparent)]" />
         <div className="relative mx-auto max-w-6xl">
-          <div className="mb-7 flex flex-wrap gap-2">
+          <div className="mb-7 flex flex-wrap gap-x-5 gap-y-2">
             <PillLink href="#partner-types">Partner types</PillLink>
             <PillLink href="#modules">Modules</PillLink>
             <PillLink href="#add-ons">Add-ons</PillLink>
@@ -178,23 +148,23 @@ export default function Pricing() {
               <p className="mt-5 max-w-2xl text-[15px] leading-[1.75] text-[#0B1F33]/68">
                 Downtown Perks is built around easy entry points: scan a QR code, text a keyword, open the map, show the card, read the report. Dumb tech on the front end. A smart audience and analytics engine underneath.
               </p>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link to="/partners#partner-types" className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#081521] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
+              <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:gap-5">
+                <Link to="/partners#partner-types" className="dp-action-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
                   Find your partner type
-                  <ArrowRight className="h-4 w-4 text-[#B38F4F]" />
+                  <ArrowRight className="h-3.5 w-3.5 text-[#B38F4F]" />
                 </Link>
-                <Link to="/partners/brands#brand-form" className="inline-flex h-10 items-center justify-center rounded-md border border-[#0B1F33]/10 bg-white px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33] transition hover:border-[#B38F4F]/45">
+                <Link to="/partners/brands#brand-form" className="dp-action-link dp-action-link-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
                   Discuss activation
                 </Link>
               </div>
             </div>
-            <div className="rounded-lg border border-[#0B1F33]/8 bg-white p-5 shadow-[0_14px_34px_rgba(11,31,51,0.05)]">
+            <div className="dp-glow-surface rounded-[6px] p-5">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">What pricing reflects</p>
-              <div className="mt-4 grid gap-3">
+              <div className="mt-4 grid gap-2.5">
                 {["Footprint", "Visibility", "Activation", "Reporting"].map((item) => (
-                  <div key={item} className="flex items-center gap-3 rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] p-3">
+                  <div key={item} className="dp-glow-tile flex items-center gap-3 rounded-[4px] p-2.5">
                     <Check className="h-4 w-4 text-[#B38F4F]" />
-                    <span className="text-[13px] font-semibold">{item}</span>
+                    <span className="text-[12px] font-semibold">{item}</span>
                   </div>
                 ))}
               </div>
@@ -204,17 +174,14 @@ export default function Pricing() {
       </section>
 
       <Section id="partner-types" eyebrow="Pricing matrix" title="Plans by partner type.">
-        <div className="mb-5 flex gap-2 overflow-x-auto pb-2">
+        <div className="mb-5 flex gap-5 overflow-x-auto pb-2">
           {PARTNER_TYPES.map((type) => (
             <button
               key={type.id}
               type="button"
               onClick={() => setActiveType(type.id)}
-              className={`shrink-0 rounded-md border px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] transition ${
-                activeType === type.id
-                  ? "border-[#0B1F33] bg-[#0B1F33] text-white"
-                  : "border-[#0B1F33]/10 bg-white text-[#0B1F33]/68 hover:border-[#B38F4F]/45 hover:text-[#0B1F33]"
-              }`}
+              className={`dp-text-chip shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${activeType === type.id ? "is-active" : ""}`}
+              aria-current={activeType === type.id ? "true" : undefined}
             >
               {type.label}
             </button>
@@ -222,86 +189,50 @@ export default function Pricing() {
         </div>
 
         <div className="grid gap-5 lg:grid-cols-[0.72fr_1.28fr]">
-          <div className="rounded-lg border border-[#0B1F33]/8 bg-white p-5 shadow-[0_14px_34px_rgba(11,31,51,0.05)]">
+          <div className="dp-glow-surface rounded-[6px] p-5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">{activePartner.label}</p>
             <div className="mt-3 font-heading text-3xl font-medium">{activePartner.price}</div>
             <p className="mt-4 text-[13px] leading-6 text-[#0B1F33]/64">{activePartner.bestFor}</p>
-            <p className="mt-4 rounded-md border border-[#B38F4F]/30 bg-[#F7F8FB] p-3 text-[13px] font-medium leading-6 text-[#0B1F33]">
+            <p className="mt-4 bg-white/58 p-3 text-[13px] font-medium leading-6 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(179,143,79,0.06)]">
               {activePartner.promise}
             </p>
             <p className="mt-4 text-[12px] leading-5 text-[#0B1F33]/58">{activePartner.notes}</p>
           </div>
 
-          <div className="overflow-hidden rounded-lg border border-[#0B1F33]/8 bg-white shadow-[0_14px_34px_rgba(11,31,51,0.045)]">
+          <div className="dp-glow-surface overflow-hidden rounded-[6px]">
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[760px] table-fixed border-collapse text-left">
-                <thead className="border-b border-[#0B1F33]/10 bg-[#F7F8FB]/80">
+              <table className="min-w-[760px] w-full border-collapse text-left">
+                <thead className="bg-[#0B1F33] text-white">
                   <tr>
-                    <th className="w-[18%] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Partner</th>
-                    <th className="w-[18%] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Pricing</th>
-                    <th className="w-[34%] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Best fit</th>
-                    <th className="w-[30%] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Core expectation</th>
+                    <th className="px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em]">Partner</th>
+                    <th className="px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em]">Pricing</th>
+                    <th className="px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em]">Best fit</th>
+                    <th className="px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em]">Core expectation</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {PARTNER_TYPES.map((type) => {
-                    const isActive = activeType === type.id;
-
-                    return (
-                      <motion.tr
-                        key={type.id}
-                        tabIndex={0}
-                        role="button"
-                        aria-selected={isActive}
-                        onClick={() => setActiveType(type.id)}
-                        onKeyDown={(event) => {
-                          if (event.key === "Enter" || event.key === " ") {
-                            event.preventDefault();
-                            setActiveType(type.id);
-                          }
-                        }}
-                        whileHover={{ x: 3 }}
-                        className={`cursor-pointer border-b border-[#0B1F33]/8 align-top outline-none transition focus-visible:bg-[#F7F8FB] ${
-                          isActive ? "bg-[#B38F4F]/[0.07]" : "bg-white hover:bg-[#F7F8FB]/70"
-                        }`}
-                      >
-                        <td className="whitespace-normal break-words px-4 py-4 text-[13px] font-semibold leading-5 text-[#0B1F33]">
-                          <span className={`inline-flex border-b pb-1 transition ${isActive ? "border-[#B38F4F]" : "border-transparent"}`}>{type.label}</span>
-                        </td>
-                        <td className="whitespace-normal break-words px-4 py-4 text-[13px] font-medium leading-5 text-[#0B1F33]/78">{type.price}</td>
-                        <td className="whitespace-normal break-words px-4 py-4 text-[12px] leading-5 text-[#0B1F33]/62">{type.bestFor}</td>
-                        <td className="whitespace-normal break-words px-4 py-4 text-[12px] leading-5 text-[#0B1F33]/62">{type.promise}</td>
-                      </motion.tr>
-                    );
-                  })}
+                  {PARTNER_TYPES.map((type) => (
+                    <tr key={type.id} className="shadow-[inset_0_-1px_0_rgba(11,31,51,0.04)]">
+                      <td className="px-4 py-4 text-[13px] font-semibold">{type.label}</td>
+                      <td className="px-4 py-4 text-[13px]">{type.price}</td>
+                      <td className="px-4 py-4 text-[12px] leading-5 text-[#0B1F33]/62">{type.bestFor}</td>
+                      <td className="px-4 py-4 text-[12px] leading-5 text-[#0B1F33]/62">{type.promise}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
-            <p className="border-t border-[#0B1F33]/8 px-4 py-3 text-[11px] leading-5 text-[#0B1F33]/52">
-              Select a row to update the partner summary. Text wraps inside each column so the table stays readable instead of forcing clipped copy.
-            </p>
           </div>
         </div>
       </Section>
 
       <Section id="modules" eyebrow="Platform modules" title="What the platform offers.">
-        <motion.div
-          variants={moduleListVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.18 }}
-          className="grid gap-3 md:grid-cols-2"
-        >
+        <div className="grid gap-3 md:grid-cols-2">
           {MODULES.map(([title, availability, body]) => (
-            <motion.article
-              key={title}
-              variants={moduleItemVariants}
-              whileHover={{ y: -2 }}
-              className="rounded-md border border-[#0B1F33]/8 bg-white p-4 shadow-[0_10px_26px_rgba(11,31,51,0.035)] transition hover:border-[#B38F4F]/25"
-            >
+            <article key={title} className="dp-glow-tile rounded-[6px] p-4">
               <div className="flex items-start gap-3">
-                <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#B38F4F]/25 bg-[#F7F8FB] text-[#B38F4F]">
-                  <ModuleIcon title={title} />
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[4px] bg-[#0B1F33] text-[#B38F4F] shadow-[0_0_20px_rgba(179,143,79,0.08)]">
+                  {title.includes("QR") ? <QrCode className="h-4 w-4" /> : title.includes("Survey") ? <ClipboardList className="h-4 w-4" /> : title.includes("AI") ? <Sparkles className="h-4 w-4" /> : title.includes("dashboard") || title.includes("report") ? <BarChart3 className="h-4 w-4" /> : <MapPin className="h-4 w-4" />}
                 </div>
                 <div>
                   <h3 className="text-[13px] font-semibold">{title}</h3>
@@ -309,13 +240,13 @@ export default function Pricing() {
                   <p className="mt-2 text-[12px] leading-5 text-[#0B1F33]/60">{body}</p>
                 </div>
               </div>
-            </motion.article>
+            </article>
           ))}
-        </motion.div>
+        </div>
       </Section>
 
       <Section id="add-ons" eyebrow="Add-ons and campaign additions" title="Add only what the activation needs." className="bg-white">
-        <div className="overflow-hidden rounded-lg border border-[#0B1F33]/8 bg-white">
+        <div className="dp-glow-surface overflow-hidden rounded-[6px]">
           <div className="overflow-x-auto">
             <table className="min-w-[720px] w-full border-collapse text-left">
               <thead className="bg-[#F7F8FB]">
@@ -327,7 +258,7 @@ export default function Pricing() {
               </thead>
               <tbody>
                 {ADD_ONS.map(([name, price, body]) => (
-                  <tr key={name} className="border-t border-[#0B1F33]/8">
+                  <tr key={name} className="shadow-[inset_0_1px_0_rgba(11,31,51,0.04)]">
                     <td className="px-4 py-4 text-[13px] font-semibold">{name}</td>
                     <td className="px-4 py-4 text-[13px] text-[#0B1F33]/72">{price}</td>
                     <td className="px-4 py-4 text-[12px] leading-5 text-[#0B1F33]/62">{body}</td>
@@ -344,8 +275,8 @@ export default function Pricing() {
 
       <Section id="surveys" eyebrow="Survey engine" title="Low-tech surveys. Better audience answers.">
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="rounded-lg border border-[#0B1F33]/8 bg-white p-5 shadow-[0_14px_34px_rgba(11,31,51,0.05)]">
-            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[#0B1F33] text-[#B38F4F]">
+          <div className="dp-glow-surface rounded-[6px] p-5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-[4px] bg-[#0B1F33] text-[#B38F4F] shadow-[0_0_20px_rgba(179,143,79,0.08)]">
               <MessageSquareText className="h-5 w-5" />
             </div>
             <h3 className="mt-5 font-heading text-3xl font-medium leading-[1.08]">Ask a few good questions at the exact right moment.</h3>
@@ -358,7 +289,7 @@ export default function Pricing() {
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             {SURVEY_STEPS.map(([num, title, body]) => (
-              <article key={num} className="rounded-md border border-[#0B1F33]/8 bg-white p-4">
+              <article key={num} className="dp-glow-tile rounded-[6px] p-4">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">{num}</div>
                 <h4 className="mt-4 text-[13px] font-semibold">{title}</h4>
                 <p className="mt-2 text-[12px] leading-5 text-[#0B1F33]/60">{body}</p>
@@ -371,7 +302,7 @@ export default function Pricing() {
       <Section id="placements" eyebrow="Placement opportunities" title="Where a partner can show up.">
         <div className="grid gap-3 md:grid-cols-3">
           {PLACEMENTS.map(([title, label, body]) => (
-            <article key={title} className="rounded-md border border-[#0B1F33]/8 bg-white p-4 shadow-[0_10px_26px_rgba(11,31,51,0.04)]">
+            <article key={title} className="dp-glow-tile rounded-[6px] p-4">
               <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/48">{label}</p>
               <h3 className="mt-3 text-[14px] font-semibold">{title}</h3>
               <p className="mt-2 text-[12px] leading-5 text-[#0B1F33]/60">{body}</p>
@@ -385,12 +316,12 @@ export default function Pricing() {
           <p className="text-[14px] leading-7 text-[#0B1F33]/68">
             Downtown Perks is priced so partners can begin with a simple pilot, learn what people actually do, then add campaigns, surveys, placements, or reporting when there is a clear reason.
           </p>
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link to="/partners#partner-types" className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#081521] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
+          <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:gap-5">
+            <Link to="/partners#partner-types" className="dp-action-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
               Choose partner type
-              <ArrowRight className="h-4 w-4 text-[#B38F4F]" />
+              <ArrowRight className="h-3.5 w-3.5 text-[#B38F4F]" />
             </Link>
-            <Link to="/partners/brands#brand-form" className="inline-flex h-10 items-center justify-center rounded-md border border-[#0B1F33]/10 bg-white px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33] transition hover:border-[#B38F4F]/45">
+            <Link to="/partners/brands#brand-form" className="dp-action-link dp-action-link-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
               Start a conversation
             </Link>
           </div>

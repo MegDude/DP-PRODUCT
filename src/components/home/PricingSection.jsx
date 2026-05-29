@@ -107,8 +107,7 @@ export default function PricingSection() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.2 + i * 0.07 }}
-                  className="group flex h-full min-h-[232px] cursor-pointer flex-col rounded-[6px] border border-[#0B1F33]/8 bg-white/82 p-5 shadow-[0_14px_34px_rgba(11,31,51,0.04)] transition-all hover:-translate-y-0.5 hover:border-[#B38F4F]/50 hover:shadow-[0_18px_48px_rgba(11,31,51,0.06)]"
-                  onClick={() => {}}
+                  className="group flex h-full min-h-[232px] flex-col rounded-[6px] border border-[#0B1F33]/8 bg-white/82 p-5 shadow-[0_14px_34px_rgba(11,31,51,0.04)] transition-all hover:-translate-y-0.5 hover:border-[#B38F4F]/50 hover:shadow-[0_18px_48px_rgba(11,31,51,0.06)]"
                 >
                   {(() => { const Icon = TIER_ICONS[tier.label]; return Icon ? <Icon className="w-4 h-4 text-primary/60 mb-3" /> : null; })()}
                   <div className="font-heading font-medium text-[13px] text-foreground mb-0.5 group-hover:text-primary transition-colors">{tier.label}</div>

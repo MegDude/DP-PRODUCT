@@ -44,22 +44,22 @@ export default function MapDetailDrawer({ entity, onClose, reason, distance }) {
       className="flex flex-col h-full"
     >
       {/* Header */}
-      <div className="p-5 pb-4 border-b border-border/40 flex-shrink-0">
+      <div className="flex-shrink-0 p-5 pb-4">
         <div className="mb-3 flex items-center justify-between gap-3">
           <button
             onClick={onClose}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border/50 bg-card px-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-foreground/70 transition-colors hover:bg-muted/50"
+            className="inline-flex h-6 items-center gap-1.5 bg-transparent px-0 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/58 transition hover:-translate-y-px hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
             aria-label="Back to map results"
           >
-            <ArrowLeft className="h-3.5 w-3.5" />
+            <ArrowLeft className="h-3 w-3 text-[#B38F4F]" />
             Back
           </button>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-lg border border-border/50 bg-card flex items-center justify-center hover:bg-muted/50 transition-colors shrink-0"
+            className="flex h-7 w-7 shrink-0 items-center justify-center bg-transparent text-[#0B1F33]/54 transition hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
             aria-label="Close drawer"
           >
-            <X className="w-4 h-4 text-foreground/60" />
+            <X className="h-4 w-4" />
           </button>
         </div>
         <div className="flex items-start justify-between gap-3 mb-3">
@@ -77,8 +77,8 @@ export default function MapDetailDrawer({ entity, onClose, reason, distance }) {
 
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto">
-        <div className="flex aspect-[2/1] w-full items-center justify-center border-b border-[#0B1F33]/8 bg-[#F7F8FB]">
-          <div className="flex h-20 w-20 items-center justify-center rounded-md border border-[#B38F4F]/50 bg-[#0B1F33] text-xl font-semibold text-[#B38F4F]">
+        <div className="flex aspect-[2/1] w-full items-center justify-center bg-[#F7F8FB]">
+          <div className="flex h-20 w-20 items-center justify-center rounded-[6px] bg-[#0B1F33] text-xl font-semibold text-[#B38F4F] shadow-[0_18px_44px_rgba(11,31,51,0.12),0_0_26px_rgba(179,143,79,0.08)]">
             <span dangerouslySetInnerHTML={{ __html: pin.glyph }} />
           </div>
         </div>
@@ -86,7 +86,7 @@ export default function MapDetailDrawer({ entity, onClose, reason, distance }) {
         <div className="p-5 space-y-4">
           {/* Context block */}
           {reason && (
-            <div className="rounded-lg bg-primary/5 border border-primary/20 p-3">
+            <div className="rounded-[6px] bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_10px_24px_rgba(11,31,51,0.04)]">
               <div className="text-[12px] text-primary font-medium">
                 {reason === 'nearby' && `${distance || '0'} min walk from you`}
                 {reason === 'campaign' && 'Featured in active campaign'}
@@ -109,13 +109,13 @@ export default function MapDetailDrawer({ entity, onClose, reason, distance }) {
           {(entity.isActive || entity.rsvp_count) && (
             <div className="space-y-2">
               {entity.isActive && (
-                <div className="flex items-center gap-2 p-2 rounded-lg bg-[#F7F8FB]/35 border border-[#B38F4F]/30">
+                <div className="flex items-center gap-2 rounded-[6px] bg-white/72 p-2 shadow-[inset_0_0_0_1px_rgba(179,143,79,0.10)]">
                   <Zap className="w-4 h-4 text-[#B38F4F]" />
                   <span className="text-[12px] font-medium text-[#0B1F33]">Open now</span>
                 </div>
               )}
               {entity.rsvp_count && (
-                <div className="flex items-center gap-2 p-2 rounded-lg bg-[#F7F8FB] border border-[#0B1F33]/8">
+                <div className="flex items-center gap-2 rounded-[6px] bg-white/72 p-2 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
                   <ChevronRight className="w-4 h-4 text-[#B38F4F]" />
                   <span className="text-[12px] font-medium text-[#0B1F33]">{entity.rsvp_count} people going</span>
                 </div>
@@ -125,7 +125,7 @@ export default function MapDetailDrawer({ entity, onClose, reason, distance }) {
 
           {/* Perk highlight */}
           {entity.perk_description && (
-            <div className="rounded-lg bg-muted/40 border border-muted/60 p-3">
+            <div className="rounded-[6px] bg-white/72 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_10px_24px_rgba(11,31,51,0.04)]">
               <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground mb-1.5">Member perk</div>
               <div className="text-[13px] font-medium text-foreground">{entity.perk_description}</div>
               {entity.perk_value && <div className="text-[16px] font-bold text-foreground mt-1">{entity.perk_value}</div>}
@@ -144,7 +144,7 @@ export default function MapDetailDrawer({ entity, onClose, reason, distance }) {
           {entity.tags?.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {entity.tags.slice(0, 3).map((tag, i) => (
-                <span key={i} className="px-2.5 py-1 rounded-full bg-muted/50 text-[11px] text-foreground/60">
+                <span key={i} className="px-0 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/52">
                   {tag}
                 </span>
               ))}
@@ -154,14 +154,14 @@ export default function MapDetailDrawer({ entity, onClose, reason, distance }) {
       </div>
 
       {/* Primary actions (sticky) */}
-      <div className="p-5 pt-4 border-t border-border/40 flex-shrink-0 space-y-2.5">
+      <div className="flex-shrink-0 space-y-2.5 p-5 pt-4">
         {/* Main CTA */}
         {entity.website ? (
           <a
             href={entity.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full h-10 rounded-lg bg-foreground text-background font-medium text-[13px] flex items-center justify-center gap-2 hover:bg-foreground/90 transition-colors"
+            className="flex h-9 w-full items-center justify-center gap-2 rounded-[5px] bg-[#0B1F33] text-[12px] font-medium text-white shadow-[0_10px_24px_rgba(11,31,51,0.10)] transition-all hover:-translate-y-px hover:bg-[#081521]"
           >
             <ExternalLink className="w-4 h-4" />
             {entity._type === 'event' ? 'View event' : 'Visit website'}
@@ -169,7 +169,7 @@ export default function MapDetailDrawer({ entity, onClose, reason, distance }) {
         ) : (
           <button
             onClick={handleDirections}
-            className="w-full h-10 rounded-lg bg-foreground text-background font-medium text-[13px] flex items-center justify-center gap-2 hover:bg-foreground/90 transition-colors"
+            className="flex h-9 w-full items-center justify-center gap-2 rounded-[5px] bg-[#0B1F33] text-[12px] font-medium text-white shadow-[0_10px_24px_rgba(11,31,51,0.10)] transition-all hover:-translate-y-px hover:bg-[#081521]"
           >
             <MapPin className="w-4 h-4" />
             Get directions
@@ -180,10 +180,10 @@ export default function MapDetailDrawer({ entity, onClose, reason, distance }) {
         <div className="grid grid-cols-2 gap-2.5">
           <button
             onClick={handleSave}
-            className={`h-10 rounded-lg border font-medium text-[12px] flex items-center justify-center gap-1.5 transition-colors ${
+            className={`flex h-8 items-center justify-center gap-1.5 bg-transparent text-[11px] font-semibold uppercase tracking-[0.12em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
               isSaved
-                ? 'bg-primary/10 border-primary/30 text-primary'
-                : 'border-border/50 text-foreground/60 hover:border-border/80 hover:text-foreground'
+                ? 'text-[#B38F4F]'
+                : 'text-[#0B1F33]/58 hover:text-[#0B1F33]'
             }`}
           >
             <Star className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
@@ -195,7 +195,7 @@ export default function MapDetailDrawer({ entity, onClose, reason, distance }) {
               navigator.clipboard.writeText(window.location.href);
               trackingEvents.save(entity.id);
             }}
-            className="h-10 rounded-lg border border-border/50 text-foreground/60 font-medium text-[12px] flex items-center justify-center gap-1.5 hover:border-border/80 transition-colors"
+            className="flex h-8 items-center justify-center gap-1.5 bg-transparent text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/58 transition hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
           >
             <Share2 className="w-4 h-4" />
             Share

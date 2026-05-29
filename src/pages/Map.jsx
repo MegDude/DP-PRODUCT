@@ -26,6 +26,7 @@ import { directionsUrl, campaignRoute, mapRoutes } from "../lib/map/mapActionReg
 import { resolveEntityGallery, resolveEntityImage } from "../lib/map/entityImageResolver";
 import { resolveEntityPin } from "../lib/map/entityPinResolver";
 import { useEventRsvpStore } from "@/store/event-rsvp-store";
+import { SEARCH_PROMPTS } from "@/lib/mapSystemConstants";
 
 const AUSTIN_CENTER = [30.2672, -97.7431];
 const INITIAL_MAP_ZOOM = 15;
@@ -58,11 +59,7 @@ const FILTER_MATCHERS = {
   "Local Guide": ["guide", "local", "downtown", "austin"],
 };
 
-const ASK_PROMPTS = [
-  "Where should I go near me right now?",
-  "What perks can I use within a short walk?",
-  "Where should we meet for dinner tonight?",
-];
+const ASK_PROMPTS = SEARCH_PROMPTS.map((prompt) => prompt.q);
 
 const NON_SEARCH_PROMPTS = [
   "Where do you want to go?",
@@ -376,6 +373,60 @@ function buildMapAnswer(query, results, mode, district, activeFilter) {
   };
 }
 
+function getPromptIntent(query) {
+  const normalized = query.trim().toLowerCase();
+  if (normalized === "where do you want to go?") return "go";
+  if (normalized === "what do you want to see?") return "see";
+  if (normalized === "what do you want to do?") return "do";
+  return "";
+}
+
+function buildAgenticMapAnswer(query, results, mode, district, activeFilter) {
+  const base = buildMapAnswer(query, results, mode, district, activeFilter);
+  const promptIntent = getPromptIntent(query);
+  const topResults = results.slice(0, 3);
+  const names = topResults.map((place) => place.name).filter(Boolean);
+  const scope = district === ALL_NEIGHBORHOODS ? "downtown" : district;
+  const audience = mode === "partner" ? "partner" : "resident";
+
+  if (!topResults.length) return base;
+
+  if (promptIntent === "go") {
+    return {
+      title: audience === "partner" ? "Where the nearby audience is clustering" : "Places nearby worth going to",
+      body:
+        audience === "partner"
+          ? `Start around ${names.join(", ")}. These are useful nearby anchors for understanding where people already are and what they may choose next in ${scope}.`
+          : `Start with ${names.join(", ")}. These are nearby, map-ready options for an easy downtown plan in ${scope}.`,
+      picks: topResults,
+    };
+  }
+
+  if (promptIntent === "see") {
+    return {
+      title: audience === "partner" ? "What the map is showing right now" : "What is visible nearby",
+      body:
+        audience === "partner"
+          ? `The strongest current signals are ${names.join(", ")}. Use them to compare visibility, timing, and local context before launching an offer or campaign.`
+          : `The map is showing ${names.join(", ")} first. Use this to scan events, perks, listings, and places without jumping between apps.`,
+      picks: topResults,
+    };
+  }
+
+  if (promptIntent === "do") {
+    return {
+      title: audience === "partner" ? "Actions the map can help with" : "A simple next move",
+      body:
+        audience === "partner"
+          ? `Use ${names[0]} as the starting point, then open Intel or a campaign action to decide where to participate and who nearby should see it.`
+          : `Pick ${names[0]} first, then save it, get directions, or compare similar nearby options. The map keeps the next step close to the decision.`,
+      picks: topResults,
+    };
+  }
+
+  return base;
+}
+
 function tokenizeIntent(query) {
   return query
     .toLowerCase()
@@ -448,6 +499,16 @@ function getPlaceCoords(place) {
   return null;
 }
 
+function dedupePlacesById(places) {
+  const seen = new Set();
+  return places.filter((place) => {
+    if (!place?.id) return false;
+    if (seen.has(place.id)) return false;
+    seen.add(place.id);
+    return true;
+  });
+}
+
 function getMapDistanceScore(origin, candidate) {
   const originCoords = getPlaceCoords(origin);
   const candidateCoords = getPlaceCoords(candidate);
@@ -469,6 +530,25 @@ function escapeHtmlAttribute(value) {
     .replace(/>/g, "&gt;");
 }
 
+function escapeInlineJsString(value) {
+  return String(value || "")
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/\r?\n/g, " ");
+}
+
+function mapPinButtonHtml({ place, pin, ariaLabel, selected, pulsing, classes }) {
+  const entityId = escapeInlineJsString(place.id);
+  const escapedId = escapeHtmlAttribute(place.id);
+  const escapedLabel = escapeHtmlAttribute(ariaLabel);
+  const pinLabel = escapeHtmlAttribute(pin.label);
+  const activeClass = selected ? "is-selected" : "";
+  const pulseClass = pulsing ? "is-pulsing" : "";
+  const openScript = `event.stopPropagation(); var dpUrl = new URL(window.location.href); dpUrl.searchParams.set('entityId', '${entityId}'); window.location.href = dpUrl.toString();`;
+
+  return `<button type="button" class="dp-live-pin ${classes} ${activeClass} ${pulseClass}" data-entity-id="${escapedId}" data-pin-label="${pinLabel}" aria-label="${escapedLabel}" onclick="${openScript}" ondblclick="${openScript}"><span class="dp-live-pin__halo" aria-hidden="true"></span><span class="dp-live-pin__core">${pin.glyph}</span></button>`;
+}
+
 function pinIcon(place, selected, pulsing = false) {
   const pin = resolveEntityPin(place);
   const isEventPin = isEventEntity(place);
@@ -479,23 +559,30 @@ function pinIcon(place, selected, pulsing = false) {
   const happyHourPinClass = isHappyHourPin ? "dp-live-pin--happy-hour" : "";
   const legendsPinClass = isLegendsPin ? "dp-live-pin--legends" : "";
   const iconSize = isLegendsPin
-    ? (selected ? [54, 54] : [48, 48])
+    ? (selected ? [40, 40] : [36, 36])
     : isEventPin || isHappyHourPin
-      ? (selected ? [32, 32] : [29, 29])
+      ? (selected ? [29, 29] : [26, 26])
       : selected
-        ? [38, 38]
-        : [34, 34];
+        ? [31, 31]
+        : [28, 28];
   const iconAnchor = isLegendsPin
-    ? (selected ? [27, 27] : [24, 24])
+    ? (selected ? [20, 20] : [18, 18])
     : isEventPin || isHappyHourPin
-      ? (selected ? [16, 16] : [14.5, 14.5])
+      ? (selected ? [14.5, 14.5] : [13, 13])
       : selected
-        ? [19, 19]
-        : [17, 17];
+        ? [15.5, 15.5]
+        : [14, 14];
   const ariaLabel = legendsListing ? `Legends listing at ${legendsListing.address}` : `${place.name} details`;
   return L.divIcon({
     className: "dp-leaflet-pin",
-    html: `<button type="button" class="dp-live-pin ${eventPinClass} ${happyHourPinClass} ${legendsPinClass} ${selected ? "is-selected" : ""} ${pulsing ? "is-pulsing" : ""}" data-entity-id="${escapeHtmlAttribute(place.id)}" aria-label="${escapeHtmlAttribute(ariaLabel)}"><span class="dp-live-pin__core">${pin.glyph}</span></button>`,
+    html: mapPinButtonHtml({
+      place,
+      pin,
+      ariaLabel,
+      selected,
+      pulsing,
+      classes: `${eventPinClass} ${happyHourPinClass} ${legendsPinClass}`,
+    }),
     iconSize,
     iconAnchor,
     popupAnchor: [0, -18],
@@ -506,8 +593,8 @@ function clusterIcon(count) {
   return L.divIcon({
     className: "dp-leaflet-cluster",
     html: `<div class="dp-map-cluster" aria-hidden="true"><span>${count}</span></div>`,
-    iconSize: [38, 38],
-    iconAnchor: [19, 19],
+    iconSize: [34, 34],
+    iconAnchor: [17, 17],
   });
 }
 
@@ -520,15 +607,16 @@ function getClusterCellSize(zoom) {
 }
 
 function clusterPlaces(places, zoom, selectedId) {
+  const validPlaces = places.filter((place) => getPlaceCoords(place));
   const cellSize = getClusterCellSize(zoom);
   if (!cellSize) {
-    return places.map((place) => ({ type: "place", id: place.id, place }));
+    return validPlaces.map((place) => ({ type: "place", id: place.id, place }));
   }
 
   const cells = new Map();
   const loosePlaces = [];
 
-  places.forEach((place) => {
+  validPlaces.forEach((place) => {
     if (place.id === selectedId) {
       loosePlaces.push({ type: "place", id: place.id, place });
       return;
@@ -545,7 +633,7 @@ function clusterPlaces(places, zoom, selectedId) {
   });
 
   const clusters = Array.from(cells.values()).flatMap((cell) => {
-    if (cell.places.length < 3) {
+    if (cell.places.length < 2) {
       return cell.places.map((place) => ({ type: "place", id: place.id, place }));
     }
 
@@ -567,10 +655,10 @@ function PinBadge({ place, selected = false, size = "sm" }) {
 
   return (
     <span
-      className={`${dimensions} inline-flex shrink-0 items-center justify-center rounded-md border font-semibold transition ${
+      className={`${dimensions} inline-flex shrink-0 items-center justify-center rounded-md font-semibold shadow-[0_10px_24px_rgba(11,31,51,0.07)] transition ${
         selected
-          ? "border-[#B38F4F]/70 bg-[#0B1F33] text-[#B38F4F]"
-          : "border-[#0B1F33]/8 bg-white text-[#0B1F33]"
+          ? "bg-[#0B1F33] text-[#B38F4F]"
+          : "bg-white/82 text-[#0B1F33]"
       }`}
       aria-hidden="true"
       title={pin.label}
@@ -582,13 +670,13 @@ function PinBadge({ place, selected = false, size = "sm" }) {
 
 function DemoQrTile({ code = "DP-DEMO-78701" }) {
   return (
-    <div className="rounded-md border border-[#0B1F33]/10 bg-white p-2">
+    <div className="dp-soft-tile bg-white/72 p-2">
       <img
         src={getResidentQrUrl(code)}
         alt={`Downtown Perks resident QR code for ${code}`}
         className="mx-auto h-28 w-28 rounded-[4px] bg-white object-contain"
       />
-      <code className="mt-1.5 block text-center font-mono text-[9px] font-semibold tracking-[0.1em] text-[#0B1F33]/68">
+      <code className="mt-1.5 block text-center font-mono text-[9px] font-semibold tracking-[0.1em] text-[#B38F4F]">
         {code}
       </code>
     </div>
@@ -739,18 +827,18 @@ function BusinessServiceDetails({ place }) {
     <section className="mt-4 dp-soft-panel p-3">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/52">
+          <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
             <Building2 className="h-3.5 w-3.5 text-[#B38F4F]" />
             {panel.eyebrow || "Local service"}
           </div>
           <h3 className="mt-1 font-heading text-xl font-medium text-[#0B1F33]">
             {panel.title || "Useful downtown service"}
           </h3>
-          <p className="mt-1.5 max-w-2xl text-[12px] leading-5 text-[#0B1F33]/64">
+          <p className="mt-1.5 max-w-2xl text-[13px] leading-5 text-[#425466]">
             {panel.description || place.raw?.summary || "Save this local service for later, get directions, or contact the business directly."}
           </p>
         </div>
-        <div className="shrink-0 rounded-md bg-white/72 px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.09em] text-[#0B1F33]/58 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)]">
+        <div className="shrink-0 px-0 py-1 text-[9px] font-semibold uppercase tracking-[0.09em] text-[#B38F4F]">
           Service
         </div>
       </div>
@@ -806,21 +894,21 @@ function ResidentPerkDetails({ place }) {
     <section className="mt-4 dp-soft-panel p-3">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/52">
+          <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
             <Gift className="h-3.5 w-3.5 text-[#B38F4F]" />
             {sectionLabel}
           </div>
           <h3 className="mt-1 font-heading text-xl font-medium text-[#0B1F33]">
             {perk.offer}
           </h3>
-          <p className="mt-1.5 max-w-2xl text-[12px] leading-5 text-[#0B1F33]/64">
+          <p className="mt-1.5 max-w-2xl text-[13px] leading-5 text-[#425466]">
             {perk.description}
           </p>
         </div>
         <div className={`shrink-0 rounded-md px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.09em] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] ${
           hasOffer
             ? "bg-white/88 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_0_20px_rgba(179,143,79,0.10)]"
-            : "bg-white/72 text-[#0B1F33]/58"
+            : "bg-white/72 text-[#425466]"
         }`}>
           {statusLabel}
         </div>
@@ -839,15 +927,15 @@ function HappyHourDetails({ place }) {
   const redemption = happyHour.redemption || "Show your Downtown Perks Card when you arrive.";
 
   return (
-    <section className="mt-4 dp-soft-panel bg-white/82 p-3">
+    <section className="mt-4 dp-soft-panel p-3">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/52">
+          <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
             <Gift className="h-3.5 w-3.5 text-[#B38F4F]" />
             Happy hour
           </div>
           <h3 className="mt-1 font-heading text-xl font-medium text-[#0B1F33]">{venueName}</h3>
-          <p className="mt-1.5 text-[12px] leading-5 text-[#0B1F33]/64">{details}</p>
+          <p className="mt-1.5 text-[13px] leading-5 text-[#425466]">{details}</p>
         </div>
         <div className="shrink-0 rounded-md bg-[#0B1F33] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.09em] text-white shadow-[0_0_22px_rgba(179, 143, 79, 0.08),inset_0_0_0_1px_rgba(179, 143, 79, 0.08)]">
           Live
@@ -900,7 +988,7 @@ function LegendsContactForm({ listing }) {
         />
         <div>
           <h3 className="text-[14px] font-semibold text-[#0B1F33] md:text-[15px]">Contact Legends Real Estate about this listing</h3>
-          <p className="mt-1 text-[11px] leading-5 text-[#0B1F33]/64 md:text-[12px]">
+          <p className="mt-1 text-[12px] leading-5 text-[#425466]">
             Send a quick request tied to this listing. Legends Real Estate will follow up with availability, showing options, and the next useful details.
           </p>
         </div>
@@ -963,7 +1051,7 @@ function LegendsListingDetails({ listing }) {
   ];
 
   return (
-      <section className="mt-3 dp-soft-panel bg-white/86 p-3 md:mt-4">
+      <section className="mt-3 dp-soft-panel p-3 md:mt-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex min-w-0 items-start gap-3">
           <img
@@ -976,7 +1064,7 @@ function LegendsListingDetails({ listing }) {
               {listing.listingTypeLabel}
             </div>
             <h3 className="mt-2 text-[18px] font-semibold leading-tight text-[#0B1F33] md:text-[20px]">{listing.address}</h3>
-            <p className="mt-1 text-[12px] font-medium text-[#0B1F33]/58">{listing.city}, {listing.state} {listing.zip}</p>
+            <p className="mt-1 text-[12px] font-medium text-[#425466]">{listing.city}, {listing.state} {listing.zip}</p>
           </div>
         </div>
         <div className="text-right">
@@ -994,7 +1082,7 @@ function LegendsListingDetails({ listing }) {
         ))}
       </div>
 
-      <p className="mt-4 text-[13px] leading-6 text-[#0B1F33]/66">{listing.panelCopy}</p>
+      <p className="mt-4 text-[13px] leading-6 text-[#425466]">{listing.panelCopy}</p>
       {listing.reconciliationNote && (
         <p className="mt-2 text-[11px] leading-5 text-[#0B1F33]/48">
           Source note: 48 of 65 stated for-sale listings were provided; 17 still need reconciliation before launch.
@@ -1107,13 +1195,13 @@ function PartnerBusinessInsights({ place }) {
   ];
 
   return (
-    <section className="mt-5 dp-soft-panel p-3">
+    <section className="mt-4 dp-soft-panel p-3 md:mt-5">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
-          <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Partner view</div>
-          <h3 className="mt-1 font-heading text-2xl font-medium text-[#0B1F33]">What this place can help you understand</h3>
+          <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">Partner view</div>
+          <h3 className="mt-1 font-heading text-[22px] font-medium leading-tight text-[#0B1F33] md:text-2xl">What this place can help you understand</h3>
         </div>
-        <div className="rounded-md bg-white/82 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_0_24px_rgba(179,143,79,0.08)]">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/70 md:text-[11px]">
           {insights.placement}
         </div>
       </div>
@@ -1121,19 +1209,19 @@ function PartnerBusinessInsights({ place }) {
       <div className="mt-3 grid gap-2 md:grid-cols-3">
         {insightCards.map(([title, body]) => (
           <article key={title} className="dp-soft-tile p-3">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50">{title}</div>
-            <p className="mt-2 text-[12px] leading-5 text-[#0B1F33]/66">{body}</p>
+            <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B38F4F]">{title}</div>
+            <p className="mt-2 text-[13px] leading-5 text-[#425466]">{body}</p>
           </article>
         ))}
       </div>
 
       <div className="mt-3 grid gap-2 md:grid-cols-[1fr_1fr]">
         <div className="dp-soft-tile p-3">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50">Best time to show up</div>
+          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B38F4F]">Best time to show up</div>
           <p className="mt-2 text-[13px] font-semibold text-[#0B1F33]">{insights.timing}</p>
         </div>
         <div className="rounded-md bg-[#0B1F33] p-3 text-white shadow-[0_18px_42px_rgba(11,31,51,0.18),0_0_34px_rgba(179,143,79,0.10)]">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/54">Good next step</div>
+          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B38F4F]">Good next step</div>
           <p className="mt-2 text-[13px] font-semibold">{insights.action}</p>
         </div>
       </div>
@@ -1171,9 +1259,9 @@ function PartnerMetricInsight({ place, selectedMetric, onSelectMetric }) {
     <section className="mt-4 dp-soft-panel p-3">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
-          <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Intel</div>
-          <h3 className="mt-1 font-heading text-2xl font-medium text-[#0B1F33]">{activeInsight.title}</h3>
-          <p className="mt-2 max-w-2xl text-[12px] leading-5 text-[#0B1F33]/64">{activeInsight.body}</p>
+          <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">Intel</div>
+          <h3 className="mt-1 font-heading text-[22px] font-medium leading-tight text-[#0B1F33] md:text-2xl">{activeInsight.title}</h3>
+          <p className="mt-2 max-w-2xl text-[13px] leading-5 text-[#425466]">{activeInsight.body}</p>
         </div>
       </div>
 
@@ -1186,7 +1274,7 @@ function PartnerMetricInsight({ place, selectedMetric, onSelectMetric }) {
             className={`min-w-[108px] shrink-0 rounded-md px-2.5 py-1.5 text-left transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
               selectedMetric.id === metric.id
                 ? "bg-[#0B1F33] text-white shadow-[0_12px_28px_rgba(11,31,51,0.14),0_0_24px_rgba(179, 143, 79, 0.08)]"
-                : "bg-white/76 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] hover:bg-white hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)]"
+                : "bg-white/72 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.025)] hover:bg-white hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.04)]"
             }`}
             aria-pressed={selectedMetric.id === metric.id}
           >
@@ -1198,17 +1286,17 @@ function PartnerMetricInsight({ place, selectedMetric, onSelectMetric }) {
 
       <div className="mt-3 grid gap-2 md:grid-cols-[1fr_1fr]">
         <div className="dp-soft-tile p-3">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50">What it tells you</div>
-          <p className="mt-2 text-[12px] leading-5 text-[#0B1F33]/66">{selectedMetric.copy}</p>
+          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B38F4F]">What it tells you</div>
+          <p className="mt-2 text-[13px] leading-5 text-[#425466]">{selectedMetric.copy}</p>
         </div>
         <div className="dp-soft-tile p-3">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50">How to use it</div>
-          <p className="mt-2 text-[12px] leading-5 text-[#0B1F33]/66">{activeInsight.use}</p>
+          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B38F4F]">How to use it</div>
+          <p className="mt-2 text-[13px] leading-5 text-[#425466]">{activeInsight.use}</p>
         </div>
       </div>
 
       <div className="mt-3 rounded-md bg-[#0B1F33] p-3 text-white shadow-[0_18px_42px_rgba(11,31,51,0.18),0_0_34px_rgba(179,143,79,0.10)]">
-        <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/54">Good next step</div>
+        <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B38F4F]">Good next step</div>
         <p className="mt-2 text-[13px] font-semibold">{insights.action}</p>
       </div>
     </section>
@@ -1220,7 +1308,9 @@ function MapFocus({ selected }) {
 
   useEffect(() => {
     if (!selected) return;
-    map.flyTo([selected.latitude, selected.longitude], Math.max(map.getZoom(), 15), {
+    const coords = getPlaceCoords(selected);
+    if (!coords) return;
+    map.flyTo(coords, Math.max(map.getZoom(), 15), {
       duration: 0.55,
     });
   }, [map, selected]);
@@ -1303,6 +1393,32 @@ function ClusterMarker({ cluster, onOpen }) {
       icon={clusterIcon(cluster.count)}
       eventHandlers={{
         click: expandCluster,
+      }}
+    />
+  );
+}
+
+function PlaceMarker({ place, selected, pulsing, onSelect, onSelectNearestLegends, onHover, onHoverEnd }) {
+  const markerRef = useRef(null);
+
+  return (
+    <Marker
+      ref={markerRef}
+      position={place.coords}
+      icon={pinIcon(place, selected, pulsing)}
+      keyboard={false}
+      title={place.name}
+      alt={place.name}
+      eventHandlers={{
+        click: () => onSelect(place),
+        dblclick: (event) => {
+          event.originalEvent?.preventDefault?.();
+          event.originalEvent?.stopPropagation?.();
+          onSelectNearestLegends(place);
+        },
+        tap: () => onSelect(place),
+        mouseover: () => onHover(place),
+        mouseout: () => onHoverEnd(place),
       }}
     />
   );
@@ -1472,9 +1588,9 @@ export default function MapPage() {
   const contextLabel = contextCount > 0
     ? `${contextCount} ${activeFilter === "All" ? "downtown places" : activeFilter.toLowerCase()}`
     : `No ${activeFilter === "All" ? "downtown places" : activeFilter.toLowerCase()} in this view`;
-  const mapPlaces = displayPlaces.slice(0, 350);
+  const mapPlaces = dedupePlacesById(displayPlaces).filter((place) => getPlaceCoords(place)).slice(0, 350);
   const visibleLegendsPlaces = useMemo(
-    () => displayPlaces.filter((place) => isLegendsMapPlace(place) && getPlaceCoords(place)),
+    () => dedupePlacesById(displayPlaces).filter((place) => isLegendsMapPlace(place) && getPlaceCoords(place)),
     [displayPlaces],
   );
   const clusteredMapItems = useMemo(
@@ -1546,7 +1662,9 @@ export default function MapPage() {
 
   useEffect(() => {
     function openPinnedEntity(event) {
-      const pin = event.target?.closest?.(".dp-live-pin[data-entity-id]");
+      const pin =
+        event.target?.closest?.(".dp-live-pin[data-entity-id]") ||
+        event.target?.closest?.(".leaflet-marker-icon")?.querySelector?.(".dp-live-pin[data-entity-id]");
       if (!pin) return;
 
       const place = places.find((item) => item.id === pin.getAttribute("data-entity-id"));
@@ -1674,7 +1792,7 @@ export default function MapPage() {
     const query = search.trim() || activePrompt;
     const localResults = getSmartResults(query);
     setSearch(query);
-    setMapAnswer(buildMapAnswer(query, localResults, urlState.mode, district, activeFilter));
+    setMapAnswer(buildAgenticMapAnswer(query, localResults, urlState.mode, district, activeFilter));
     setActiveBottomTab("discover");
     urlState.update({ q: query });
 
@@ -1691,7 +1809,7 @@ export default function MapPage() {
   async function applyPrompt(prompt) {
     const localResults = getSmartResults(prompt);
     setSearch(prompt);
-    setMapAnswer(buildMapAnswer(prompt, localResults, urlState.mode, district, activeFilter));
+    setMapAnswer(buildAgenticMapAnswer(prompt, localResults, urlState.mode, district, activeFilter));
     setActiveBottomTab("discover");
     urlState.update({ q: prompt });
 
@@ -1736,28 +1854,16 @@ export default function MapPage() {
             item.type === "cluster" ? (
               <ClusterMarker key={item.id} cluster={item} onOpen={openClusterDrawer} />
             ) : (
-              <Marker
+              <PlaceMarker
                 key={item.id}
-                position={item.place.coords}
-                icon={pinIcon(item.place, item.place.id === selectedId, item.place.id === pulsingPinId)}
-                title={item.place.name}
-                alt={item.place.name}
-                eventHandlers={{
-                  click: () => {
-                    selectPlace(item.place);
-                  },
-                  dblclick: (event) => {
-                    event.originalEvent?.preventDefault?.();
-                    event.originalEvent?.stopPropagation?.();
-                    selectNearestLegendsListing(item.place);
-                  },
-                  tap: () => {
-                    selectPlace(item.place);
-                  },
-                  mouseover: () => setPulsingPinId(item.place.id),
-                  mouseout: () => {
-                    if (item.place.id !== selectedId) setPulsingPinId("");
-                  },
+                place={item.place}
+                selected={item.place.id === selectedId}
+                pulsing={item.place.id === pulsingPinId}
+                onSelect={selectPlace}
+                onSelectNearestLegends={selectNearestLegendsListing}
+                onHover={(place) => setPulsingPinId(place.id)}
+                onHoverEnd={(place) => {
+                  if (place.id !== selectedId) setPulsingPinId("");
                 }}
               />
             ),
@@ -1775,7 +1881,7 @@ export default function MapPage() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={() => setConsoleCollapsed(false)}
-              className="pointer-events-auto mx-auto flex h-8 items-center justify-center gap-1.5 rounded-md border border-[#0B1F33]/8 bg-white/90 px-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33] shadow-[0_14px_32px_rgba(11,31,51,0.09)] backdrop-blur-xl transition hover:border-[#B38F4F]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:h-10 md:gap-2 md:px-4 md:text-[11px] md:tracking-[0.14em]"
+              className="pointer-events-auto mx-auto flex h-7 items-center justify-center gap-1.5 bg-white/74 px-2.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/62 shadow-[0_10px_28px_rgba(11,31,51,0.06)] backdrop-blur-xl transition hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:h-8 md:px-3 md:text-[10px]"
               aria-expanded="false"
             >
               <Sparkles className="h-4 w-4 text-[#B38F4F]" />
@@ -1786,14 +1892,14 @@ export default function MapPage() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="pointer-events-auto relative mx-auto max-h-[calc(100vh-124px)] max-w-3xl overflow-y-auto rounded-md border border-[#0B1F33]/8 bg-white/88 p-2 pr-9 shadow-[0_14px_34px_rgba(11,31,51,0.09)] backdrop-blur-xl md:max-h-[calc(100vh-142px)] md:rounded-lg md:p-3 md:pr-11"
+            className="dp-panel-shell pointer-events-auto relative mx-auto max-h-[calc(100vh-124px)] max-w-3xl overflow-y-auto rounded-md p-2 pr-9 md:max-h-[calc(100vh-142px)] md:rounded-lg md:p-3 md:pr-11"
             role="region"
             aria-label="Map command console"
           >
             <button
               type="button"
               onClick={() => setConsoleCollapsed(true)}
-              className="absolute right-2 top-2 z-10 flex h-7 w-7 items-center justify-center rounded-md border border-[#0B1F33]/8 bg-white text-[#0B1F33]/62 transition hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:right-2.5 md:top-2.5 md:h-8 md:w-8"
+              className="dp-panel-close absolute right-2 top-2 z-10 flex h-7 w-7 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:right-2.5 md:top-2.5 md:h-8 md:w-8"
               aria-label="Collapse map controls"
             >
               <X className="h-4 w-4" />
@@ -1801,12 +1907,12 @@ export default function MapPage() {
             <div className="grid gap-2">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#0B1F33]/58">
+                <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38F4F]">
                   <Sparkles className="h-3 w-3 text-[#B38F4F] md:h-3.5 md:w-3.5" />
-                  {urlState.mode === "partner" ? "PARTNER MAP" : "RESIDENTS"}
+                  {urlState.mode === "partner" ? "PARTNER MAP AGENT" : "RESIDENT MAP AGENT"}
                 </div>
                 <h1 className="mt-0.5 truncate font-heading text-[16px] font-medium leading-tight text-[#0B1F33] md:text-[22px]">
-                  {urlState.mode === "partner" ? "Who nearby should see this?" : "What do you want to do?"}
+                  {activePrompt}
                 </h1>
               </div>
 
@@ -1830,21 +1936,28 @@ export default function MapPage() {
               <form onSubmit={runSearch} className="grid gap-1.5 md:grid-cols-[1fr_auto]">
                 <label className="group flex h-8 items-center gap-2 dp-soft-field rounded-md bg-white px-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] transition-all focus-within:border-[#B38F4F]/70 md:h-9 md:px-3">
                   <Search className="h-4 w-4 shrink-0 text-[#0B1F33]/50" />
-                  <input
-                    type="text"
-                    placeholder={activePrompt}
-                    value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                      if (mapAnswer) setMapAnswer(null);
-                    }}
-                    className="min-w-0 flex-1 bg-transparent text-[12px] text-[#0B1F33] placeholder:text-[#0B1F33]/42 focus:outline-none md:text-[13px]"
-                  />
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.input
+                      key={activePrompt}
+                      type="text"
+                      placeholder={activePrompt}
+                      value={search}
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                        if (mapAnswer) setMapAnswer(null);
+                      }}
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                      className="min-w-0 flex-1 bg-transparent text-[12px] text-[#0B1F33] placeholder:text-[#0B1F33]/42 focus:outline-none md:text-[13px]"
+                    />
+                  </AnimatePresence>
                   {!search && (
                     <button
                       type="button"
                       onClick={() => applyPrompt(activePrompt)}
-                      className="hidden rounded-[4px] border border-[#B38F4F]/30 bg-[#F7F8FB] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/62 transition hover:border-[#B38F4F]/60 hover:text-[#0B1F33] sm:inline-flex"
+                      className="hidden px-0 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#B38F4F] transition hover:text-[#0B1F33] sm:inline-flex"
                     >
                       Use
                     </button>
@@ -2040,7 +2153,7 @@ export default function MapPage() {
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="max-h-[170px] overflow-y-auto border-t border-[#0B1F33]/8 pt-2 pr-1">
+                    <div className="max-h-[170px] overflow-y-auto pt-2 pr-1">
                       <div className="grid gap-2">
                         <div className="flex gap-1.5 overflow-x-auto pb-1">
                           {METRICS.map((metric) => (
@@ -2048,10 +2161,10 @@ export default function MapPage() {
                               key={metric.id}
                               type="button"
                               onClick={() => setSelectedMetric(metric)}
-                              className={`min-w-[112px] shrink-0 rounded-md border px-2.5 py-1.5 text-left transition ${
+                              className={`min-w-[112px] shrink-0 rounded-md px-2.5 py-1.5 text-left transition ${
                                 selectedMetric.id === metric.id
-                                  ? "border-[#B38F4F]/70 bg-[#0B1F33] text-white"
-                                  : "border-[#0B1F33]/8 bg-white/72 text-[#0B1F33] hover:border-[#B38F4F]/45"
+                                  ? "bg-[#0B1F33] text-white shadow-[0_10px_24px_rgba(11,31,51,0.12),0_0_18px_rgba(179,143,79,0.08)]"
+                                  : "bg-white/72 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.025)] hover:bg-white"
                               }`}
                             >
                               <span className="block truncate text-[9px] font-semibold uppercase tracking-[0.12em] opacity-65">{metric.label}</span>
@@ -2059,7 +2172,7 @@ export default function MapPage() {
                             </button>
                           ))}
                         </div>
-                        <p className="mt-1 text-[11px] leading-4 text-[#0B1F33]/58">{selectedMetric.copy}</p>
+                        <p className="mt-1 text-[12px] leading-5 text-[#425466]">{selectedMetric.copy}</p>
                         <div className="grid gap-1.5 sm:grid-cols-3">
                           <button
                             type="button"
@@ -2067,10 +2180,10 @@ export default function MapPage() {
                               setActiveBottomTab("discover");
                               setIntelOpen(false);
                             }}
-                            className="rounded-md border border-[#0B1F33]/8 bg-white/70 p-2 text-left transition hover:border-[#B38F4F]/45"
+                            className="dp-panel-row p-2 text-left"
                           >
-                            <div className="text-[9px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/50">What people are doing</div>
-                            <p className="mt-1 text-[11px] leading-4 text-[#0B1F33]/62">Open the bottom Intel drawer for the fuller view.</p>
+                            <div className="text-[9px] font-semibold uppercase tracking-[0.13em] text-[#B38F4F]">What people are doing</div>
+                            <p className="mt-1 text-[12px] leading-5 text-[#425466]">Open the bottom Intel drawer for the fuller view.</p>
                           </button>
                           <button
                             type="button"
@@ -2078,10 +2191,10 @@ export default function MapPage() {
                               setActiveBottomTab("discover");
                               setIntelOpen(false);
                             }}
-                            className="rounded-md border border-[#0B1F33]/8 bg-white/70 p-2 text-left transition hover:border-[#B38F4F]/45"
+                            className="dp-panel-row p-2 text-left"
                           >
-                            <div className="text-[9px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/50">Who is nearby</div>
-                            <p className="mt-1 text-[11px] leading-4 text-[#0B1F33]/62">Residents, guests, and visitors around this area.</p>
+                            <div className="text-[9px] font-semibold uppercase tracking-[0.13em] text-[#B38F4F]">Who is nearby</div>
+                            <p className="mt-1 text-[12px] leading-5 text-[#425466]">Residents, guests, and visitors around this area.</p>
                           </button>
                           <button
                             type="button"
@@ -2089,10 +2202,10 @@ export default function MapPage() {
                               setActiveBottomTab("discover");
                               setIntelOpen(false);
                             }}
-                            className="rounded-md border border-[#0B1F33]/8 bg-white/70 p-2 text-left transition hover:border-[#B38F4F]/45"
+                            className="dp-panel-row p-2 text-left"
                           >
-                            <div className="text-[9px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/50">What to try next</div>
-                            <p className="mt-1 text-[11px] leading-4 text-[#0B1F33]/62">See the bottom drawer for next steps.</p>
+                            <div className="text-[9px] font-semibold uppercase tracking-[0.13em] text-[#B38F4F]">What to try next</div>
+                            <p className="mt-1 text-[12px] leading-5 text-[#425466]">See the bottom drawer for next steps.</p>
                           </button>
                         </div>
                         <div className="flex gap-1.5">
@@ -2125,7 +2238,7 @@ export default function MapPage() {
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4, height: 0 }}
-                className="mt-2 overflow-hidden rounded-md border border-[#B38F4F]/28 bg-[#F7F8FB]/78 p-3"
+                className="dp-soft-panel mt-2 overflow-hidden p-3"
                 role="status"
                 aria-live="polite"
               >
@@ -2133,15 +2246,15 @@ export default function MapPage() {
                   <div className="flex min-w-0 items-start gap-2">
                   <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-[#B38F4F]" />
                   <div className="min-w-0">
-                    <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Map answer</div>
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">Map answer</div>
                     <h3 className="mt-1 text-[13px] font-semibold text-[#0B1F33]">{mapAnswer.title}</h3>
-                    <p className="mt-1 text-[12px] leading-5 text-[#0B1F33]/64">{mapAnswer.body}</p>
+                    <p className="mt-1 text-[13px] leading-5 text-[#425466]">{mapAnswer.body}</p>
                   </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => setMapAnswer(null)}
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-[#0B1F33]/8 bg-white px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/62 transition hover:border-[#B38F4F]/45 hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                    className="dp-map-control inline-flex shrink-0 items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                   >
                     <ChevronUp className="h-3.5 w-3.5" />
                     Roll up
@@ -2154,10 +2267,10 @@ export default function MapPage() {
                         key={place.id}
                         type="button"
                         onClick={() => selectPlace(place)}
-                        className="shrink-0 rounded-md border border-[#0B1F33]/8 bg-white/78 px-2.5 py-1.5 text-left text-[11px] text-[#0B1F33] transition hover:border-[#B38F4F]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                        className="dp-panel-row shrink-0 px-2.5 py-1.5 text-left text-[11px] text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                       >
                         <span className="block max-w-[180px] truncate font-semibold">{place.name}</span>
-                        <span className="block max-w-[180px] truncate text-[#0B1F33]/52">{place.category} · {place.district}</span>
+                        <span className="block max-w-[180px] truncate text-[#425466]">{place.category} · {place.district}</span>
                       </button>
                     ))}
                   </div>
@@ -2177,22 +2290,22 @@ export default function MapPage() {
           <motion.section
             initial={{ opacity: 0, y: 24, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            className="pointer-events-auto max-h-[calc(100dvh-0.75rem)] w-full max-w-xl overflow-y-auto rounded-t-xl bg-white/94 p-2.5 shadow-[0_18px_58px_rgba(11,31,51,0.12),0_0_42px_rgba(179,143,79,0.06),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[14px] sm:p-4 md:max-h-[calc(100dvh-2rem)] md:rounded-lg"
+            className="dp-panel-shell pointer-events-auto max-h-[calc(100dvh-0.75rem)] w-full max-w-xl overflow-y-auto rounded-t-xl p-2.5 sm:p-4 md:max-h-[calc(100dvh-2rem)] md:rounded-lg"
             role="dialog"
             aria-modal="true"
             aria-label="Resident pass"
           >
-            <div className="sticky top-0 z-10 -mx-2.5 -mt-2.5 mb-2 flex items-center justify-between gap-2 bg-white/90 px-2.5 py-1.5 shadow-[0_10px_24px_rgba(11,31,51,0.04)] backdrop-blur-xl sm:-mx-4 sm:-mt-4 sm:px-4 sm:py-2 md:mb-3">
-              <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/58 md:text-[10px] md:tracking-[0.16em]">Resident pass</span>
-              <button type="button" onClick={() => switchMode("resident", "map")} className="rounded-md bg-white/82 p-1.5 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:p-2" aria-label="Close pass">
+            <div className="dp-panel-header sticky top-0 z-10 -mx-2.5 -mt-2.5 mb-2 flex items-center justify-between gap-2 px-2.5 py-1.5 sm:-mx-4 sm:-mt-4 sm:px-4 sm:py-2 md:mb-3">
+              <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#B38F4F] md:text-[10px] md:tracking-[0.16em]">Resident pass</span>
+              <button type="button" onClick={() => switchMode("resident", "map")} className="dp-panel-close rounded-md p-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:p-2" aria-label="Close pass">
                 <X className="h-4 w-4" />
               </button>
             </div>
             <div className="flex items-start justify-between gap-3 md:gap-4">
               <div>
-                <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/58 md:text-[10px] md:tracking-[0.16em]">Resident pass</p>
+                <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#B38F4F] md:text-[10px] md:tracking-[0.16em]">Resident pass</p>
                 <h2 className="mt-1 font-heading text-[24px] font-medium leading-none md:mt-1.5 md:text-[28px]">Downtown Perks Card</h2>
-                <p className="mt-1.5 text-[11px] leading-5 text-[#0B1F33]/62">
+                <p className="mt-1.5 text-[12px] leading-5 text-[#425466]">
                   Show the QR. The partner scans it. Your perk is confirmed right there.
                 </p>
               </div>
@@ -2213,19 +2326,19 @@ export default function MapPage() {
             </div>
             <div className="mt-3 grid gap-2 sm:grid-cols-2">
               <div className="dp-soft-panel p-2.5">
-                <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/52">
+                <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
                   <QrCode className="h-3.5 w-3.5 text-[#B38F4F]" />
                   Resident shows
                 </div>
                 <div className="mt-2">
                   <DemoQrTile />
                 </div>
-                <p className="mt-2 text-[11px] leading-4 text-[#0B1F33]/62">
+                <p className="mt-2 text-[12px] leading-5 text-[#425466]">
                   Demo resident QR for perks, events, hotels, and building desks.
                 </p>
               </div>
-              <div className="dp-soft-panel bg-white/84 p-2.5">
-                <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/52">
+              <div className="dp-soft-panel p-2.5">
+                <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
                   <ScanLine className="h-3.5 w-3.5 text-[#B38F4F]" />
                   Partner scans
                 </div>
@@ -2276,7 +2389,7 @@ export default function MapPage() {
 	      {urlState.tab === "map" && !selected && !clusterDrawer && activeBottomTab !== "discover" && (
         <div className="pointer-events-none fixed inset-x-0 bottom-2 z-[700] flex justify-center px-2 pb-[env(safe-area-inset-bottom)] md:bottom-3 md:px-4">
           <nav
-            className="pointer-events-auto flex max-w-[calc(100vw-1rem)] gap-1 overflow-x-auto rounded-md border border-[#0B1F33]/8 bg-white/94 p-1 shadow-[0_14px_34px_rgba(11,31,51,0.11)] backdrop-blur-xl md:max-w-[min(520px,calc(100vw-2rem))] md:rounded-lg md:p-1.5"
+            className="pointer-events-auto flex max-w-[calc(100vw-1rem)] gap-4 overflow-x-auto bg-white/76 px-3 py-2 shadow-[0_14px_34px_rgba(11,31,51,0.07)] backdrop-blur-xl md:max-w-[min(460px,calc(100vw-2rem))] md:gap-5 md:px-4"
             aria-label="Map bottom navigation"
           >
             <button
@@ -2285,12 +2398,12 @@ export default function MapPage() {
                 setActiveBottomTab("map");
                 if (urlState.tab !== "map") switchMode(urlState.mode, "map");
               }}
-              className={`inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-md px-3 text-[10px] font-semibold uppercase tracking-[0.1em] transition md:h-10 md:gap-2 md:px-4 md:text-[11px] md:tracking-[0.12em] ${
-                urlState.tab === "map" && activeBottomTab === "map" ? "bg-[#0B1F33] text-white" : "text-[#0B1F33]/64 hover:bg-[#F7F8FB]"
+              className={`inline-flex h-5 shrink-0 items-center justify-center gap-1.5 px-0 text-[9px] font-semibold uppercase tracking-[0.13em] transition md:h-6 md:text-[10px] ${
+                urlState.tab === "map" && activeBottomTab === "map" ? "border-b border-[#B38F4F] text-[#0B1F33]" : "text-[#0B1F33]/58 hover:text-[#0B1F33]"
               }`}
               aria-pressed={urlState.tab === "map" && activeBottomTab === "map"}
             >
-              <MapPin className="h-3.5 w-3.5 text-[#B38F4F] md:h-4 md:w-4" />
+              <MapPin className="h-3 w-3 text-[#B38F4F] md:h-3.5 md:w-3.5" />
               Map
             </button>
             <button
@@ -2299,14 +2412,14 @@ export default function MapPage() {
                 setActiveBottomTab("discover");
                 if (urlState.tab !== "map") switchMode(urlState.mode, "map");
               }}
-              className={`inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-md px-3 text-[10px] font-semibold uppercase tracking-[0.1em] transition md:h-10 md:gap-2 md:px-4 md:text-[11px] md:tracking-[0.12em] ${
-                urlState.tab === "map" && activeBottomTab === "discover" ? "bg-[#0B1F33] text-white" : "text-[#0B1F33]/64 hover:bg-[#F7F8FB]"
+              className={`inline-flex h-5 shrink-0 items-center justify-center gap-1.5 px-0 text-[9px] font-semibold uppercase tracking-[0.13em] transition md:h-6 md:text-[10px] ${
+                urlState.tab === "map" && activeBottomTab === "discover" ? "border-b border-[#B38F4F] text-[#0B1F33]" : "text-[#0B1F33]/58 hover:text-[#0B1F33]"
               }`}
               aria-pressed={urlState.tab === "map" && activeBottomTab === "discover"}
             >
-              <Sparkles className="h-3.5 w-3.5 text-[#B38F4F] md:h-4 md:w-4" />
+              <Sparkles className="h-3 w-3 text-[#B38F4F] md:h-3.5 md:w-3.5" />
               {urlState.mode === "partner" ? "Intel" : "Discover"}
-              <span className="rounded-[4px] border border-[#B38F4F]/35 px-1 py-0.5 text-[9px] leading-none text-[#B38F4F] md:px-1.5 md:text-[10px]">
+              <span className="text-[9px] leading-none text-[#B38F4F] md:text-[10px]">
                 {contextCount > 0 ? contextCount : "Live"}
               </span>
             </button>
@@ -2314,12 +2427,12 @@ export default function MapPage() {
               <button
                 type="button"
                 onClick={() => switchMode("resident", "pass")}
-                className={`inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-md px-3 text-[10px] font-semibold uppercase tracking-[0.1em] transition md:h-10 md:gap-2 md:px-4 md:text-[11px] md:tracking-[0.12em] ${
-                  urlState.tab === "pass" ? "bg-[#0B1F33] text-white" : "text-[#0B1F33]/64 hover:bg-[#F7F8FB]"
+                className={`inline-flex h-5 shrink-0 items-center justify-center gap-1.5 px-0 text-[9px] font-semibold uppercase tracking-[0.13em] transition md:h-6 md:text-[10px] ${
+                  urlState.tab === "pass" ? "border-b border-[#B38F4F] text-[#0B1F33]" : "text-[#0B1F33]/58 hover:text-[#0B1F33]"
                 }`}
                 aria-pressed={urlState.tab === "pass"}
               >
-                <CreditCard className="h-3.5 w-3.5 text-[#B38F4F] md:h-4 md:w-4" />
+                <CreditCard className="h-3 w-3 text-[#B38F4F] md:h-3.5 md:w-3.5" />
                 Card
               </button>
             )}
@@ -2334,7 +2447,7 @@ export default function MapPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 44 }}
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-[620] mx-auto max-h-[52vh] w-full max-w-3xl overflow-hidden rounded-t-xl bg-white/92 p-2.5 pb-[calc(0.6rem+env(safe-area-inset-bottom))] shadow-[0_18px_58px_rgba(11,31,51,0.12),0_0_44px_rgba(179,143,79,0.05),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[24px] md:max-h-[56vh] md:rounded-t-2xl md:p-3 md:pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
+            className="dp-panel-shell fixed inset-x-0 bottom-0 z-[620] mx-auto max-h-[52vh] w-full max-w-3xl overflow-hidden rounded-t-xl p-2.5 pb-[calc(0.6rem+env(safe-area-inset-bottom))] md:max-h-[56vh] md:rounded-t-2xl md:p-3 md:pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
             role="dialog"
             aria-modal="true"
             aria-label={urlState.mode === "partner" ? "Partner map results" : "Discover results"}
@@ -2342,14 +2455,14 @@ export default function MapPage() {
             <div className="mx-auto mb-2 h-0.5 w-10 rounded-full bg-[#0B1F33]/14 md:mb-3 md:h-1 md:w-12" aria-hidden="true" />
             <div className="mb-2 flex items-center justify-between gap-2 md:mb-3 md:gap-3">
               <div className="min-w-0 flex-1">
-                <div className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50 md:text-[10px] md:tracking-[0.16em]">
+                <div className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#B38F4F] md:text-[10px] md:tracking-[0.16em]">
                   {urlState.mode === "partner" ? "Partner map" : "Downtown nearby"}
                 </div>
                 <div className="mt-0.5 text-[12px] font-semibold text-[#0B1F33] md:text-[13px]">
                   {contextLabel}
                 </div>
                 {isUsingFallbackPlaces && (
-                  <div className="mt-1 text-[11px] leading-4 text-[#0B1F33]/52">
+                  <div className="mt-1 text-[12px] leading-4 text-[#425466]">
                     Showing nearby downtown places while you narrow the search.
                   </div>
                 )}
@@ -2357,7 +2470,7 @@ export default function MapPage() {
               <button
                 type="button"
                 onClick={() => setActiveBottomTab("map")}
-                className="flex h-8 w-8 items-center justify-center rounded-md bg-white/82 text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:h-9 md:w-9"
+                className="dp-panel-close flex h-8 w-8 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:h-9 md:w-9"
                 aria-label="Close discover results"
               >
                 <X className="h-4 w-4" />
@@ -2378,8 +2491,8 @@ export default function MapPage() {
                       ["What to try next", "Places and moments that are close enough for people to act on."],
                     ]).map(([title, body]) => (
                   <div key={title} className="dp-soft-tile p-3">
-                    <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50">{title}</div>
-                    <p className="mt-1 text-[11px] leading-4 text-[#0B1F33]/62">{body}</p>
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B38F4F]">{title}</div>
+                    <p className="mt-1 text-[12px] leading-5 text-[#425466]">{body}</p>
                   </div>
                 ))}
               </div>
@@ -2391,8 +2504,8 @@ export default function MapPage() {
                   key={place.id}
                   type="button"
                   onClick={() => selectPlace(place)}
-                  className={`grid w-full grid-cols-[34px_1fr_auto] items-center gap-2 rounded-md p-2 text-left transition-all hover:-translate-y-0.5 hover:bg-white md:grid-cols-[42px_1fr_auto] md:gap-3 md:p-2.5 ${
-                    place.id === selectedId ? "bg-[#0B1F33] text-white shadow-[0_14px_34px_rgba(11,31,51,0.16),0_0_24px_rgba(179, 143, 79, 0.08)]" : "bg-white/72 text-[#0B1F33] shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)]"
+                  className={`grid w-full grid-cols-[34px_1fr_auto] items-center gap-2 p-1.5 text-left transition-all hover:-translate-y-0.5 md:grid-cols-[42px_1fr_auto] md:gap-3 md:p-2 ${
+                    place.id === selectedId ? "bg-[#0B1F33] text-white shadow-[0_12px_30px_rgba(11,31,51,0.12),0_0_18px_rgba(179, 143, 79, 0.06)]" : "dp-panel-row text-[#0B1F33]"
                   }`}
                 >
                   <PinBadge place={place} selected={place.id === selectedId} />
@@ -2404,12 +2517,12 @@ export default function MapPage() {
                 </button>
               ))}
               {!previewPlaces.length && (
-                <div className="dp-soft-tile bg-white p-4 text-[13px] leading-6 text-[#0B1F33]/62">
+                <div className="dp-soft-tile bg-white p-4 text-[13px] leading-6 text-[#425466]">
                   No {activeFilter === "All" ? "places" : activeFilter.toLowerCase()} match this view. Try a nearby district or clear the filter.
                 </div>
               )}
               {isUsingFallbackPlaces && (
-                <div className="dp-soft-tile bg-white p-4 text-[13px] leading-6 text-[#0B1F33]/62">
+                <div className="dp-soft-tile bg-white p-4 text-[13px] leading-6 text-[#425466]">
                   Keeping nearby downtown places visible while your question sorts the best next options.
                 </div>
               )}
@@ -2417,7 +2530,7 @@ export default function MapPage() {
                 <button
                   type="button"
                   onClick={() => setResultsExpanded((value) => !value)}
-                  className="w-full rounded-md bg-[#F7F8FB]/82 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:-translate-y-0.5 hover:bg-white hover:text-[#0B1F33] hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="w-full bg-transparent px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/56 transition hover:-translate-y-0.5 hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                   aria-expanded={resultsExpanded}
                 >
                   {resultsExpanded ? "Roll up results" : `Expand results (${hiddenPreviewCount} more)`}
@@ -2435,16 +2548,16 @@ export default function MapPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 44 }}
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-[640] mx-auto flex max-h-[62vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-xl bg-white/94 shadow-[0_18px_58px_rgba(11,31,51,0.12),0_0_44px_rgba(179,143,79,0.05),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[18px] md:max-h-[68vh] md:rounded-t-2xl"
+            className="dp-panel-shell fixed inset-x-0 bottom-0 z-[640] mx-auto flex max-h-[62vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-xl md:max-h-[68vh] md:rounded-t-2xl"
             role="dialog"
             aria-modal="true"
             aria-label="Grouped map places"
           >
-            <div className="shrink-0 bg-white/94 shadow-[0_12px_30px_rgba(11,31,51,0.045)] backdrop-blur-xl">
+            <div className="dp-panel-header shrink-0">
               <div className="mx-auto mt-1.5 h-0.5 w-10 rounded-full bg-[#0B1F33]/14 md:mt-2 md:h-1 md:w-12" aria-hidden="true" />
               <div className="flex items-center justify-between gap-2 px-3 py-2.5 md:gap-3 md:px-4 md:py-3">
                 <div className="min-w-0 flex-1">
-                  <div className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/50 md:text-[10px] md:tracking-[0.16em]">
+                  <div className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#B38F4F] md:text-[10px] md:tracking-[0.16em]">
                     {urlState.mode === "partner" ? "Grouped partner places" : "Grouped nearby places"}
                   </div>
                   <div className="mt-0.5 text-[13px] font-semibold text-[#0B1F33]">
@@ -2457,7 +2570,7 @@ export default function MapPage() {
                     setClusterDrawer(null);
                     setActiveBottomTab("map");
                   }}
-                  className="rounded-md bg-white/82 p-2 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="dp-panel-close rounded-md p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                   aria-label="Close grouped places"
                 >
                   <X className="h-4 w-4" />
@@ -2473,7 +2586,7 @@ export default function MapPage() {
                     key={place.id}
                     type="button"
                     onClick={() => selectPlace(place)}
-                    className="grid w-full grid-cols-[34px_1fr_auto] items-center gap-2 dp-soft-tile bg-white p-2.5 text-left text-[#0B1F33] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:grid-cols-[42px_1fr_auto] md:gap-3 md:p-3"
+                    className="dp-panel-row grid w-full grid-cols-[34px_1fr_auto] items-center gap-2 p-2 text-left text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:grid-cols-[42px_1fr_auto] md:gap-3 md:p-2.5"
                   >
                     <PinBadge place={place} />
                     <span className="min-w-0">
@@ -2499,16 +2612,16 @@ export default function MapPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 44 }}
             transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 z-[650] mx-auto flex max-h-[74vh] w-full max-w-4xl flex-col overflow-hidden rounded-t-xl bg-white/92 shadow-[0_18px_64px_rgba(11,31,51,0.13),0_0_48px_rgba(179,143,79,0.05),inset_0_0_0_1px_rgba(11,31,51,0.05)] backdrop-blur-[24px] md:bottom-0 md:max-h-[78vh] md:rounded-t-[18px] md:backdrop-blur-[28px]"
+            className="dp-panel-shell fixed inset-x-0 bottom-0 z-[650] mx-auto flex max-h-[76vh] w-full max-w-4xl flex-col overflow-hidden rounded-t-xl md:bottom-0 md:max-h-[80vh] md:rounded-t-[18px]"
             role="dialog"
             aria-modal="true"
             aria-label={`${selected.name} details`}
           >
-            <div className="shrink-0 bg-white/90 shadow-[0_12px_30px_rgba(11,31,51,0.045)] backdrop-blur-xl">
+            <div className="dp-panel-header shrink-0">
               <div className="mx-auto mt-1.5 h-0.5 w-10 rounded-full bg-[#0B1F33]/14 md:mt-2 md:h-1 md:w-12" aria-hidden="true" />
               <div className="flex items-center justify-between gap-2 px-3 py-2 md:gap-3 md:px-4 md:py-2.5">
-                <span className="min-w-0 flex-1 truncate text-[10px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/58 md:text-xs md:tracking-[0.16em]">
-                  {urlState.mode === "partner" ? "How this place can work" : "Perks and details"}
+                <span className="min-w-0 flex-1 truncate text-[10px] font-semibold uppercase tracking-[0.13em] text-[#B38F4F] md:text-xs md:tracking-[0.16em]">
+                  {urlState.mode === "partner" ? "Partner details" : "Perks and details"}
                 </span>
                 <button
                   type="button"
@@ -2517,19 +2630,17 @@ export default function MapPage() {
                     setActiveBottomTab("map");
                     urlState.update({ entityId: "" });
                   }}
-                  className="rounded-md bg-white/82 p-1.5 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.05)] transition hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_rgba(179, 143, 79, 0.08),0_10px_24px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:p-2"
+                  className="dp-panel-close rounded-md p-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] md:p-2"
                   aria-label="Close drawer"
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
-              <div className="mt-1 flex gap-1 overflow-x-auto px-3 pb-2 md:mt-1.5 md:px-4 md:pb-2.5">
+              <div className="mt-0.5 flex gap-4 overflow-x-auto px-3 pb-2 md:mt-1 md:px-4 md:pb-2.5">
                 <button
                   type="button"
                   onClick={() => setSelectedDrawerTab("details")}
-                  className={`inline-flex h-6 shrink-0 items-center justify-center rounded-[5px] px-2 text-[9px] font-semibold uppercase tracking-[0.1em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
-                    selectedDrawerTab === "details" ? "bg-[#0B1F33] text-white shadow-[0_10px_24px_rgba(11,31,51,0.12),0_0_20px_rgba(179,143,79,0.10)]" : "bg-white/72 text-[#0B1F33]/64 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] hover:bg-white"
-                  }`}
+                  className={`dp-panel-tab ${selectedDrawerTab === "details" ? "is-active" : ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]`}
                   aria-pressed={selectedDrawerTab === "details"}
                 >
                   Details
@@ -2538,9 +2649,7 @@ export default function MapPage() {
                   <button
                     type="button"
                     onClick={() => setSelectedDrawerTab("intel")}
-                    className={`inline-flex h-6 shrink-0 items-center justify-center rounded-[5px] px-2 text-[9px] font-semibold uppercase tracking-[0.1em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
-                      selectedDrawerTab === "intel" ? "bg-[#0B1F33] text-white shadow-[0_10px_24px_rgba(11,31,51,0.12),0_0_20px_rgba(179,143,79,0.10)]" : "bg-white/72 text-[#0B1F33]/64 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] hover:bg-white"
-                    }`}
+                    className={`dp-panel-tab ${selectedDrawerTab === "intel" ? "is-active" : ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]`}
                     aria-pressed={selectedDrawerTab === "intel"}
                   >
                     Intel
@@ -2554,7 +2663,7 @@ export default function MapPage() {
                     setSelectedDrawerTab("details");
                     urlState.update({ entityId: "" });
                   }}
-                  className="inline-flex h-6 shrink-0 items-center justify-center rounded-[5px] bg-white/72 px-2 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33]/64 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                  className="dp-panel-tab focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                 >
                   Map
                 </button>
@@ -2575,14 +2684,14 @@ export default function MapPage() {
                 </div>
               </div>
               <div>
-                <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#0B1F33]/52 md:gap-2 md:text-xs md:tracking-[0.16em]">
+                <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#B38F4F] md:gap-2 md:text-xs md:tracking-[0.16em]">
                   <MapPin className="h-3.5 w-3.5 text-[#B38F4F] md:h-4 md:w-4" />
                   {selected.category} · {selected.district}
                 </div>
                 <h2 className="mt-2 font-heading text-2xl font-medium md:mt-3 md:text-3xl">{selected.name}</h2>
-                <p className="mt-2 max-w-2xl text-[12px] leading-5 text-[#0B1F33]/64 md:mt-3 md:text-[13px] md:leading-6">
+                <p className="mt-2 max-w-2xl text-[13px] leading-5 text-[#425466] md:mt-3 md:leading-6">
                   {urlState.mode === "partner"
-                    ? "A quick read on who is nearby, what they may be looking for, and how this place fits into the area."
+                    ? "A quick read on nearby demand, audience fit, and the moments this location can own."
                     : selected.raw?.summary || "A nearby downtown place connected to resident access, walkability, perks, events, and local context."}
                 </p>
               </div>

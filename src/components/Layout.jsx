@@ -70,6 +70,11 @@ export default function Layout() {
   const noFooter =
     pathname === "/map" ||
     pathname === "/explore" ||
+    pathname === "/downtown-perks/explore" ||
+    pathname === "/residents/map" ||
+    pathname === "/residents/discover" ||
+    pathname === "/residents/perks" ||
+    pathname === "/partners/map" ||
     pathname === "/downtown-perks/events";
 
   const showBackButton = pathname !== "/";
@@ -124,10 +129,10 @@ export default function Layout() {
         <button
           type="button"
           onClick={goBack}
-          className="fixed left-3 top-[76px] z-[720] inline-flex h-9 items-center gap-2 rounded-md border border-[#0B1F33]/8 bg-white px-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0B1F33]/68 shadow-[0_12px_30px_rgba(11,31,51,0.08)] transition-all hover:-translate-y-0.5 hover:border-[#B38F4F]/45 hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+          className="dp-layout-back fixed left-3 top-[78px] z-[720] inline-flex h-6 items-center gap-1.5 bg-transparent px-0 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/58 shadow-none transition-all hover:-translate-y-px hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
           aria-label="Go back"
         >
-          <ArrowLeft className="h-3.5 w-3.5" />
+          <ArrowLeft className="h-3 w-3 text-[#B38F4F]" />
           Back
         </button>
       )}

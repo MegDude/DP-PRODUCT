@@ -11,35 +11,35 @@ import {
 
 const partnerCategories = {
   Properties: {
-    pricing: "$199 / year",
+    pricing: "$199/year",
     cta: "Bring this to your property",
     href: "/partners/properties",
     body: "Management pays. Residents stay. Your address is your key to unlock downtown.",
-    faq: "90-day pilot. Then choose your level.",
+    faq: "Annual property tier with resident access, reporting, and building placement.",
   },
   Hotels: {
-    pricing: "$149 / year",
+    pricing: "$149/year",
     cta: "Use this for guests",
     href: "/partners/hospitality",
     body: "Extend the stay beyond your lobby. One scan. Every option. Guests navigate. You benefit.",
     faq: "90-day pilot. See what guests actually do.",
   },
   Venues: {
-    pricing: "$39–$149 / year",
+    pricing: "$79-$149/year",
     cta: "Discuss activation",
     href: "/partners/venues",
     body: "Show up in the moment that counts. Not reach. Relevance. Not impressions. Intent.",
-    faq: "Free for 12 months. Pay nothing until you see the value.",
+    faq: "Choose the annual venue tier that fits your placement, offer, and reporting needs.",
   },
   Brands: {
-    pricing: "$99–$149 / year",
+    pricing: "$149-$199/year",
     cta: "Start a conversation",
     href: "/partners/brands",
     body: "Buy the moment, not the impression. Context beats scale. Timing beats frequency.",
     faq: "Test it. Measure it. Scale it.",
   },
   Civic: {
-    pricing: "$49–$79 / year",
+    pricing: "$49-$79/year",
     cta: "Talk to us",
     href: "/partners/civic",
     body: "Turn attendance into participation. Discovery drives turnout. Access drives engagement.",
@@ -49,15 +49,15 @@ const partnerCategories = {
 
 const residentFaqs = [
   ["Do I need to download an app?", "No. It's a mobile web experience. Scan a QR code, and you're in. No download. No login. No extra platform."],
-  ["Does it cost anything for residents?", "No. Your building covers it. Downtown Perks is included as a building amenity. You get map access, event RSVPs, and your perks card at no cost."],
+  ["Does it cost anything for residents?", "Your building covers resident access as part of the amenity. You get map access, event RSVPs, and your perks card through the building program."],
   ["Is my info shared with partners?", "No. We track actions for reporting, not personal contact information. Your details aren't shared unless you explicitly opt in. Privacy is the default."],
   ["Who can join?", "Downtown residents in participating buildings. It's exclusive by design, built for people who actually live here."],
   ["How do resident connections work?", "See an event or activity you want to join. Use Connect Nearby to signal interest and reach out to others who are going. It's opt-in, lightweight, and designed to make it easier to show up together."],
 ];
 
 const partnerFaqs = [
-  ["Do venues pay to join?", "Not at first. Venues get 12 months free to prove the value. After that, it's $49-$99/year if you keep it. No risk. No long-term commitment."],
-  ["What do buildings pay?", "90-day free pilot. After that, choose: stay free forever, $39/year for full analytics, or $99/year for premium tier."],
+  ["Do venues pay to join?", "Yes. Venue plans are $79-$149/year depending on placement, offers, events, and reporting needs."],
+  ["What do buildings pay?", "Properties use the $199/year annual tier, which includes resident access, building placement, reporting, and engagement tools."],
   ["How fast can a partner launch?", "7-10 days. We handle setup, map placement, QR generation, and entry point coordination."],
   ["What gets tracked?", "Scans, saves, RSVPs, and redemptions. You get reporting snapshots at 30, 60, and 90 days to see what's working."],
   ["What kind of perks?", "Discounts on food and drinks, priority access to events, welcome offers, and members-only specials. Each business sets its own perks."],
@@ -300,9 +300,9 @@ export default function Home() {
           <div className="relative grid gap-3 md:grid-cols-3">
             {(isPartner
                 ? [
-                  ["Properties", "$199 / year"],
+                  ["Properties", "$199/year"],
                   [partnerType, partner.pricing],
-                  ["Pilot", "90-day pilot"],
+                  ["Top tier", "$199/year"],
                 ]
               : [
                   ["Resident Map", "Included"],

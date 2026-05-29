@@ -15,16 +15,16 @@ const PARTNER_TYPES = [
   {
     id: "properties",
     label: "Properties",
-    price: "Free - $99/year",
+    price: "$199/year",
     bestFor: "Residential buildings, apartments, condos, leasing teams, and property groups.",
     promise: "Turn the building into the entry point for what is nearby.",
     includes: ["Basic map listing", "Lobby QR entry", "Resident perks card connection", "Building activity snapshot"],
-    notes: "Start free. Add analytics or full resident engagement when the building is ready.",
+    notes: "Includes the resident layer, building placement, reporting, and engagement tools for the full property experience.",
   },
   {
     id: "hotels",
     label: "Hotels",
-    price: "$99-$149/year",
+    price: "$149/year",
     bestFor: "Hotels, boutique stays, extended stays, concierge teams, and hospitality groups.",
     promise: "Help guests and residents orient themselves beyond the lobby.",
     includes: ["Guest QR entry", "Nearby dining and events layer", "Local resident rate placement", "Monthly engagement report"],
@@ -33,20 +33,20 @@ const PARTNER_TYPES = [
   {
     id: "venues",
     label: "Venues",
-    price: "Free 12 months, then $49-$149/year",
+    price: "$79-$149/year",
     bestFor: "Restaurants, bars, coffee shops, wellness, retail, services, and experience venues.",
     promise: "Show up while people nearby are deciding where to go next.",
     includes: ["Venue listing", "Perk or offer", "Event placement", "Scan and redemption tracking"],
-    notes: "Most venues start free so they can prove scans, saves, and redemptions first.",
+    notes: "Pricing depends on placement depth, offer support, event visibility, and reporting needs.",
   },
   {
     id: "brands",
     label: "Brands",
-    price: "$99-$149/year",
+    price: "$149-$199/year",
     bestFor: "Sponsors, product launches, retail campaigns, corridor activations, and local brand moments.",
     promise: "Buy the moment, not the impression.",
     includes: ["Campaign placement", "District targeting", "QR or text entry", "Survey and audience signals"],
-    notes: "Campaign pricing changes with district footprint, timing, and number of placements.",
+    notes: "Campaign pricing changes with district footprint, timing, number of placements, and reporting depth.",
   },
   {
     id: "civic",
@@ -64,10 +64,10 @@ const MODULES = [
   ["QR entry points", "Included", "Put a code in a lobby, venue, room, event, menu, poster, or card. People scan and land in the right place."],
   ["Perks card connection", "Included for venues and resident partners", "Residents can save, show, redeem, and come back without downloading an app."],
   ["Event placement", "Included where relevant", "Add events to the map so people can RSVP or decide in the moment."],
-  ["Partner dashboard", "Included on paid tiers", "See scans, saves, RSVPs, redemptions, and nearby activity in plain English."],
-  ["AI insight notes", "Included on paid tiers", "The system explains what happened, where it happened, and what to try next."],
+  ["Partner dashboard", "Included", "See scans, saves, RSVPs, redemptions, and nearby activity in plain English."],
+  ["AI insight notes", "Included", "The system explains what happened, where it happened, and what to try next."],
   ["Survey capture", "Campaign add-on or brand module", "Ask short questions through QR or text and connect answers to district behavior."],
-  ["Monthly report", "Included on paid tiers", "A simple readout of what people did, which placements worked, and where demand showed up."],
+  ["Monthly report", "Included", "A simple readout of what people did, which placements worked, and where demand showed up."],
 ];
 
 const ADD_ONS = [
@@ -312,7 +312,7 @@ export default function Pricing() {
       <Section eyebrow="Next step" title="Pick the lightest useful version first." className="bg-white">
         <div className="max-w-3xl">
           <p className="text-[14px] leading-7 text-[#0B1F33]/68">
-            Downtown Perks is priced so partners can begin with a simple pilot, learn what people actually do, then add campaigns, surveys, placements, or reporting when there is a clear reason.
+            Downtown Perks is priced so partners can begin with the right annual tier, learn what people actually do, then add campaigns, surveys, placements, or reporting when there is a clear reason.
           </p>
           <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:gap-5">
             <Link to="/partners#partner-types" className="dp-action-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">

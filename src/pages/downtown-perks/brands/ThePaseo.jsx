@@ -101,14 +101,14 @@ export default function ThePaseo() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <SignalCard value="68%" label="Card activation" sub="Residents who activate within first 2 weeks" delay={0} />
           <SignalCard value="3.2×" label="Engagement lift" sub="vs. buildings without a digital layer" delay={0.1} />
-          <SignalCard value="$0" label="Setup cost" sub="Zero upfront. Starts on a pilot basis." delay={0.2} />
+          <SignalCard value="$199/year" label="Property tier" sub="Annual resident activation and reporting for building teams." delay={0.2} />
           <SignalCard value="12min" label="Setup time" sub="Average building integration time" delay={0.3} />
         </div>
       </BrandSection>
 
       <BrandCTA
         headline="Let's put The Paseo on the map — for real."
-        sub="Start with a 90-day pilot. No fee. Full activation for your residents."
+        sub="$199/year property tier. Full activation for your residents."
         ctaLabel="Talk to the Team"
         ctaHref="mailto:partners@downtownperks.com"
       />

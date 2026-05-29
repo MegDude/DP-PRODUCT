@@ -27,7 +27,7 @@ const residentFaqs = [
   {
     id: "resident-faq-2",
     question: "Does it cost anything for residents?",
-    answer: "No. Your building covers it. Downtown Perks is included as a building amenity: map access, event RSVPs, and your perks card at no cost.",
+    answer: "Your building covers resident access as part of the amenity: map access, event RSVPs, and your perks card are included through the building program.",
   },
   {
     id: "resident-faq-3",

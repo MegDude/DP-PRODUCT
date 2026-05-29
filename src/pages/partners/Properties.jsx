@@ -317,7 +317,7 @@ export default function PropertiesPartner() {
       {/* CLOSING CTA */}
       <ClosingCTA eyebrow="Property partner layer"
         headline="Give your residents a reason to open the map."
-        body="Six buildings are already live. Most started with a 90-day pilot at no cost."
+        body="Six buildings are already live on the $199/year property tier."
         proof="Ready to walk through the setup? Reach out to our team."
         ctaLabel="Add your building" ctaHref="#partner-form"
         secondLabel="See the map" secondHref="#property-map" />

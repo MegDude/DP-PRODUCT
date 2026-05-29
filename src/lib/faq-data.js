@@ -63,7 +63,7 @@ export const FAQ_RESIDENT = [
     id: "r1",
     question: "How much does resident access cost?",
     answer:
-      "Resident access is available for $25 per year if your building is not already live. If your building joins after you have paid, your resident fee is refunded.",
+      "Resident access is usually covered through a participating building. If your building is not live yet, you can still request access and we will connect you with the right resident path.",
   },
   {
     id: "r2",
@@ -157,7 +157,7 @@ export const FAQ_PROPERTY = [
     id: "pr5",
     question: "How long does setup take?",
     answer:
-      "A 90-day free pilot can start within a week. After that, choose a plan based on the level of reporting your team wants.",
+      "Setup can start within a week. Properties use annual building tiers up to $199/year based on the level of reporting and resident engagement your team wants.",
     linkLabel: "See pricing",
     linkHref: "/downtown-perks/for-buildings",
   },

@@ -374,7 +374,7 @@ export default function BrandsPartner() {
         <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="rounded-lg border border-[#0B1F33]/8 bg-white p-5 shadow-[0_14px_34px_rgba(11,31,51,0.05)]">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">Brand range</p>
-            <div className="mt-3 font-heading text-3xl font-medium text-[#0B1F33]">$99-$149/year</div>
+            <div className="mt-3 font-heading text-3xl font-medium text-[#0B1F33]">$149-$199/year</div>
             <p className="mt-4 text-[13px] leading-6 text-[#0B1F33]/64">
               Pricing depends on footprint, timing, placements, and whether the campaign includes survey capture, event activation, or district visibility.
             </p>
@@ -407,7 +407,7 @@ export default function BrandsPartner() {
               </div>
               <div>
                 <h3 className="font-body text-[14px] font-semibold">Buy the moment, not the impression.</h3>
-                <p className="mt-1 text-[12px] text-[#0B1F33]/58">From $99-$149/year depending on footprint and activation.</p>
+                <p className="mt-1 text-[12px] text-[#0B1F33]/58">$149-$199/year depending on footprint and activation.</p>
               </div>
             </div>
             <div className="mt-5 grid gap-2">

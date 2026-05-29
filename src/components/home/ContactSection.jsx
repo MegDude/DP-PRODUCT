@@ -7,8 +7,8 @@ const forms = [
   {
     id: "buildings",
     label: "Buildings",
-    headline: "90-day free pilot.",
-    sub: "See what residents actually do.",
+    headline: "$199/year property tier.",
+    sub: "Resident access, reporting, and building placement.",
     fields: [
       { name: "property", label: "Building Name & Address", type: "text" },
       { name: "name", label: "Your Name & Role", type: "text" },
@@ -17,7 +17,7 @@ const forms = [
       { name: "units", label: "Number of Units", type: "number" },
       { name: "goals", label: "Any specific goals? (Optional)", type: "text" },
     ],
-    cta: "Start Free Pilot",
+    cta: "Start Property Plan",
   },
   {
     id: "hotels",
@@ -36,8 +36,8 @@ const forms = [
   {
     id: "venues",
     label: "Venues",
-    headline: "Free for 12 months.",
-    sub: "Zero sign-up fees.",
+    headline: "$79-$149/year.",
+    sub: "Placement, offers, events, and reporting.",
     fields: [
       { name: "business", label: "Business Name", type: "text" },
       { name: "name", label: "Your Name", type: "text" },

@@ -1887,7 +1887,7 @@ export default function MapPage() {
 
       {urlState.tab === "map" && (
         <div
-          className="pointer-events-none absolute inset-x-0 top-[76px] z-[510] px-2.5 md:top-[84px] md:px-5"
+          className="pointer-events-none absolute inset-x-0 top-[106px] z-[510] px-2.5 md:top-[84px] md:px-5"
         >
           {consoleCollapsed ? (
             <motion.button

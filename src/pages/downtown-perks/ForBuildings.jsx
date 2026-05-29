@@ -5,9 +5,9 @@ import { Building2, Users, BarChart3, MessageSquare, ArrowRight, CheckCircle } f
 
 const tiers = [
   {
-    name: "Pilot",
-    price: "Free",
-    period: "90 days",
+    name: "Starter",
+    price: "$99",
+    period: "/year",
     features: [
       "Resident access for the whole building",
       "QR card activation",
@@ -18,8 +18,8 @@ const tiers = [
   },
   {
     name: "Connected",
-    price: "$39.99",
-    period: "/month",
+    price: "$149",
+    period: "/year",
     features: [
       "Everything in Pilot",
       "Resident activity dashboard",
@@ -31,8 +31,8 @@ const tiers = [
   },
   {
     name: "Intelligence",
-    price: "$99.99",
-    period: "/month",
+    price: "$199",
+    period: "/year",
     features: [
       "Everything in Connected",
       "Advanced usage analytics",
@@ -140,10 +140,10 @@ export default function ForBuildings() {
             </span>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
               <h2 className="font-heading text-3xl md:text-4xl font-medium leading-[1.15] tracking-normal">
-                Simple pricing. Start with a pilot.
+                Simple annual pricing for building teams.
               </h2>
               <p className="text-muted-foreground text-[13px] leading-relaxed">
-                90 days free. After that, choose the level that fits your team's communication and reporting needs.
+                Choose the level that fits your team's communication, reporting, and resident engagement needs. The highest tier stays capped at $199/year.
               </p>
             </div>
           </div>
@@ -190,7 +190,7 @@ export default function ForBuildings() {
                       : "border border-border/70 text-foreground/70 hover:text-foreground hover:border-border"
                   }`}
                 >
-                  {tier.price === "Free" ? "Start Free Pilot" : "Get Started"}
+                  Get Started
                 </button>
               </motion.div>
             ))}
@@ -208,14 +208,14 @@ export default function ForBuildings() {
                   For Local Businesses
                 </span>
                 <h3 className="font-heading text-2xl md:text-3xl font-medium leading-[1.2] mb-4">
-                  No cost to join.
+                  Annual venue plans.
                   <br />
                   <em className="text-muted-foreground font-normal">The offer is the entry point.</em>
                 </h3>
               </div>
               <div>
                 <p className="text-muted-foreground text-[13px] leading-relaxed mb-6">
-                  Local businesses join by offering a perk to resident members. In return, they appear on the map at the moment nearby residents are deciding where to go.
+                  Local businesses join through annual venue plans starting at $79/year. Their offers appear on the map at the moment nearby residents are deciding where to go.
                 </p>
                 <Link
                   to="/map?mode=resident&tab=map"

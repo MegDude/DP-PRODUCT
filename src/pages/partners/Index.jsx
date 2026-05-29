@@ -12,7 +12,7 @@ const pricingTiles = [
     id: "properties",
     label: "Properties",
     audience: "Multifamily, condos, apartments, and residential buildings.",
-    price: "$199 / year",
+    price: "$199/year",
     pilot: "90-day pilot. Then choose your level.",
     line: "Management pays. Residents stay.",
     detail: "Your address is your key to unlock downtown.",
@@ -21,7 +21,7 @@ const pricingTiles = [
     id: "hotels",
     label: "Hotels",
     audience: "Hotels, boutiques, extended stays, and hospitality.",
-    price: "$149 / year",
+    price: "$149/year",
     pilot: "90-day pilot. See what guests actually do.",
     line: "Extend the stay beyond your lobby.",
     detail: "One scan. Every option. Guests navigate. You benefit.",
@@ -30,8 +30,8 @@ const pricingTiles = [
     id: "venues",
     label: "Venues",
     audience: "Restaurants, bars, cafés, fitness, wellness, and experiences.",
-    price: "$39–$149 / year",
-    pilot: "Free for 12 months. Then decide.",
+    price: "$79-$149/year",
+    pilot: "Annual venue tier based on placement and reporting.",
     line: "Show up in the moment that counts.",
     detail: "Not reach. Relevance. Not impressions. Intent.",
   },
@@ -39,7 +39,7 @@ const pricingTiles = [
     id: "brands",
     label: "Brands · Sponsors",
     audience: "Brands, activations, campaigns, and corridor sponsorships.",
-    price: "$99–$149 / year",
+    price: "$149-$199/year",
     pilot: "Test it. Measure it. Scale it.",
     line: "Buy the moment, not the impression.",
     detail: "Context beats scale. Timing beats frequency.",
@@ -48,7 +48,7 @@ const pricingTiles = [
     id: "civic",
     label: "Civic",
     audience: "Cities, districts, chambers, and community partners.",
-    price: "$49–$79 / year",
+    price: "$49-$79/year",
     pilot: "Start with 90 days. Keep what works.",
     line: "Turn attendance into participation.",
     detail: "Discovery drives turnout. Access drives engagement.",
@@ -68,7 +68,7 @@ const partnerTypes = [
       "Your property inside the same experience",
       "Real engagement, not passive info",
     ],
-    pricing: "90-day pilot. Free forever basic listing · $39/year analytics · $99/year full stack.",
+    pricing: "$199/year for the full property tier, including resident access, building placement, reporting, and engagement tools.",
   },
   {
     id: "hotels",
@@ -82,7 +82,7 @@ const partnerTypes = [
       "Better experience, zero extra friction",
       "Discovery tied to actual location",
     ],
-    pricing: "90-day pilot. From $99/year.",
+    pricing: "$149/year for the guest-facing neighborhood layer, QR entry points, and reporting.",
   },
   {
     id: "venues",
@@ -97,7 +97,7 @@ const partnerTypes = [
       "Save, show, scan, done",
       "Clear engagement at 30, 60, 90 days",
     ],
-    pricing: "Free for 12 months. From $49/year after.",
+    pricing: "$79-$149/year depending on placement, offers, events, and reporting.",
   },
   {
     id: "brands",
@@ -111,7 +111,7 @@ const partnerTypes = [
       "Event and campaign integration",
       "Trackable actions, not vague impressions",
     ],
-    pricing: "Test it. Measure it. Scale it. From $149/year.",
+    pricing: "$149-$199/year depending on district footprint, campaign depth, and reporting.",
   },
   {
     id: "civic",
@@ -125,7 +125,7 @@ const partnerTypes = [
       "Shared map for participation",
       "Clear access to what's happening nearby",
     ],
-    pricing: "Start with 90 days. From $49/year.",
+    pricing: "$49-$79/year depending on district visibility and event support.",
   },
 ];
 
@@ -133,12 +133,12 @@ const partnerFaqs = [
   {
     id: "partner-faq-1",
     question: "Do venues pay to join?",
-    answer: "Not at first. Venues get 12 months free to prove the value. After that, it's $49-$99/year if you keep it. No risk. No long-term commitment.",
+    answer: "Yes. Venue plans are $79-$149/year depending on placement, offers, events, and reporting needs.",
   },
   {
     id: "partner-faq-2",
     question: "What do buildings pay?",
-    answer: "90-day free pilot. After that, choose: stay free forever with basic reporting, $39/year for full analytics, or $99/year for premium tier.",
+    answer: "Properties use the $199/year annual tier, which includes resident access, building placement, reporting, and engagement tools.",
   },
   {
     id: "partner-faq-3",
@@ -172,7 +172,7 @@ const formTabs = [
     id: "properties",
     label: "Property",
     title: "For Residential Buildings & Properties",
-    promise: "90-day free pilot. See what residents actually do.",
+    promise: "$199/year property tier. See what residents actually do.",
     prompts: [
       "We want to add a neighborhood layer for our residents.",
       "Help us set up building access.",
@@ -196,12 +196,12 @@ const formTabs = [
     id: "venues",
     label: "Venue",
     title: "For Venues & Businesses",
-    promise: "Free for 12 months. Zero sign-up fees.",
+    promise: "$79-$149/year based on placement, offers, and reporting.",
     prompts: [
       "We want to add a perk for downtown residents.",
       "How do we track scan and redemption data?",
       "We want to get listed on the resident map.",
-      "Tell us about the 12-month free period.",
+      "Help us choose the right annual venue tier.",
     ],
   },
   {
@@ -239,7 +239,7 @@ const formFieldsByType = {
 };
 
 const formCtasByType = {
-  properties: "Start Free Pilot",
+  properties: "Start Property Plan",
   hotels: "Use This for Guests",
   venues: "Discuss Activation",
   brands: "Start a Conversation",
@@ -539,7 +539,7 @@ export default function PartnersIndex() {
       </Section>
 
       <Section id="how-it-works" eyebrow="How it works" title="Be the one they notice.">
-        <p className="mb-8 max-w-2xl text-[14px] leading-[1.7] text-[#0B1F33]/64">Start with a pilot. Decide with real data.</p>
+        <p className="mb-8 max-w-2xl text-[14px] leading-[1.7] text-[#0B1F33]/64">Choose the right annual tier. Decide with real data.</p>
         <PilotStepper />
       </Section>
 
@@ -586,7 +586,7 @@ export default function PartnersIndex() {
         </div>
       </Section>
 
-      <Section id="pricing" eyebrow="Partner pricing" title="Start with a pilot. Decide with real data.">
+      <Section id="pricing" eyebrow="Partner pricing" title="Choose the right tier. Decide with real data.">
         <p className="mb-8 max-w-2xl text-[13px] italic leading-[1.7] text-[#0B1F33]/58">Final pricing reflects footprint, visibility, and activation.</p>
         <PricingTiles />
         <div className="mt-8">

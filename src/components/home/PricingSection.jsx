@@ -10,7 +10,7 @@ const tiers = [
   {
     label: "Properties",
     sub: "Multifamily, condos, apartments",
-    price: "Free · $39 · $99 / yr",
+    price: "$199/year",
     note: "Management pays. Residents stay.",
     detail: "Your address is your key to downtown.",
     href: "/partners/properties",
@@ -18,7 +18,7 @@ const tiers = [
   {
     label: "Hotels",
     sub: "Hotels, boutiques, extended stays",
-    price: "$99–$149 / yr",
+    price: "$149/year",
     note: "Extend the stay beyond your lobby.",
     detail: "One scan. Every option nearby.",
     href: "/partners/hotels",
@@ -26,7 +26,7 @@ const tiers = [
   {
     label: "Venues",
     sub: "Restaurants, bars, fitness, wellness",
-    price: "Free for 12 months",
+    price: "$79-$149/year",
     note: "Show up in the moment that counts.",
     detail: "Not reach. Relevance. Not impressions. Intent.",
     href: "/partners/venues",
@@ -34,7 +34,7 @@ const tiers = [
   {
     label: "Brands",
     sub: "Activations, campaigns, sponsorships",
-    price: "$99–$149 / yr",
+    price: "$149-$199/year",
     note: "Buy the moment, not the impression.",
     detail: "Context beats scale. Timing beats frequency.",
     href: "/partners/brands",
@@ -42,7 +42,7 @@ const tiers = [
   {
     label: "Civic",
     sub: "Cities, districts, chambers",
-    price: "$49–$79 / yr",
+    price: "$49-$79/year",
     note: "Turn attendance into participation.",
     detail: "Discovery drives turnout.",
     href: "/partners/civic",
@@ -78,7 +78,7 @@ export default function PricingSection() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-foreground/60 text-[13px] leading-relaxed"
           >
-            Start with a pilot. Decide with real data. No setup. No long-term commitment. You go live, people use it, you see what happens.
+            Choose the annual tier that fits your footprint. You go live, people use it, and you see what happens.
             <span className="block mt-2 text-[12px] text-muted-foreground/60 italic">
               Final pricing reflects footprint, visibility, and activation.
             </span>
@@ -136,7 +136,7 @@ export default function PricingSection() {
           >
             Explore all partner types <ArrowRight className="w-3.5 h-3.5" />
           </Link>
-          <span className="text-[12px] text-foreground/45">No setup fee. No long-term commitment.</span>
+          <span className="text-[12px] text-foreground/45">Annual partner tiers capped at $199/year.</span>
         </motion.div>
       </div>
     </section>

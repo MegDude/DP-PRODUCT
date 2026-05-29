@@ -16,10 +16,10 @@ export default function HeroSection({ heroImage }) {
       {/* Content */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-5 pb-24 pt-40">
         <div className="max-w-4xl mx-auto rounded-[28px] bg-white/60 backdrop-blur-xl border border-white/40 shadow-xl p-8">
-          <h1 className="text-4xl font-semibold text-gray-900 mb-4">
+          <h1 className="mb-4 text-4xl font-semibold text-[#0B1F33]">
             Where downtown meets you
           </h1>
-          <p className="text-gray-600 mb-6">
+          <p className="mb-6 text-[#425466]">
             Everything nearby — in one map.
           </p>
 
@@ -35,7 +35,7 @@ export default function HeroSection({ heroImage }) {
           >
             <div className="p-2 flex gap-2">
               <div className="flex flex-1 items-center gap-3 border rounded-[16px] px-4 h-10">
-                <MapPin className="h-4 w-4 text-gray-400" />
+                <MapPin className="h-4 w-4 text-[#B38F4F]" />
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -44,7 +44,7 @@ export default function HeroSection({ heroImage }) {
                 />
               </div>
 
-              <button className="h-10 px-5 bg-gray-900 text-white rounded-[16px] flex items-center gap-2">
+              <button className="flex h-10 items-center gap-2 rounded-[6px] bg-[#0B1F33] px-5 text-white">
                 Open the Map
                 <ArrowRight className="h-4 w-4" />
               </button>

@@ -181,7 +181,7 @@ export default function BrandsPartner() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F8FB] pt-[68px] text-[#0B1F33]">
+    <div className="dp-partner-page min-h-screen bg-[#F7F8FB] pt-[68px] text-[#0B1F33]">
       <section className="relative overflow-hidden px-5 py-16 md:py-24">
         <div className="absolute inset-0 pointer-events-none opacity-[0.035]" style={{ backgroundImage: "linear-gradient(rgba(11,31,51,0.28) 1px, transparent 1px), linear-gradient(90deg, rgba(11,31,51,0.28) 1px, transparent 1px)", backgroundSize: "56px 56px" }} />
         <div className="relative mx-auto max-w-6xl">

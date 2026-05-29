@@ -203,9 +203,7 @@ export default function Navbar() {
     >
       <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-5">
         <Link to="/" className="group flex shrink-0 items-center gap-2.5" aria-label="Downtown Perks home">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-white/68 text-[#B38F4F] shadow-[0_8px_24px_rgba(11,31,51,0.05)]">
-            <MapPin className="h-3.5 w-3.5" />
-          </div>
+          <MapPin className="h-4 w-4 shrink-0 text-[#B38F4F] drop-shadow-[0_8px_18px_rgba(11,31,51,0.10)] transition group-hover:text-[#0B1F33]" />
           <span className="font-heading text-[15px] font-medium tracking-normal text-[#0B1F33]">
             Downtown Perks
           </span>
@@ -253,11 +251,11 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed left-0 right-0 top-[68px] z-[1400] pointer-events-auto border-t border-[#0B1F33]/8 shadow-[0_24px_80px_rgba(11,31,51,0.12),inset_0_1px_0_rgba(255,255,255,0.86)]"
+            className="fixed left-0 right-0 top-[68px] z-[1400] pointer-events-auto shadow-[0_24px_80px_rgba(11,31,51,0.10),inset_0_1px_0_rgba(255,255,255,0.86)]"
             style={{
-              backgroundColor: "rgba(250, 250, 252, 0.94)",
-              backdropFilter: "blur(18px) saturate(1.08)",
-              WebkitBackdropFilter: "blur(18px) saturate(1.08)",
+              backgroundColor: "rgba(250, 250, 252, 0.92)",
+              backdropFilter: "blur(20px) saturate(1.12)",
+              WebkitBackdropFilter: "blur(20px) saturate(1.12)",
             }}
           >
             <div className="mx-auto max-h-[calc(100vh-68px)] max-w-4xl overflow-y-auto px-5 py-5 text-[#0B1F33]">
@@ -276,11 +274,12 @@ export default function Navbar() {
                       role="tab"
                       aria-selected={mobileAudience === value}
                       onClick={() => setMobileAudience(value)}
-                      className={`relative h-8 px-0 text-[11px] font-semibold uppercase tracking-[0.14em] transition focus-visible:outline-none ${
+                      className={`relative h-7 border-0 bg-transparent px-0 text-[11px] font-semibold uppercase tracking-[0.14em] shadow-none outline-none transition focus-visible:outline-none focus-visible:ring-0 ${
                         mobileAudience === value
-                          ? "text-[#0B1F33] after:absolute after:bottom-1 after:left-0 after:h-px after:w-full after:bg-[#B38F4F]"
+                          ? "text-[#0B1F33] after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:bg-[#B38F4F]"
                           : "text-[#425466] hover:text-[#0B1F33]"
                       }`}
+                      style={{ border: 0, boxShadow: "none", background: "transparent" }}
                     >
                       {label}
                     </button>

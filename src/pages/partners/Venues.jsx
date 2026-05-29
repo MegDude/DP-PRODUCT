@@ -66,7 +66,7 @@ export default function VenuesPartner() {
   function selectVenue(v) { setActiveVenue(v.id); }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="dp-partner-page min-h-screen bg-[#F7F8FB] text-[#0B1F33]">
       {/* HERO */}
       <section className={`${PARTNER_SPACING.heroVertical} px-5 relative overflow-hidden`}>
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(11,31,51,0.18) 1px,transparent 1px),linear-gradient(90deg,rgba(11,31,51,0.18) 1px,transparent 1px)", backgroundSize: "56px 56px" }} />

@@ -108,7 +108,7 @@ export default function PropertiesPartner() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="dp-partner-page min-h-screen bg-[#F7F8FB] text-[#0B1F33]">
 
       {/* HERO */}
       <section className="pt-36 pb-16 px-5 relative overflow-hidden">

@@ -512,7 +512,7 @@ function PartnerForms() {
 
 export default function PartnersIndex() {
   return (
-    <div className="min-h-screen bg-[#F7F8FB] pt-[68px] text-[#0B1F33]">
+    <div className="dp-partner-page min-h-screen bg-[#F7F8FB] pt-[68px] text-[#0B1F33]">
       <section className="px-5 py-16 md:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-3xl">

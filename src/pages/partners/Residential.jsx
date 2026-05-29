@@ -70,7 +70,7 @@ export default function ResidentialPartner() {
   const [selectedFeature, setSelectedFeature] = useState('resident-activation');
 
   return (
-    <div className="pt-[68px] min-h-screen bg-background">
+    <div className="dp-partner-page min-h-screen bg-[#F7F8FB] pt-[68px] text-[#0B1F33]">
       {/* Hero */}
       <PartnerHero
         eyebrow="Residential Partner"

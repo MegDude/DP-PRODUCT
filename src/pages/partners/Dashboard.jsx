@@ -439,7 +439,7 @@ export default function PartnersDashboard() {
   }
 
   return (
-    <main className="bg-[#F7F8FB] text-[#0B1F33]">
+    <main className="dp-partner-page bg-[#F7F8FB] text-[#0B1F33]">
       <section className="mx-auto max-w-7xl px-4 pb-12 pt-28 sm:px-5 lg:px-5">
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
           <div>

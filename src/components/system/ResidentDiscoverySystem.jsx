@@ -140,14 +140,7 @@ function MapPinMarker({ className, active = false, icon: Icon = MapPin, label })
       transition={{ duration: 0.45, ease }}
     >
       <div className="flex items-center gap-2">
-        <span
-          className={cn(
-            "flex h-8 w-8 items-center justify-center rounded-[999px] border shadow-[0_14px_34px_rgba(11,31,51,0.08)]",
-            active ? "border-[#B38F4F]/60 bg-[#0B1F33] text-white" : "border-[#0B1F33]/10 bg-white text-[#0B1F33]/70"
-          )}
-        >
-          <Icon className="h-3.5 w-3.5" />
-        </span>
+        <Icon className={cn("h-5 w-5 drop-shadow-[0_8px_16px_rgba(11,31,51,0.12)]", active ? "text-[#B38F4F]" : "text-[#0B1F33]/62")} />
         {label && (
           <span className="hidden rounded-[6px] border border-[#0B1F33]/8 bg-white/90 px-2.5 py-1.5 text-[11px] font-medium text-[#0B1F33]/70 sm:inline-flex">
             {label}
@@ -338,11 +331,11 @@ function JourneyPanel() {
                 {stepIndex === 1 && (
                   <div className="relative h-24">
                     <motion.div className="absolute left-4 top-10 h-[2px] w-[210px] origin-left bg-[#B38F4F]" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.8, ease }} />
-                    <div className="absolute left-0 top-6 flex h-10 w-10 items-center justify-center rounded-[999px] bg-white text-[#0B1F33] shadow-[0_14px_34px_rgba(11,31,51,0.06)]">
-                      <MapPin className="h-4 w-4" />
+                    <div className="absolute left-1 top-8 text-[#0B1F33]/68 drop-shadow-[0_10px_18px_rgba(11,31,51,0.12)]">
+                      <MapPin className="h-5 w-5" />
                     </div>
-                    <div className="absolute right-4 top-6 flex h-10 w-10 items-center justify-center rounded-[999px] bg-[#0B1F33] text-white shadow-[0_14px_34px_rgba(11,31,51,0.06)]">
-                      <Check className="h-4 w-4" />
+                    <div className="absolute right-6 top-8 text-[#B38F4F] drop-shadow-[0_10px_18px_rgba(11,31,51,0.14)]">
+                      <Check className="h-5 w-5" />
                     </div>
                   </div>
                 )}

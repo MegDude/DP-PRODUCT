@@ -201,9 +201,7 @@ function SearchIntentCard() {
             const Icon = prompt.icon;
             return (
               <div key={prompt.title} className="flex gap-3 py-2.5 first:pt-0 last:pb-0">
-                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-[2px] border border-[#0B1F33]/8 bg-white">
-                  <Icon className="h-4 w-4 text-[#B38F4F]" />
-                </span>
+                <Icon className="mt-1 h-[18px] w-[18px] shrink-0 text-[#B38F4F]" />
                 <div>
                   <div className="text-[13px] font-medium text-[#0B1F33]">{prompt.title}</div>
                   <p className="mt-1 text-[12px] leading-[1.6] text-[#0B1F33]/58">{prompt.body}</p>
@@ -232,17 +230,17 @@ function MiniMapVisual({ activeStep }) {
         />
       )}
       <motion.div
-        className="absolute left-[30%] top-[42%] flex h-10 w-10 items-center justify-center rounded-[2px] border border-[#B38F4F]/70 bg-[#0B1F33] text-white shadow-[0_18px_46px_rgba(6,27,51,0.16)]"
+        className="absolute left-[30%] top-[42%] text-[#B38F4F] drop-shadow-[0_10px_18px_rgba(11,31,51,0.18)]"
         animate={{ scale: activeStep === 0 ? [1, 1.09, 1] : 1 }}
         transition={{ duration: 1.3, repeat: activeStep === 0 ? Infinity : 0, ease }}
       >
-        <Coffee className="h-4 w-4" />
+        <Coffee className="h-6 w-6" />
       </motion.div>
-      <div className="absolute left-[68%] top-[26%] flex h-8 w-8 items-center justify-center rounded-[2px] border border-[#0B1F33]/10 bg-white text-[#0B1F33]/70">
-        <CalendarDays className="h-3.5 w-3.5" />
+      <div className="absolute left-[68%] top-[26%] text-[#0B1F33]/70 drop-shadow-[0_8px_16px_rgba(11,31,51,0.14)]">
+        <CalendarDays className="h-5 w-5" />
       </div>
-      <div className="absolute left-[60%] top-[68%] flex h-8 w-8 items-center justify-center rounded-[2px] border border-[#0B1F33]/10 bg-white text-[#0B1F33]/70">
-        <Tag className="h-3.5 w-3.5" />
+      <div className="absolute left-[60%] top-[68%] text-[#0B1F33]/70 drop-shadow-[0_8px_16px_rgba(11,31,51,0.14)]">
+        <Tag className="h-5 w-5" />
       </div>
 
       <AnimatePresence mode="wait" initial={false}>

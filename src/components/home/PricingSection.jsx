@@ -93,11 +93,11 @@ export default function PricingSection() {
           <div className="mb-4 flex justify-end gap-2">
             <CarouselPrevious
               aria-label="Previous pricing option"
-              className="static h-8 w-8 translate-x-0 translate-y-0 rounded-[6px] border-[#0B1F33]/8 bg-white shadow-[0_14px_34px_rgba(11,31,51,0.04)]"
+              className="static h-8 w-8 translate-x-0 translate-y-0 border-transparent bg-transparent text-[#0B1F33]/60 shadow-none hover:bg-transparent hover:text-[#B38F4F]"
             />
             <CarouselNext
               aria-label="Next pricing option"
-              className="static h-8 w-8 translate-x-0 translate-y-0 rounded-[6px] border-[#0B1F33]/8 bg-white shadow-[0_14px_34px_rgba(11,31,51,0.04)]"
+              className="static h-8 w-8 translate-x-0 translate-y-0 border-transparent bg-transparent text-[#0B1F33]/60 shadow-none hover:bg-transparent hover:text-[#B38F4F]"
             />
           </div>
           <CarouselContent className="-ml-3">

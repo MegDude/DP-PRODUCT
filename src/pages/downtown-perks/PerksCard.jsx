@@ -8,7 +8,7 @@ const LIVE_CARD_URL = "https://downtown-perks-live.base44.app/card";
 const DEMO_CARD_CODE = "DP-DEMO-78701";
 const PUBLIC_CARD_USER = {
   email: "resident@downtownperks.local",
-  full_name: "Downtown Resident",
+  full_name: "Meg Dude",
 };
 
 function getCardCode(user) {
@@ -85,9 +85,7 @@ export default function PerksCard() {
 
               <div className="flex items-center justify-between mb-7">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center border border-[#0B1F33]/12 bg-[#0B1F33]">
-                    <MapPin className="w-4 h-4 text-white" />
-                  </div>
+                  <MapPin className="h-5 w-5 text-[#B38F4F]" />
                   <span className="font-heading font-bold text-[13px] text-[#0B1F33]">
                     Downtown<span className="text-[#B38F4F]"> Perks</span>
                   </span>
@@ -109,7 +107,7 @@ export default function PerksCard() {
 
               <div className="text-center mb-4">
                 <h3 className="font-heading text-xl font-bold text-[#0B1F33]">
-                  {user ? user.full_name || "Downtown Resident" : "Resident Access"}
+                  {user ? user.full_name || "Meg Dude" : "Resident Access"}
                 </h3>
                 <p className="text-[#0B1F33]/58 text-[13px] mt-1">
                   {user ? "Active member" : "Scan to activate or request access"}
@@ -237,11 +235,9 @@ export default function PerksCard() {
               ].map((f) => (
                 <div
                   key={f.label}
-                  className="grid grid-cols-[34px_1fr] gap-3 rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB]/78 p-3 shadow-[0_12px_32px_rgba(11,31,51,0.04)]"
+                  className="grid grid-cols-[22px_1fr] gap-3 rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB]/78 p-3 shadow-[0_12px_32px_rgba(11,31,51,0.04)]"
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-md border border-[#B38F4F]/30 bg-white text-[#B38F4F]">
-                    <f.icon className="h-4 w-4" />
-                  </div>
+                  <f.icon className="mt-0.5 h-[18px] w-[18px] text-[#B38F4F]" />
                   <div>
                     <h4 className="font-body text-[12px] font-semibold leading-5 text-[#0B1F33]">{f.label}</h4>
                     <p className="mt-0.5 text-[11px] leading-5 text-[#0B1F33]/60">{f.detail}</p>

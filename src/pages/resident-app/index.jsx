@@ -11,7 +11,7 @@ import ResidentTabs from "@/components/resident/ResidentTabs";
 
 const PUBLIC_RESIDENT_USER = {
   email: "resident@downtownperks.local",
-  full_name: "Downtown Resident",
+  full_name: "Meg Dude",
 };
 
 export default function ResidentApp() {

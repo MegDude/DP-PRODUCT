@@ -92,7 +92,7 @@ export default function UnifiedDrawer({ selected, onMarkerSelect }) {
                   setDrawerState('collapsed');
                   clearSelection();
                 }}
-                className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md border border-[#0B1F33]/8 bg-white text-[#0B1F33]/62 shadow-[0_10px_24px_rgba(11,31,51,0.08)] transition hover:text-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+                className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center bg-transparent text-[#0B1F33]/62 transition hover:text-[#B38F4F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
                 aria-label="Close drawer"
               >
                 <X className="h-4 w-4" />

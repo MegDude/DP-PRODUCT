@@ -427,6 +427,28 @@ function buildAgenticMapAnswer(query, results, mode, district, activeFilter) {
   return base;
 }
 
+function mergeAgentAnswerWithLocalResults(agentAnswer, localResults, fallbackTitle) {
+  const agentPlaces = Array.isArray(agentAnswer?.places) ? agentAnswer.places : [];
+  const matchedPicks = agentPlaces
+    .map((agentPlace) => {
+      const agentId = String(agentPlace.id || "");
+      const agentName = String(agentPlace.name || "").toLowerCase();
+      return localResults.find((place) => String(place.id) === agentId || String(place.name || "").toLowerCase() === agentName);
+    })
+    .filter(Boolean);
+
+  const picks = matchedPicks.length ? matchedPicks : localResults.slice(0, 3);
+
+  return {
+    title: agentAnswer.title || fallbackTitle,
+    body: agentAnswer.answer,
+    picks,
+    actions: Array.isArray(agentAnswer.actions) ? agentAnswer.actions.slice(0, 4) : [],
+    source: agentAnswer.source,
+    model: agentAnswer.model,
+  };
+}
+
 function tokenizeIntent(query) {
   return query
     .toLowerCase()
@@ -1798,11 +1820,7 @@ export default function MapPage() {
 
     const agentAnswer = await askMapAgent(query, localResults);
     if (agentAnswer?.answer) {
-      setMapAnswer((current) => ({
-        title: agentAnswer.title || current?.title || `Answering: “${query}”`,
-        body: agentAnswer.answer,
-        picks: localResults.slice(0, 3),
-      }));
+      setMapAnswer((current) => mergeAgentAnswerWithLocalResults(agentAnswer, localResults, current?.title || `Answering: “${query}”`));
     }
   }
 
@@ -1815,11 +1833,7 @@ export default function MapPage() {
 
     const agentAnswer = await askMapAgent(prompt, localResults);
     if (agentAnswer?.answer) {
-      setMapAnswer((current) => ({
-        title: agentAnswer.title || current?.title || `Answering: “${prompt}”`,
-        body: agentAnswer.answer,
-        picks: localResults.slice(0, 3),
-      }));
+      setMapAnswer((current) => mergeAgentAnswerWithLocalResults(agentAnswer, localResults, current?.title || `Answering: “${prompt}”`));
     }
   }
 
@@ -2249,6 +2263,20 @@ export default function MapPage() {
                     <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">Map answer</div>
                     <h3 className="mt-1 text-[13px] font-semibold text-[#0B1F33]">{mapAnswer.title}</h3>
                     <p className="mt-1 text-[13px] leading-5 text-[#425466]">{mapAnswer.body}</p>
+                    {mapAnswer.actions?.length > 0 && (
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        {mapAnswer.actions.map((action) => (
+                          <span key={action} className="inline-flex min-h-6 items-center bg-white/72 px-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33]/62 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
+                            {action}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {mapAnswer.source === "openai" && (
+                      <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0B1F33]/38">
+                        OpenAI agentic mode {mapAnswer.model ? `· ${mapAnswer.model}` : ""}
+                      </div>
+                    )}
                   </div>
                   </div>
                   <button

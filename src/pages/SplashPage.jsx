@@ -1,47 +1,57 @@
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
-  Building2,
-  MapPin,
-  QrCode,
+  BarChart3,
+  Coffee,
+  KeyRound,
+  Map,
   Sparkles,
 } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 const VIDEO_SRC = "/videos/downtown-austin-drone-cinematic.mp4";
 
-const signalPoints = [
-  { label: "Launch", value: "Map + card", icon: MapPin },
-  { label: "Measure", value: "Scans + RSVPs", icon: QrCode },
-  { label: "Decide", value: "Act on what works", icon: Building2 },
-];
-
-const lifestyleTiles = [
+const journeySteps = [
   {
-    image: "/images/splash/walkable-map.png",
+    number: "01",
+    title: "Open the map",
     label: "Walkable map",
-    className: "left-[5%] top-[7%] h-24 w-36 sm:h-28 sm:w-44",
-    drift: { x: [0, 8, -3, 0], y: [0, -8, 5, 0], opacity: [0.62, 0.9, 0.7, 0.62] },
+    copy: "Residents see what is nearby, open, useful, and worth leaving the apartment for.",
+    image: "/images/splash/walkable-map.png",
+    icon: Map,
   },
   {
-    image:
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80",
+    number: "02",
+    title: "Choose something nearby",
     label: "Coffee nearby",
-    className: "right-[6%] top-[10%] h-24 w-36 sm:h-28 sm:w-40",
-    drift: { x: [0, -6, 3, 0], y: [0, 7, -4, 0], opacity: [0.52, 0.76, 0.58, 0.52] },
+    copy: "Coffee, dinner, rooftops, events, workouts, and local favorites appear in one clear place.",
+    image: "/images/map-entities/perks/partner_coffee_shop_1779052868356.png",
+    icon: Coffee,
   },
   {
-    image: "/images/splash/resident-access.jpeg",
+    number: "03",
+    title: "Use resident access",
     label: "Resident access",
-    className: "left-[9%] bottom-[8%] h-28 w-40 sm:h-32 sm:w-48",
-    drift: { x: [0, 7, -5, 0], y: [0, 8, -5, 0], opacity: [0.58, 0.86, 0.68, 0.58] },
+    copy: "Residents save plans, unlock perks, RSVP to events, and show their access card when needed.",
+    image: "/images/splash/resident-access.jpeg",
+    icon: KeyRound,
   },
   {
-    image: "/images/splash/rooftop-nearby.jpeg",
+    number: "04",
+    title: "Go enjoy downtown",
     label: "Rooftop nearby",
-    className: "right-[8%] bottom-[9%] h-24 w-40 sm:h-28 sm:w-48",
-    drift: { x: [0, -8, 4, 0], y: [0, -6, 6, 0], opacity: [0.58, 0.88, 0.66, 0.58] },
+    copy: "Less searching. Fewer tabs. More real-world plans that actually happen.",
+    image: "/images/splash/rooftop-nearby.jpeg",
+    icon: Sparkles,
+  },
+  {
+    number: "05",
+    title: "Partners learn what worked",
+    label: "Partner signal",
+    copy: "Properties and local businesses see useful signals: scans, saves, RSVPs, and redemptions.",
+    image: "/images/splash/walkable-map.png",
+    icon: BarChart3,
   },
 ];
 
@@ -61,137 +71,123 @@ function EditorialReveal({ children, className = "", delay = 0, amount = 0.22 })
   );
 }
 
-function ChoosePathStoryboard() {
-  const ref = useRef(null);
+function JourneyNarrative() {
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const imageY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [0, -40]);
 
   return (
-    <motion.section
-      ref={ref}
-      initial={reduceMotion ? false : { opacity: 0, y: 24, filter: "blur(8px)" }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <div className="relative min-h-[420px] overflow-hidden rounded-md bg-white/90 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_18px_54px_rgba(11,31,51,0.06)] sm:min-h-[360px]">
-        <div className="absolute inset-0">
-          <div className="dp-section-light absolute left-[12%] top-[16%] h-40 w-40 bg-white/76 blur-3xl" />
-          <div className="dp-section-light absolute bottom-[8%] right-[14%] h-44 w-44 bg-[#0B1F33]/7 blur-3xl [animation-delay:-5s]" />
+    <section className="relative overflow-hidden bg-[#F7F8FB] px-5 py-14 text-[#0B1F33] md:px-8 md:py-20">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.16),transparent)]" aria-hidden="true" />
 
-          <motion.div className="absolute inset-0" style={{ y: imageY }} aria-hidden="true">
-            {lifestyleTiles.map((tile) => (
-              <motion.div
-                key={tile.label}
-                className={`absolute z-0 overflow-hidden bg-white/70 opacity-70 shadow-[0_18px_42px_rgba(11,31,51,0.10),0_0_34px_rgba(179,143,79,0.08)] ${tile.className}`}
-                animate={
-                  reduceMotion
-                    ? undefined
-                    : {
-                        x: tile.drift.x,
-                        y: tile.drift.y,
-                        opacity: tile.drift.opacity,
-                      }
-                }
-                whileHover={{ y: -6 }}
-                transition={{
-                  duration: 8,
-                  repeat: reduceMotion ? 0 : Infinity,
-                  repeatType: "mirror",
-                  ease: "easeInOut",
-                }}
-              >
-                <img src={tile.image} alt="" loading="eager" decoding="async" className="h-full w-full object-cover" />
-                <div className="absolute bottom-0 left-0 right-0 bg-white/66 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.12em] text-[#B38F4F]">
-                  {tile.label}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+      <div className="mx-auto max-w-7xl">
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 16, filter: "blur(4px)" }}
+          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="grid gap-6 lg:grid-cols-[0.82fr_1fr] lg:items-end"
+        >
+          <div>
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#B38F4F]">
+              How Downtown Perks works
+            </p>
+            <h2 className="font-heading text-[42px] font-medium leading-[0.96] tracking-[-0.035em] text-[#0B1F33] md:text-[72px]">
+              Open the map. Find the moment. Go.
+            </h2>
+          </div>
 
-        <svg className="absolute inset-0 z-10 h-full w-full" viewBox="0 0 720 360" preserveAspectRatio="none" aria-hidden="true">
-          <motion.path
-            d="M130 126 C230 66, 330 90, 390 84 C500 72, 545 180, 490 236 C430 302, 305 268, 260 252"
-            fill="none"
-            stroke="#B38F4F"
-            strokeWidth="2"
-            strokeDasharray="8 10"
-            initial={false}
-            animate={
-              reduceMotion
-                ? { pathLength: 1, opacity: 0.52 }
-                : { pathLength: 1, opacity: [0.42, 0.68, 0.42], strokeDashoffset: [0, -36] }
-            }
-            transition={{
-              pathLength: { duration: 1.1, ease: "easeInOut" },
-              opacity: { duration: 4.8, repeat: reduceMotion ? 0 : Infinity, ease: "easeInOut" },
-              strokeDashoffset: { duration: 6.5, repeat: reduceMotion ? 0 : Infinity, ease: "linear" },
-            }}
-          />
-        </svg>
+          <p className="max-w-2xl text-[16px] leading-[1.7] text-[#425466] md:text-[18px]">
+            Downtown Perks helps residents find nearby places, events, perks, and local favorites without bouncing between apps, websites, group chats, and screenshots. For partners, it creates visibility when people nearby are already deciding where to go.
+          </p>
+        </motion.div>
 
-        <div className="pointer-events-none absolute left-1/2 top-[43%] z-[15] w-[min(74vw,330px)] -translate-x-1/2 -translate-y-1/2 sm:top-[43%] sm:w-[360px]">
+        <div className="relative mt-10 md:mt-14">
           <motion.div
-            className="bg-white/76 px-3 py-2.5 text-center shadow-[0_18px_46px_rgba(11,31,51,0.10),0_0_34px_rgba(179,143,79,0.10)] sm:px-4 sm:py-3"
-            initial={false}
-            animate={reduceMotion ? { opacity: 0.94, y: 0, scale: 1 } : { opacity: 0.94, y: [0, -3, 0], scale: [1, 1.01, 1] }}
-            transition={{ duration: reduceMotion ? 0.45 : 5.4, repeat: reduceMotion ? 0 : Infinity, ease: "easeInOut" }}
-          >
-            <div className="flex items-center justify-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F] sm:text-[9px]">
-              <Sparkles className="h-3 w-3 text-[#B38F4F]" />
-              Search less. Spend less. Do more.
-            </div>
-            <div className="mt-1.5 font-heading text-[17px] font-medium leading-tight text-[#0B1F33] sm:text-[20px]">
-              One downtown layer for resident plans and partner visibility.
-            </div>
-            <div className="mt-2 flex flex-wrap justify-center gap-x-2.5 gap-y-1 text-[8px] font-semibold uppercase tracking-[0.13em] text-[#B38F4F]/76 sm:text-[9px]">
-              <span>Launch</span>
-              <span className="text-[#B38F4F]">Measure</span>
-              <span>Decide</span>
-            </div>
-          </motion.div>
+            initial={reduceMotion ? false : { scaleX: 0 }}
+            whileInView={reduceMotion ? undefined : { scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute left-6 right-6 top-[92px] hidden h-px origin-left bg-[#0B1F33]/10 lg:block"
+          />
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {journeySteps.map((step, index) => {
+              const Icon = step.icon;
+
+              return (
+                <motion.article
+                  key={step.number}
+                  initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+                  whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.6, delay: reduceMotion ? 0 : index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                  className="group relative"
+                >
+                  <div className="relative overflow-hidden rounded-md bg-white/72 shadow-[0_14px_44px_rgba(11,31,51,0.055)] backdrop-blur-md transition duration-300 hover:-translate-y-px hover:bg-white/86 hover:shadow-[0_18px_52px_rgba(11,31,51,0.075)]">
+                    <div className="relative aspect-[4/3] overflow-hidden bg-[#F7F8FB]">
+                      <img
+                        src={step.image}
+                        alt={step.label}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.025]"
+                      />
+                      <div className="absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-md bg-white/80 px-2.5 py-1.5 text-[10px] font-semibold text-[#0B1F33] shadow-[0_10px_26px_rgba(11,31,51,0.08)] backdrop-blur-md">
+                        <Icon className="h-3.5 w-3.5 text-[#B38F4F]" />
+                        {step.label}
+                      </div>
+                    </div>
+
+                    <div className="p-4">
+                      <div className="mb-3 flex items-center gap-2.5">
+                        <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
+                          {step.number}
+                        </span>
+                        {index < journeySteps.length - 1 && (
+                          <ArrowRight className="hidden h-3.5 w-3.5 text-[#0B1F33]/24 lg:block" />
+                        )}
+                        <span className="h-px flex-1 bg-[#0B1F33]/8 lg:hidden" />
+                      </div>
+
+                      <h3 className="text-[17px] font-semibold leading-tight tracking-[-0.015em] text-[#0B1F33]">
+                        {step.title}
+                      </h3>
+                      <p className="mt-2 text-[13px] leading-[1.55] text-[#425466]">
+                        {step.copy}
+                      </p>
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="absolute inset-x-3 bottom-3 z-30 flex gap-2 overflow-x-auto pb-1 sm:inset-x-4 sm:bottom-4">
-          {signalPoints.map((point) => {
-            const Icon = point.icon;
-
-            return (
-              <motion.div
-                key={point.label}
-                whileHover={{ y: -1, backgroundColor: "rgba(255,255,255,0.94)" }}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className="min-w-[132px] shrink-0 bg-white/82 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04),0_12px_30px_rgba(11,31,51,0.04)] sm:min-w-0 sm:flex-1"
-              >
-                <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
-                  <Icon className="h-3.5 w-3.5 text-[#B38F4F]" />
-                  {point.label}
-                </div>
-                <div className="mt-1 text-[13px] font-semibold text-[#0B1F33]">{point.value}</div>
-              </motion.div>
-            );
-          })}
-          <Link
-            to="/map?mode=resident&tab=map"
-            className="min-w-[132px] shrink-0 bg-[linear-gradient(90deg,#0B1F33,#132b45,#0B1F33)] bg-[length:200%_100%] p-3 text-white shadow-[0_12px_30px_rgba(11,31,51,0.10)] transition-[background-position,box-shadow] duration-300 hover:bg-[position:100%_0] hover:shadow-[0_24px_60px_rgba(11,31,51,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:min-w-0 sm:flex-1"
-          >
-            <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
-              <ArrowRight className="h-3.5 w-3.5 text-[#B38F4F]" />
-              Open map
-            </div>
-            <div className="mt-1 text-[13px] font-semibold text-white">Resident view</div>
-          </Link>
-        </div>
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: reduceMotion ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-8 max-w-4xl bg-white/68 p-5 text-[17px] leading-[1.62] text-[#425466] shadow-[0_14px_44px_rgba(11,31,51,0.045)] backdrop-blur-md md:p-6 md:text-[20px]"
+        >
+          The resident story is simple: find what is nearby and go enjoy it. The partner story is just as simple: show up when people are close enough to act, then understand what they actually did.
+        </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 }
 
 export default function SplashPage() {
   const [showIntro, setShowIntro] = useState(true);
   const [introReady, setIntroReady] = useState(false);
+
+  useEffect(() => {
+    if (!showIntro) return undefined;
+
+    const closeTimer = window.setTimeout(() => {
+      setShowIntro(false);
+    }, 3000);
+
+    return () => window.clearTimeout(closeTimer);
+  }, [showIntro]);
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#F7F8FB] pt-[68px] text-[#0B1F33]">
@@ -205,7 +201,7 @@ export default function SplashPage() {
             aria-label="Downtown Perks opening animation"
           >
             <div className="absolute inset-0 bg-[#0B1F33]" />
-            <div className="dp-intro-fallback absolute inset-0 bg-[radial-gradient(circle_at_30%_24%,rgba(179,143,79,0.16),transparent_34%),radial-gradient(circle_at_74%_68%,rgba(255,255,255,0.08),transparent_30%),linear-gradient(135deg,#0B1F33,#081521)]" />
+            <div className="dp-intro-fallback absolute inset-0 bg-[radial-gradient(circle_at_30%_24%,rgba(179,143,79,0.16),transparent_34%),radial-gradient(circle_at_74%_68%,rgba(255,255,255,0.08),transparent_30%),linear-gradient(135deg,#0B1F33,#0B1F33)]" />
             <div className="dp-intro-sheen absolute inset-y-0 left-[-28%] w-[42%] bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.10),transparent)] blur-2xl" />
             <video
               className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
@@ -217,6 +213,7 @@ export default function SplashPage() {
               playsInline
               preload="auto"
               onLoadedData={() => setIntroReady(true)}
+              onLoadedMetadata={() => setIntroReady(true)}
               onCanPlay={() => setIntroReady(true)}
               onEnded={() => setShowIntro(false)}
             />
@@ -235,19 +232,21 @@ export default function SplashPage() {
 
             <div className="absolute inset-x-0 bottom-0 px-5 pb-8 md:pb-12">
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.38, delay: 0.03, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                 className="mx-auto max-w-6xl"
               >
                 <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38F4F]">
                   <Sparkles className="h-3.5 w-3.5 text-[#B38F4F]" />
                   Downtown Perks
                 </div>
-                <h1 className="mt-5 max-w-4xl font-heading text-[42px] font-medium leading-[0.98] md:text-[72px]">
-                  Where Downtown Meets You
+                <h1 className="mt-5 max-w-4xl font-heading text-[clamp(2.45rem,12vw,4.5rem)] font-medium leading-[0.96] tracking-[-0.02em] md:leading-[0.94]">
+                  <span className="block">Where</span>
+                  <span className="block">Downtown</span>
+                  <span className="block">Meets You</span>
                 </h1>
-                <p className="mt-4 max-w-2xl text-[15px] leading-7 text-white/72">
+                <p className="mt-4 max-w-[34rem] text-[14px] leading-6 text-white/72 sm:text-[15px] sm:leading-7">
                   Built for the people who actually live downtown — and the businesses that keep it interesting.
                 </p>
               </motion.div>
@@ -319,16 +318,19 @@ export default function SplashPage() {
         </div>
       </section>
 
-      <section className="relative bg-[#FAFAFC] px-5 py-12 md:px-8 md:py-16">
+      <JourneyNarrative />
+
+      <section className="relative bg-[#F7F8FB] px-5 pb-0 pt-12 md:px-8 md:pb-0 md:pt-16">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179, 143, 79, 0.08),transparent)]" aria-hidden="true" />
-        <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
+        <div className="relative mx-auto max-w-6xl">
           <div className="max-w-[720px] text-left">
             <EditorialReveal
               className="max-w-[720px]"
               amount={0.22}
             >
               <p className="font-heading text-[42px] font-medium leading-[0.98] tracking-[-0.03em] text-[#0B1F33] md:text-[58px]">
-                Downtown should be easier to use.
+                Downtown should<br />
+                be easier to use.
               </p>
               <div className="mt-5 max-w-[680px] space-y-1 text-[19px] leading-[1.4] tracking-[-0.01em] text-[#0B1F33]/80 md:text-[24px] md:leading-[1.42]">
                 <p>The coffee shop you keep meaning to try.</p>
@@ -358,10 +360,11 @@ export default function SplashPage() {
               amount={0.18}
             >
               <p className="font-heading text-[34px] font-medium leading-[1] tracking-[-0.025em] text-[#0B1F33] md:text-[48px]">
-                So we built one map to bring everything together.
+                So we built one map<br />
+                to bring everything together.
               </p>
               <p>
-                Not another app to manage. Not another feed to scroll. Just a better way to figure out what’s nearby, what’s happening, and what feels worth getting out for.
+                Not another app to manage. Not another feed to scroll. Just a better way to figure out what’s nearby, what’s happening, and what feels worth going out for.
               </p>
             </EditorialReveal>
 
@@ -374,30 +377,21 @@ export default function SplashPage() {
                 to="/residents"
                 className="inline-flex h-11 w-full items-center justify-center rounded-md bg-[#0B1F33] px-6 text-[12px] font-medium uppercase tracking-[0.08em] text-white shadow-[0_10px_22px_rgba(11,31,51,0.12)] transition hover:-translate-y-px hover:shadow-[0_12px_26px_rgba(11,31,51,0.14),0_0_16px_rgba(179,143,79,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
               >
-                Start as resident
+                START AS RESIDENT
               </Link>
               <Link
                 to="/partners"
                 className="inline-flex h-11 w-full items-center justify-center rounded-md bg-white px-6 text-[12px] font-medium uppercase tracking-[0.08em] text-[#0B1F33] shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_8px_20px_rgba(11,31,51,0.05)] transition hover:-translate-y-px hover:shadow-[0_0_0_1px_rgba(179,143,79,0.08),0_10px_22px_rgba(11,31,51,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] sm:w-auto"
               >
-                Start as partner
+                START AS PARTNER
               </Link>
             </EditorialReveal>
           </div>
 
-          <EditorialReveal
-            className="relative overflow-hidden rounded-lg bg-white/72 p-3 shadow-[0_0_0_1px_rgba(11,31,51,0.04),0_24px_70px_rgba(11,31,51,0.08),0_0_42px_rgba(11,31,51,0.04)]"
-            delay={0.08}
-            amount={0.18}
-          >
-            <div className="relative rounded-md bg-[#FAFAFC]/82 p-3 shadow-[inset_0_0_0_1px_rgba(11,31,51,0.04)]">
-              <ChoosePathStoryboard />
-            </div>
-          </EditorialReveal>
         </div>
       </section>
 
-      <section className="relative bg-[#F7F8FB] px-5 py-14 md:px-8 md:py-20">
+      <section className="relative bg-[#F7F8FB] px-5 pb-14 pt-0 md:px-8 md:pb-20 md:pt-0">
         <div className="relative mx-auto max-w-[760px] text-left">
           <EditorialReveal
             className="max-w-[700px]"

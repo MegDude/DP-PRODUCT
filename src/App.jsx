@@ -120,6 +120,8 @@ const AuthenticatedApp = () => {
         <Route path="/downtown-perks/about" element={<About />} />
         <Route path="/about" element={<About />} />
         <Route path="/ask-map" element={<AskMapAgent />} />
+        <Route path="/ask-the-map" element={<AskMapAgent />} />
+        <Route path="/search" element={<AskMapAgent />} />
         <Route path="/happy-hour-walking-map" element={<HappyHourMap />} />
         <Route path="/events/:eventId" element={<Events />} />
         {/* Brands routes */}

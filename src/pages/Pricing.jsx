@@ -128,7 +128,7 @@ export default function Pricing() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F7F8FB] pt-[68px] text-[#0B1F33]">
+    <div className="dp-partner-page min-h-screen bg-[#F7F8FB] pt-[68px] text-[#0B1F33]">
       <section className="relative overflow-hidden px-5 py-14 md:py-20">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(179,143,79,0.12),transparent)]" />
         <div className="relative mx-auto max-w-6xl">
@@ -231,8 +231,8 @@ export default function Pricing() {
           {MODULES.map(([title, availability, body]) => (
             <article key={title} className="dp-glow-tile rounded-[6px] p-4">
               <div className="flex items-start gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[4px] bg-[#0B1F33] text-[#B38F4F] shadow-[0_0_20px_rgba(179,143,79,0.08)]">
-                  {title.includes("QR") ? <QrCode className="h-4 w-4" /> : title.includes("Survey") ? <ClipboardList className="h-4 w-4" /> : title.includes("AI") ? <Sparkles className="h-4 w-4" /> : title.includes("dashboard") || title.includes("report") ? <BarChart3 className="h-4 w-4" /> : <MapPin className="h-4 w-4" />}
+                <div className="mt-0.5 shrink-0 text-[#B38F4F]">
+                  {title.includes("QR") ? <QrCode className="h-[18px] w-[18px]" /> : title.includes("Survey") ? <ClipboardList className="h-[18px] w-[18px]" /> : title.includes("AI") ? <Sparkles className="h-[18px] w-[18px]" /> : title.includes("dashboard") || title.includes("report") ? <BarChart3 className="h-[18px] w-[18px]" /> : <MapPin className="h-[18px] w-[18px]" />}
                 </div>
                 <div>
                   <h3 className="text-[13px] font-semibold">{title}</h3>
@@ -276,9 +276,7 @@ export default function Pricing() {
       <Section id="surveys" eyebrow="Survey engine" title="Low-tech surveys. Better audience answers.">
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="dp-glow-surface rounded-[6px] p-5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-[4px] bg-[#0B1F33] text-[#B38F4F] shadow-[0_0_20px_rgba(179,143,79,0.08)]">
-              <MessageSquareText className="h-5 w-5" />
-            </div>
+            <MessageSquareText className="h-6 w-6 text-[#B38F4F]" />
             <h3 className="mt-5 font-heading text-3xl font-medium leading-[1.08]">Ask a few good questions at the exact right moment.</h3>
             <p className="mt-4 text-[13px] leading-6 text-[#0B1F33]/64">
               Surveys work through a QR code or text prompt. A brand, venue, hotel, property, or civic partner can ask people what they want, why they came, what they noticed, what they would come back for, or what would make the experience better.

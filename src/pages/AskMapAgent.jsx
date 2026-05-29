@@ -39,23 +39,23 @@ const districts = ["Downtown Austin", "Rainey", "Seaholm", "2nd Street", "Congre
 const roles = [
   {
     icon: Users,
-    title: "Residents",
-    body: "Find nearby places, events, perks, and useful downtown context without opening five tabs.",
+    title: "For residents",
+    body: "Ask what is close, worthwhile, walkable, or worth saving, then open the answer directly on the map.",
   },
   {
     icon: Building2,
-    title: "Properties",
-    body: "Turn building context into resident-ready neighborhood recommendations.",
+    title: "For buildings",
+    body: "Help residents and prospects understand what daily life feels like around the property.",
   },
   {
     icon: Store,
-    title: "Local businesses",
-    body: "See where attention is forming and what offer can meet people in motion.",
+    title: "For partners",
+    body: "See where nearby demand is forming and what kind of offer, event, or placement makes sense next.",
   },
   {
     icon: CalendarDays,
-    title: "Organizations",
-    body: "Surface public moments, district activity, and participation opportunities.",
+    title: "For local moments",
+    body: "Connect events, civic activity, and neighborhood plans to the people already moving nearby.",
   },
 ];
 
@@ -172,18 +172,13 @@ export default function AskMapAgent() {
       <section className="border-b border-[#0B1F33]/8 px-5 py-10 md:py-14">
         <div className="mx-auto grid max-w-6xl gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
-            <span className="dp-label mb-4 block">Agentic map mode</span>
+            <span className="dp-label mb-4 block">Ask the Map</span>
             <h1 className="font-heading text-[34px] font-medium leading-[1.02] md:text-[56px]">
-              Ask the map. Get the next move.
+              Find the best nearby move.
             </h1>
             <p className="mt-5 max-w-xl text-[15px] leading-[1.75] text-[#0B1F33]/68">
-              A live Downtown Perks agent uses the current map layer, district, role, and OpenAI-backed reasoning to return ranked places, actions, and a map-ready path.
+              Ask in plain English and Downtown Perks turns the question into a short answer, ranked places, and a map-ready next step for residents, buildings, and local partners.
             </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {["Bright off-white", "Rich navy", "Cool gold"].map((token) => (
-                <span key={token} className="dp-agent-token">{token}</span>
-              ))}
-            </div>
           </motion.div>
 
           <motion.form
@@ -304,7 +299,7 @@ export default function AskMapAgent() {
                 ) : (
                   <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                     <p className="max-w-2xl text-[14px] leading-7 text-[#0B1F33]/68">
-                      Choose a mode, district, and layer, then ask what to do next. The agent will use live map context and return a ranked answer that can open directly on the map.
+                      Choose who you are asking for, narrow the district or layer if helpful, then ask what is nearby, useful, active, or worth doing next.
                     </p>
                     {error && <p className="mt-3 text-[13px] text-red-700">{error}</p>}
                   </motion.div>

@@ -1436,7 +1436,6 @@ html {
     z-index: 1;
   }
 
-  .dp-agent-token,
   .dp-agent-switch,
   .dp-agent-prompt,
   .dp-agent-action-chip {
@@ -1452,7 +1451,6 @@ html {
     -webkit-backdrop-filter: blur(14px);
   }
 
-  .dp-agent-token,
   .dp-agent-action-chip {
     padding: 0 0.75rem;
     font-size: 0.68rem;

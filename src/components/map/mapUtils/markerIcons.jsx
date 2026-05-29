@@ -8,10 +8,10 @@ const VENUE_COLORS = {
   bar: "#B38F4F",
   fitness: "#0B1F33",
   wellness: "#0B1F33",
-  beauty: "#081521",
+  beauty: "#0B1F33",
   entertainment: "#0B1F33",
   retail: "#425466",
-  coworking: "#081521",
+  coworking: "#0B1F33",
   hotel: "#B38F4F",
 };
 
@@ -87,8 +87,8 @@ const EVENT_COLORS = {
   social: "#B38F4F",
   dining: "#B38F4F",
   nightlife: "#0B1F33",
-  arts: "#081521",
-  networking: "#081521",
+  arts: "#0B1F33",
+  networking: "#0B1F33",
   class: "#0B1F33",
   run_club: "#B38F4F",
   yoga: "#0B1F33",

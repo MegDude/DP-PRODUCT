@@ -125,6 +125,24 @@ const brandPartnerPlaces = [
   },
 ];
 
+const CORE_LOCATION_CATEGORY_KEYS = new Set([
+  "bar_nightlife",
+  "coffee_cafe",
+  "hotel_hospitality",
+  "other_relevant",
+  "residential_property",
+  "restaurant_food",
+  "retail_business",
+  "wellness_recreation",
+]);
+
+function isCoreMapLocation(item) {
+  const source = String(item.source || "").toLowerCase();
+
+  if (!source.includes("openstreetmap")) return true;
+  return CORE_LOCATION_CATEGORY_KEYS.has(String(item.category_key || "").toLowerCase());
+}
+
 export function useLocations() {
   const [happyHoursVersion, setHappyHoursVersion] = useState(0);
 
@@ -144,7 +162,9 @@ export function useLocations() {
   const happyHourPlaces = getHappyHourPlaces();
   void happyHoursVersion;
 
-  return [...data, ...eventPlaces, ...brandPartnerPlaces, ...legendsListingPlaces, ...happyHourPlaces]
+  const coreOpenMapLocations = data.filter(isCoreMapLocation);
+
+  return [...coreOpenMapLocations, ...eventPlaces, ...brandPartnerPlaces, ...legendsListingPlaces, ...happyHourPlaces]
     .filter((item) => isDowntownAustin78701Entity(item))
     .map((item, i) => {
       const isVia313 = String(item.name || "").toLowerCase().includes("via 313");

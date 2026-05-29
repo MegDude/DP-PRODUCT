@@ -122,7 +122,7 @@ export default function HeroSection() {
 
               <button
                 type="submit"
-                className="inline-flex h-10 items-center justify-center gap-2 bg-[#0B1F33] px-5 text-[13px] font-medium text-white shadow-[0_10px_24px_rgba(11,31,51,0.18)] transition-all duration-200 hover:-translate-y-[1px] hover:bg-[#081521] active:translate-y-0"
+                className="inline-flex h-10 items-center justify-center gap-2 bg-[#0B1F33] px-5 text-[13px] font-medium text-white shadow-[0_10px_24px_rgba(11,31,51,0.18)] transition-all duration-200 hover:-translate-y-[1px] hover:bg-[#0B1F33] active:translate-y-0"
               >
                 Search
                 <ArrowRight className="h-4 w-4" />
@@ -196,7 +196,7 @@ export default function HeroSection() {
             <button
               type="button"
               onClick={handleOpenMap}
-              className="inline-flex min-w-[160px] items-center justify-center gap-2 bg-[#0B1F33] px-5 py-2.5 text-[13px] font-medium text-white shadow-[0_10px_24px_rgba(11,31,51,0.18)] transition-all duration-200 hover:-translate-y-[1px] hover:bg-[#081521] active:translate-y-0"
+              className="inline-flex min-w-[160px] items-center justify-center gap-2 bg-[#0B1F33] px-5 py-2.5 text-[13px] font-medium text-white shadow-[0_10px_24px_rgba(11,31,51,0.18)] transition-all duration-200 hover:-translate-y-[1px] hover:bg-[#0B1F33] active:translate-y-0"
             >
               Open the Map
               <ArrowRight className="h-4 w-4" />

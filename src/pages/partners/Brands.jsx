@@ -155,7 +155,7 @@ function Section({ id, eyebrow, title, children, className = "" }) {
 
 function PrimaryButton({ href, children }) {
   return (
-    <a href={href} className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#081521] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
+    <a href={href} className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
       {children}
       <ArrowRight className="h-4 w-4 text-[#B38F4F]" />
     </a>
@@ -378,7 +378,7 @@ export default function BrandsPartner() {
             <p className="mt-4 text-[13px] leading-6 text-[#0B1F33]/64">
               Pricing depends on footprint, timing, placements, and whether the campaign includes survey capture, event activation, or district visibility.
             </p>
-            <Link to="/partners/pricing#surveys" className="mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#081521] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
+            <Link to="/partners/pricing#surveys" className="mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
               View pricing matrix
               <ArrowRight className="h-4 w-4 text-[#B38F4F]" />
             </Link>
@@ -441,7 +441,7 @@ export default function BrandsPartner() {
                 className="min-h-28 rounded-md border border-[#0B1F33]/10 bg-[#F7F8FB] px-3 py-2.5 text-[13px] outline-none focus:border-[#B38F4F]"
               />
             </label>
-            <button type="submit" className="inline-flex h-10 items-center justify-center rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#081521] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
+            <button type="submit" className="inline-flex h-10 items-center justify-center rounded-md bg-[#0B1F33] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]">
               Start a conversation
             </button>
             {submitted && (

@@ -161,7 +161,7 @@ export default function MapDetailDrawer({ entity, onClose, reason, distance }) {
             href={entity.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-9 w-full items-center justify-center gap-2 rounded-[5px] bg-[#0B1F33] text-[12px] font-medium text-white shadow-[0_10px_24px_rgba(11,31,51,0.10)] transition-all hover:-translate-y-px hover:bg-[#081521]"
+            className="flex h-9 w-full items-center justify-center gap-2 rounded-[5px] bg-[#0B1F33] text-[12px] font-medium text-white shadow-[0_10px_24px_rgba(11,31,51,0.10)] transition-all hover:-translate-y-px hover:bg-[#0B1F33]"
           >
             <ExternalLink className="w-4 h-4" />
             {entity._type === 'event' ? 'View event' : 'Visit website'}
@@ -169,7 +169,7 @@ export default function MapDetailDrawer({ entity, onClose, reason, distance }) {
         ) : (
           <button
             onClick={handleDirections}
-            className="flex h-9 w-full items-center justify-center gap-2 rounded-[5px] bg-[#0B1F33] text-[12px] font-medium text-white shadow-[0_10px_24px_rgba(11,31,51,0.10)] transition-all hover:-translate-y-px hover:bg-[#081521]"
+            className="flex h-9 w-full items-center justify-center gap-2 rounded-[5px] bg-[#0B1F33] text-[12px] font-medium text-white shadow-[0_10px_24px_rgba(11,31,51,0.10)] transition-all hover:-translate-y-px hover:bg-[#0B1F33]"
           >
             <MapPin className="w-4 h-4" />
             Get directions

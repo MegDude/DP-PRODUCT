@@ -632,7 +632,7 @@ export default function Events() {
                       <p className="text-[13px] leading-[1.65] text-[#0B1F33]/64">
                         See what else is happening nearby.
                       </p>
-                      <Link to="/map" className="inline-flex h-10 items-center justify-center gap-2 rounded-[2px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#081521]">
+                      <Link to="/map" className="inline-flex h-10 items-center justify-center gap-2 rounded-[2px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#0B1F33]">
                         View on map
                         <ArrowRight className="h-3.5 w-3.5" />
                       </Link>

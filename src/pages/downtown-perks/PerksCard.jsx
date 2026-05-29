@@ -150,7 +150,7 @@ export default function PerksCard() {
             <div className="mt-6 grid gap-3">
               <Link
                 to="/map?mode=resident&tab=pass"
-                className="inline-flex h-10 items-center justify-center gap-2 bg-[#0B1F33] px-5 text-[13px] font-semibold text-white transition-colors hover:bg-[#081521]"
+                className="inline-flex h-10 items-center justify-center gap-2 bg-[#0B1F33] px-5 text-[13px] font-semibold text-white transition-colors hover:bg-[#0B1F33]"
               >
                 <Sparkles className="w-4 h-4" />
                 Activate Your Card

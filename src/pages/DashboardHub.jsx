@@ -83,7 +83,7 @@ export default function DashboardHub() {
                 <div>
                   <Link
                     to={option.to}
-                    className="inline-flex h-10 items-center gap-2 bg-[#0B1F33] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#F7F8FB] transition-all hover:bg-[#081521]"
+                    className="inline-flex h-10 items-center gap-2 bg-[#0B1F33] px-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#F7F8FB] transition-all hover:bg-[#0B1F33]"
                   >
                     Enter
                     <ArrowRight className="h-4 w-4 text-[#B38F4F]" />

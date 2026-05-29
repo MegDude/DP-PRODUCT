@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, MapPinned, QrCode, Radar, SlidersHorizontal, Sparkles } from "lucide-react";
 import FAQAccordionBlock from "@/components/ui/FAQAccordionBlock";
 import { cn } from "@/lib/utils";
 
@@ -287,62 +287,238 @@ function CTAButton({ to, children, variant = "primary" }) {
 }
 
 function PilotStepper() {
-  const steps = [
+  const stages = [
     {
-      label: "01",
-      title: "Launch",
-      body: "Set up QR entry points and map visibility so people can find you immediately.",
-      metrics: ["QR entry", "Map visibility", "Live listing"],
+      icon: QrCode,
+      title: "Open the door downtown",
+      body: "One scan takes people from the lobby, room, event, or table tent into the places around them.",
+      signals: ["QR access", "Right audience", "Live route"],
     },
     {
-      label: "02",
-      title: "Measure",
-      body: "Track scans, saves, RSVPs, and redemptions — real behavior, not assumptions.",
-      metrics: ["Scans", "Saves", "RSVPs", "Redemptions"],
+      icon: MapPinned,
+      title: "Be the nearby choice",
+      body: "You appear while someone is already looking for coffee, dinner, drinks, fitness, shopping, or something to do next.",
+      signals: ["Map view", "Nearby intent", "Live listing"],
     },
     {
-      label: "03",
-      title: "Decide",
-      body: "Keep it, scale it, or adjust based on what actually works.",
-      metrics: ["Keep", "Scale", "Adjust"],
+      icon: Radar,
+      title: "See what moved",
+      body: "Scans, saves, RSVPs, and redemptions show the difference between being noticed and being used.",
+      signals: ["Saves", "RSVPs", "Redemptions"],
+    },
+    {
+      icon: SlidersHorizontal,
+      title: "Make the next call",
+      body: "Keep what people use, scale what is working, and adjust the offer, event, or placement when the signal is quiet.",
+      signals: ["Keep", "Scale", "Adjust"],
+    },
+  ];
+
+  const mapPins = [
+    { label: "Scan", className: "left-[14%] top-[28%]", delay: 0 },
+    { label: "Save", className: "right-[18%] top-[22%]", delay: 0.55 },
+    { label: "RSVP", className: "left-[28%] bottom-[24%]", delay: 1.1 },
+    { label: "Redeem", className: "right-[12%] bottom-[30%]", delay: 1.65 },
+  ];
+
+  return (
+    <div className="overflow-hidden rounded-[8px] border border-[#0B1F33]/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(247,248,251,0.88))] shadow-[0_24px_60px_rgba(11,31,51,0.08)]">
+      <div className="grid gap-0 lg:grid-cols-[0.92fr_1.08fr]">
+        <div className="relative min-h-[360px] border-b border-[#0B1F33]/10 bg-[#0B1F33] p-5 text-white lg:border-b-0 lg:border-r">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(179,143,79,0.2),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),transparent_48%)]" />
+          <div className="relative flex items-center justify-between gap-4">
+            <div>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38F4F]">Partner signal loop</span>
+              <h3 className="mt-2 font-heading text-2xl font-medium leading-tight tracking-normal text-white">From first scan to a real next move.</h3>
+            </div>
+            <motion.div
+              animate={{ rotate: [0, 8, -5, 0], scale: [1, 1.04, 1] }}
+              transition={{ duration: 5, repeat: Infinity, ease }}
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[6px] border border-[#B38F4F]/35 bg-white/10 shadow-[0_0_26px_rgba(179,143,79,0.16)]"
+            >
+              <Sparkles className="h-5 w-5 text-[#B38F4F]" />
+            </motion.div>
+          </div>
+
+          <div className="relative mt-8 h-[230px] overflow-hidden rounded-[8px] border border-white/12 bg-[#0B1F33] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+            <div className="absolute inset-x-0 top-1/2 h-px bg-white/10" />
+            <div className="absolute inset-y-0 left-1/2 w-px bg-white/10" />
+            <div className="absolute left-8 right-8 top-10 h-px rotate-[-16deg] bg-[#B38F4F]/35" />
+            <div className="absolute bottom-12 left-10 right-8 h-px rotate-[13deg] bg-[#B38F4F]/30" />
+            <motion.div
+              className="absolute left-[18%] top-[34%] h-2 w-2 rounded-full bg-[#B38F4F] shadow-[0_0_22px_rgba(179,143,79,0.42)]"
+              animate={{ x: [0, 84, 176, 236], y: [0, -34, 48, 16], opacity: [0.4, 1, 1, 0.5] }}
+              transition={{ duration: 5.8, repeat: Infinity, ease }}
+            />
+            {mapPins.map((pin) => (
+              <motion.div
+                key={pin.label}
+                className={cn("absolute", pin.className)}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 2.8, delay: pin.delay, repeat: Infinity, ease }}
+              >
+                <div className="rounded-[6px] border border-[#B38F4F]/28 bg-[#0B1F33]/82 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white shadow-[0_12px_34px_rgba(0,0,0,0.2)] backdrop-blur-md">
+                  {pin.label}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="relative mt-4 grid grid-cols-3 gap-2 text-[11px] font-medium text-white/76">
+            {["Entry", "Intent", "Action"].map((label, index) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0.35 }}
+                animate={{ opacity: [0.45, 1, 0.45] }}
+                transition={{ duration: 3.4, delay: index * 0.5, repeat: Infinity, ease }}
+                className="rounded-[6px] border border-white/10 bg-[#0B1F33]/70 px-3 py-2 text-center"
+              >
+                {label}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white/56 p-4 md:p-5">
+          <div className="grid gap-3 md:grid-cols-2">
+            {stages.map((stage, index) => {
+              const Icon = stage.icon;
+
+              return (
+                <motion.div
+                  key={stage.title}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  whileHover={{ y: -3 }}
+                  transition={{ duration: 0.45, delay: index * 0.08, ease }}
+                  className="group rounded-[8px] border border-[#0B1F33]/10 bg-white/78 p-4 shadow-[0_16px_36px_rgba(11,31,51,0.05)] backdrop-blur"
+                >
+                  <div className="mb-4 flex items-center gap-3">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-[6px] border border-[#B38F4F]/28 bg-[#F7F8FB] text-[#0B1F33] shadow-[0_0_22px_rgba(179,143,79,0.14)] transition-colors group-hover:bg-[#0B1F33] group-hover:text-[#B38F4F]">
+                      <Icon className="h-4 w-4" />
+                    </span>
+                    <span className="h-px flex-1 bg-[#0B1F33]/10" />
+                  </div>
+                  <h3 className="font-heading text-xl font-medium leading-tight tracking-normal text-[#0B1F33]">{stage.title}</h3>
+                  <p className="mt-2 min-h-[70px] text-[13px] leading-[1.65] text-[#0B1F33]/64">{stage.body}</p>
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {stage.signals.map((signal) => (
+                      <span key={signal} className="rounded-[5px] border border-[#0B1F33]/8 bg-[#F7F8FB] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33]/58">
+                        {signal}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          <div className="mt-4 flex flex-col gap-3 rounded-[8px] border border-[#0B1F33]/10 bg-[#F7F8FB] p-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-[13px] font-medium leading-5 text-[#0B1F33]">One downtown layer for residents, guests, visitors, venues, sponsors, and civic teams.</p>
+              <p className="mt-1 text-[12px] leading-5 text-[#0B1F33]/58">Built around what people do nearby, not what they might remember later.</p>
+            </div>
+            <a href="#get-started" className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-[5px] bg-[#0B1F33] px-4 text-[11px] font-semibold uppercase tracking-[0.13em] text-white shadow-[0_12px_24px_rgba(11,31,51,0.18)] transition-colors hover:bg-[#0B1F33]">
+              Find your path
+              <ArrowRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PartnerPromiseFlow() {
+  const proofPoints = [
+    {
+      title: "Less setup",
+      body: "We place you on the map, build the QR paths, and shape the launch so the experience is ready to use.",
+      label: "Map + QR",
+    },
+    {
+      title: "Signals you can use",
+      body: "Scans, saves, RSVPs, and redemptions show what people actually did after they found you.",
+      label: "Real actions",
+    },
+    {
+      title: "Better timing",
+      body: "You show up while people are close by, looking around, and choosing where to go next.",
+      label: "Nearby intent",
+    },
+    {
+      title: "A clear next move",
+      body: "Keep what is working, scale what is moving, and adjust the parts people are not using.",
+      label: "Tune live",
     },
   ];
 
   return (
-    <div className="rounded-lg border border-[#0B1F33]/8 bg-white p-4 shadow-[0_14px_34px_rgba(11,31,51,0.04)]">
-      <div className="grid gap-3 md:grid-cols-3">
-        {steps.map((step, index) => (
-          <motion.div
-            key={step.title}
-            initial={{ opacity: 0, y: 12 }}
+    <div className="relative overflow-hidden py-2">
+      <div className="absolute left-1/2 top-10 h-44 w-44 -translate-x-1/2 bg-[#B38F4F]/12 blur-3xl" />
+      <div className="grid gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
+        <div className="relative order-2 min-h-[330px] lg:order-1 lg:min-h-[420px]">
+          <motion.img
+            src="/images/buildings/lobby-to-street-arrival.png"
+            alt="Lobby entry point connecting people to downtown"
+            className="absolute left-0 top-2 h-52 w-[76%] object-cover shadow-[0_24px_60px_rgba(11,31,51,0.16)] lg:h-64"
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: index * 0.08, ease }}
-            className="rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] p-4"
-          >
-            <div className="mb-4 flex items-center justify-between gap-3">
-              <span className="inline-flex h-8 min-w-8 items-center justify-center rounded-md bg-[#0B1F33] px-2 text-[11px] font-semibold text-[#B38F4F]">
-                {step.label}
-              </span>
-              <span className="h-px flex-1 bg-[#0B1F33]/10" />
-            </div>
-            <h3 className="font-heading text-2xl font-medium text-[#0B1F33]">{step.title}</h3>
-            <p className="mt-2 min-h-[64px] text-[13px] leading-[1.65] text-[#0B1F33]/64">{step.body}</p>
-            <div className="mt-4 flex flex-wrap gap-1.5">
-              {step.metrics.map((metric) => (
-                <span key={metric} className="rounded-md border border-[#0B1F33]/8 bg-white px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#0B1F33]/58">
-                  {metric}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        ))}
-      </div>
-      <div className="mt-4 flex flex-col gap-2 rounded-md border border-[#0B1F33]/8 bg-[#F7F8FB] p-3 text-[13px] leading-5 text-[#0B1F33]/66 md:flex-row md:items-center md:justify-between">
-        <span>You go live. People use it. You see what actually happens.</span>
-        <a href="#get-started" className="inline-flex h-8 items-center justify-center rounded-md bg-[#0B1F33] px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
-          Start pilot
-        </a>
+            transition={{ duration: 0.55, ease }}
+          />
+          <motion.img
+            src="/images/partners/hospitality-rooftop-social.png"
+            alt="People using downtown places after discovery"
+            className="absolute bottom-0 right-0 h-52 w-[70%] object-cover shadow-[0_24px_60px_rgba(11,31,51,0.14)] lg:h-64"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.12, ease }}
+          />
+          <motion.div
+            className="absolute left-[35%] top-[43%] h-2 w-2 bg-[#B38F4F] shadow-[0_0_26px_rgba(179,143,79,0.7)]"
+            animate={{ x: [0, 42, 78, 118], y: [0, -18, 16, 34], opacity: [0.45, 1, 1, 0.5] }}
+            transition={{ duration: 4.6, repeat: Infinity, ease }}
+          />
+          <motion.div
+            className="absolute left-[30%] right-[20%] top-[50%] h-px rotate-[14deg] bg-gradient-to-r from-transparent via-[#B38F4F]/70 to-transparent"
+            animate={{ opacity: [0.25, 0.75, 0.25] }}
+            transition={{ duration: 3.8, repeat: Infinity, ease }}
+          />
+        </div>
+
+        <div className="order-1 lg:order-2">
+          <p className="font-heading text-[28px] font-medium leading-[1.08] text-[#0B1F33] md:text-[38px]">
+            A smarter way to show up when downtown decisions are happening.
+          </p>
+          <p className="mt-5 max-w-2xl text-[14px] leading-[1.75] text-[#0B1F33]/66">
+            No heavy campaign buildout. Downtown Perks connects entry points, map visibility, offers, events, and reporting into one simple path from nearby interest to actual action.
+          </p>
+
+          <div className="mt-9 space-y-7">
+            {proofPoints.map((point, index) => (
+              <motion.div
+                key={point.title}
+                initial={{ opacity: 0, x: 18 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.42, delay: index * 0.06, ease }}
+                className="grid gap-3 border-t border-[#0B1F33]/10 pt-5 md:grid-cols-[8rem_1fr]"
+              >
+                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B38F4F]">{point.label}</div>
+                <div>
+                  <h3 className="font-heading text-2xl font-medium leading-tight text-[#0B1F33]">{point.title}</h3>
+                  <p className="mt-2 max-w-xl text-[13px] leading-6 text-[#0B1F33]/62">{point.body}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -544,32 +720,7 @@ export default function PartnersIndex() {
       </Section>
 
       <Section eyebrow="Partner promise" title="Spend less. Do more." className="bg-white">
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-          <div>
-            <p className="font-heading text-[28px] font-medium leading-[1.08] text-[#0B1F33] md:text-[38px]">
-              A smarter way to show up when downtown decisions are happening.
-            </p>
-            <p className="mt-5 text-[14px] leading-[1.75] text-[#0B1F33]/66">
-              No heavy campaign buildout. No long-term commitment. Downtown Perks gives partners one live test where QR access, map visibility, perks, events, and simple reporting work together from the start.
-            </p>
-          </div>
-          <div className="rounded-lg border border-[#0B1F33]/8 bg-[#F7F8FB] p-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0B1F33]/50">What partners get</p>
-            <div className="mt-4 grid gap-2 sm:grid-cols-2">
-              {[
-                ["Less setup", "We handle map placement, QR entry points, and launch structure."],
-                ["More useful signals", "See scans, saves, RSVPs, and redemptions instead of vague attention."],
-                ["Better timing", "Reach people while they are nearby and deciding where to go next."],
-                ["Clear next steps", "Keep it, scale it, or adjust based on what people actually do."],
-              ].map(([title, body]) => (
-                <div key={title} className="rounded-md border border-[#0B1F33]/8 bg-white p-3">
-                  <h3 className="text-[13px] font-semibold text-[#0B1F33]">{title}</h3>
-                  <p className="mt-1 text-[12px] leading-5 text-[#0B1F33]/58">{body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <PartnerPromiseFlow />
         <div className="mt-8 grid gap-3 md:grid-cols-4">
           {[
             ["40+", "Active partners", "Properties, venues, hotels, brands, and civic groups in one downtown layer."],

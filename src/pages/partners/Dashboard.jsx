@@ -698,7 +698,7 @@ export default function PartnersDashboard() {
               {visibility ? "Map visibility on" : "Map visibility off"}
             </button>
           </div>
-          <div className="relative min-h-[420px] bg-[#081521]">
+          <div className="relative min-h-[420px] bg-[#0B1F33]">
             <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:72px_72px]" />
             {visibility ? (
               <>

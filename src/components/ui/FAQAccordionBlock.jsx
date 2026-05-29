@@ -63,7 +63,7 @@ export default function FAQAccordionBlock({
   const isSplit = styleVariant === "split";
 
   const sectionBg = isDark
-    ? "bg-[#081521] text-[#F7F8FB]"
+    ? "bg-[#0B1F33] text-[#F7F8FB]"
     : "bg-background";
 
   const AccordionList = (

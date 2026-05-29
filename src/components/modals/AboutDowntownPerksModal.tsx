@@ -113,7 +113,7 @@ function GlassButton({
 }) {
   const className =
     variant === "primary"
-      ? "inline-flex h-10 items-center justify-center bg-[#0B1F33] px-5 text-[13px] font-medium text-white shadow-[0_12px_26px_rgba(11,31,51,0.18)] transition-all hover:-translate-y-0.5 hover:bg-[#081521] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
+      ? "inline-flex h-10 items-center justify-center bg-[#0B1F33] px-5 text-[13px] font-medium text-white shadow-[0_12px_26px_rgba(11,31,51,0.18)] transition-all hover:-translate-y-0.5 hover:bg-[#0B1F33] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]"
       : "inline-flex h-10 items-center justify-center border border-[rgba(11,31,51,0.08)] bg-[rgba(255,255,255,0.58)] px-5 text-[13px] font-medium text-[#0B1F33] backdrop-blur-[20px] transition-all hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F]";
 
   if (to) {

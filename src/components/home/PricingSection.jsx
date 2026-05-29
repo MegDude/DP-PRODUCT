@@ -132,7 +132,7 @@ export default function PricingSection() {
         >
           <Link
             to="/partners"
-            className="inline-flex h-10 items-center gap-2 rounded-[6px] bg-[#0B1F33] px-5 text-[13px] font-medium text-white transition-all duration-300 hover:bg-[#081521]"
+            className="inline-flex h-10 items-center gap-2 rounded-[6px] bg-[#0B1F33] px-5 text-[13px] font-medium text-white transition-all duration-300 hover:bg-[#0B1F33]"
           >
             Explore all partner types <ArrowRight className="w-3.5 h-3.5" />
           </Link>

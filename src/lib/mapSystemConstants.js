@@ -75,10 +75,10 @@ export const CATEGORY_COLORS = {
   bar: '#B38F4F',
   fitness: '#0B1F33',
   wellness: '#0B1F33',
-  beauty: '#081521',
+  beauty: '#0B1F33',
   retail: '#425466',
   entertainment: '#0B1F33',
-  coworking: '#081521',
+  coworking: '#0B1F33',
   hotel: '#B38F4F',
   building: '#B38F4F',
 };

@@ -107,7 +107,7 @@ export default function PartnerMapIntelligenceLayer({
             className={`absolute z-[4] flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-md px-2.5 py-2 text-left transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
               active
                 ? "bg-white text-[#0B1F33] shadow-[0_0_0_1px_rgba(179, 143, 79, 0.08),0_16px_34px_rgba(0,0,0,0.24),0_0_34px_rgba(179, 143, 79, 0.08)]"
-                : "bg-[#081521]/88 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.12),0_14px_30px_rgba(0,0,0,0.18)] hover:-translate-y-[calc(50%+2px)] hover:bg-white hover:text-[#0B1F33] hover:shadow-[0_0_0_1px_rgba(179, 143, 79, 0.08),0_16px_34px_rgba(0,0,0,0.22),0_0_28px_rgba(179, 143, 79, 0.08)]"
+                : "bg-[#0B1F33]/88 text-white shadow-[0_0_0_1px_rgba(255,255,255,0.12),0_14px_30px_rgba(0,0,0,0.18)] hover:-translate-y-[calc(50%+2px)] hover:bg-white hover:text-[#0B1F33] hover:shadow-[0_0_0_1px_rgba(179, 143, 79, 0.08),0_16px_34px_rgba(0,0,0,0.22),0_0_28px_rgba(179, 143, 79, 0.08)]"
             }`}
             style={positionFor(point, bounds)}
           >

@@ -204,7 +204,7 @@ export default function ProductEntryLayer() {
         >
           <button
             onClick={() => navigate("/downtown-perks/card")}
-            className="rounded-[12px] bg-[#0B1F33] px-5 py-2.5 text-[13px] font-medium text-white shadow-[0_12px_30px_rgba(11,31,51,0.10)] transition-all duration-200 hover:-translate-y-[1px] hover:bg-[#081521] hover:shadow-[0_16px_34px_rgba(11,31,51,0.12)]"
+            className="rounded-[12px] bg-[#0B1F33] px-5 py-2.5 text-[13px] font-medium text-white shadow-[0_12px_30px_rgba(11,31,51,0.10)] transition-all duration-200 hover:-translate-y-[1px] hover:bg-[#0B1F33] hover:shadow-[0_16px_34px_rgba(11,31,51,0.12)]"
           >
             Get Your Card
           </button>

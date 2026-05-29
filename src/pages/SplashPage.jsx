@@ -55,6 +55,13 @@ const journeySteps = [
   },
 ];
 
+const journeyPins = [
+  { left: "18%", top: "32%", delay: 0 },
+  { left: "42%", top: "42%", delay: 0.18 },
+  { left: "64%", top: "30%", delay: 0.36 },
+  { left: "76%", top: "62%", delay: 0.54 },
+];
+
 function EditorialReveal({ children, className = "", delay = 0, amount = 0.22 }) {
   const reduceMotion = useReducedMotion();
 
@@ -73,6 +80,19 @@ function EditorialReveal({ children, className = "", delay = 0, amount = 0.22 })
 
 function JourneyNarrative() {
   const reduceMotion = useReducedMotion();
+  const [activeStep, setActiveStep] = useState(0);
+  const active = journeySteps[activeStep];
+  const ActiveIcon = active.icon;
+
+  useEffect(() => {
+    if (reduceMotion) return undefined;
+
+    const timer = window.setInterval(() => {
+      setActiveStep((current) => (current + 1) % journeySteps.length);
+    }, 3600);
+
+    return () => window.clearInterval(timer);
+  }, [reduceMotion]);
 
   return (
     <section className="relative overflow-hidden bg-[#F7F8FB] px-5 py-14 text-[#0B1F33] md:px-8 md:py-20">
@@ -100,75 +120,86 @@ function JourneyNarrative() {
           </p>
         </motion.div>
 
-        <div className="relative mt-10 md:mt-14">
-          <motion.div
-            initial={reduceMotion ? false : { scaleX: 0 }}
-            whileInView={reduceMotion ? undefined : { scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-6 right-6 top-[92px] hidden h-px origin-left bg-[#0B1F33]/10 lg:block"
-          />
-
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-            {journeySteps.map((step, index) => {
-              const Icon = step.icon;
-
-              return (
-                <motion.article
-                  key={step.number}
-                  initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-                  whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.6, delay: reduceMotion ? 0 : index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                  className="group relative"
-                >
-                  <div className="relative overflow-hidden rounded-md bg-white/72 shadow-[0_14px_44px_rgba(11,31,51,0.055)] backdrop-blur-md transition duration-300 hover:-translate-y-px hover:bg-white/86 hover:shadow-[0_18px_52px_rgba(11,31,51,0.075)]">
-                    <div className="relative aspect-[4/3] overflow-hidden bg-[#F7F8FB]">
-                      <img
-                        src={step.image}
-                        alt={step.label}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.025]"
-                      />
-                      <div className="absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-md bg-white/80 px-2.5 py-1.5 text-[10px] font-semibold text-[#0B1F33] shadow-[0_10px_26px_rgba(11,31,51,0.08)] backdrop-blur-md">
-                        <Icon className="h-3.5 w-3.5 text-[#B38F4F]" />
-                        {step.label}
-                      </div>
-                    </div>
-
-                    <div className="p-4">
-                      <div className="mb-3 flex items-center gap-2.5">
-                        <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
-                          {step.number}
-                        </span>
-                        {index < journeySteps.length - 1 && (
-                          <ArrowRight className="hidden h-3.5 w-3.5 text-[#0B1F33]/24 lg:block" />
-                        )}
-                        <span className="h-px flex-1 bg-[#0B1F33]/8 lg:hidden" />
-                      </div>
-
-                      <h3 className="text-[17px] font-semibold leading-tight tracking-[-0.015em] text-[#0B1F33]">
-                        {step.title}
-                      </h3>
-                      <p className="mt-2 text-[13px] leading-[1.55] text-[#425466]">
-                        {step.copy}
-                      </p>
-                    </div>
-                  </div>
-                </motion.article>
-              );
-            })}
-          </div>
-        </div>
-
         <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: reduceMotion ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-8 max-w-4xl bg-white/68 p-5 text-[17px] leading-[1.62] text-[#425466] shadow-[0_14px_44px_rgba(11,31,51,0.045)] backdrop-blur-md md:p-6 md:text-[20px]"
+          initial={reduceMotion ? false : { opacity: 0, y: 18, filter: "blur(5px)" }}
+          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-10"
         >
-          The resident story is simple: find what is nearby and go enjoy it. The partner story is just as simple: show up when people are close enough to act, then understand what they actually did.
+          <div className="overflow-hidden rounded-md bg-white/66 shadow-[0_18px_58px_rgba(11,31,51,0.06),inset_0_1px_0_rgba(255,255,255,0.62)] backdrop-blur-md">
+            <div className="relative min-h-[310px] overflow-hidden bg-[#F7F8FB] md:min-h-[430px]">
+              <motion.img
+                key={`${active.number}-${active.image}`}
+                src={active.image}
+                alt={active.label}
+                loading="eager"
+                className="absolute inset-0 h-full w-full object-cover brightness-[1.03] contrast-[1.02] saturate-[0.92]"
+                initial={reduceMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(247,248,251,0.00),rgba(247,248,251,0.055))]" />
+
+              {(activeStep === 0 || activeStep === 4) && (
+                <div className="absolute inset-0" aria-hidden="true">
+                  <svg className="absolute inset-0 h-full w-full" viewBox="0 0 720 430" preserveAspectRatio="none">
+                    <motion.path
+                      d="M126 144 C205 118 260 180 332 170 C430 158 468 100 560 142 C610 166 604 244 546 270"
+                      fill="none"
+                      stroke="#0B1F33"
+                      strokeWidth="2"
+                      strokeOpacity="0.24"
+                      strokeDasharray="8 10"
+                      initial={reduceMotion ? false : { pathLength: 0 }}
+                      animate={{ pathLength: 1, strokeDashoffset: reduceMotion ? 0 : -30 }}
+                      transition={{ duration: reduceMotion ? 0 : 2.2, repeat: reduceMotion ? 0 : Infinity, ease: "linear" }}
+                    />
+                  </svg>
+                  {journeyPins.map((pin) => (
+                    <motion.span
+                      key={`${pin.left}-${pin.top}`}
+                      className="absolute h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#B38F4F] shadow-[0_0_0_5px_rgba(255,255,255,0.72),0_0_22px_rgba(179,143,79,0.28)]"
+                      style={{ left: pin.left, top: pin.top }}
+                      animate={reduceMotion ? undefined : { scale: [1, 1.28, 1], opacity: [0.82, 1, 0.82] }}
+                      transition={{ duration: 2.2, delay: pin.delay, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="bg-white/62 px-4 py-4 text-[#0B1F33] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-[18px] sm:px-5 md:px-6">
+              <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#B38F4F]">
+                <ActiveIcon className="h-3.5 w-3.5" />
+                {active.label}
+              </div>
+              <div className="mt-1.5 font-heading text-[23px] font-medium leading-[0.98] tracking-[-0.025em] md:text-[31px]">
+                {active.title}
+              </div>
+              <p className="mt-1.5 max-w-2xl text-[12px] leading-[1.55] text-[#425466] md:text-[13px]">
+                {active.copy}
+              </p>
+
+              <div className="mt-3 flex gap-1.5">
+                {journeySteps.map((step, index) => {
+                  const selected = index === activeStep;
+
+                  return (
+                    <button
+                      key={step.number}
+                      type="button"
+                      aria-label={`Show step ${step.number}: ${step.title}`}
+                      onClick={() => setActiveStep(index)}
+                      className={`h-2.5 rounded-full border-0 bg-white/74 p-0 shadow-[0_6px_18px_rgba(11,31,51,0.08)] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B38F4F] ${
+                        selected ? "w-7 bg-[#B38F4F]" : "w-2.5 hover:bg-white"
+                      }`}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

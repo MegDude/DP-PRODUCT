@@ -236,7 +236,7 @@ function CategoryPanel({ category }) {
             ))}
           </div>
 
-          <Link to={category.href} className="mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#081521]">
+          <Link to={category.href} className="mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#0B1F33]">
             {category.cta}
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
@@ -368,7 +368,7 @@ function NearbyStrip() {
             Everything you need, within walking distance. See what’s close, decide quickly, and go.
           </p>
         </div>
-        <Link to="/map?mode=resident&tab=map" className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#081521]">
+        <Link to="/map?mode=resident&tab=map" className="inline-flex h-10 items-center justify-center gap-2 rounded-[6px] bg-[#0B1F33] px-4 text-[12px] font-medium text-white transition-colors hover:bg-[#0B1F33]">
           Explore downtown
           <ArrowRight className="h-3.5 w-3.5" />
         </Link>

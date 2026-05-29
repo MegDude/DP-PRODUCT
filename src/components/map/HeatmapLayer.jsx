@@ -60,7 +60,7 @@ export default function HeatmapLayer({ visible = true, data = [], timeFilter = '
   const getHeatColor = (intensity) => {
     if (intensity > 0.75) return '#B38F4F';
     if (intensity > 0.5) return '#0B1F33';
-    if (intensity > 0.25) return '#081521';
+    if (intensity > 0.25) return '#0B1F33';
     return '#0B1F33';
   };
 

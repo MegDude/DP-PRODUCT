@@ -37,7 +37,7 @@ const MARKER_CONFIG = {
     shadowBlur: '0 2px 6px rgba(11, 31, 51, 0.18)',
   },
   'standard:fitness': {
-    color: '#081521',
+    color: '#0B1F33',
     icon: '💪',
     size: 12,
     iconSize: 8,
@@ -53,7 +53,7 @@ const MARKER_CONFIG = {
     shadowBlur: '0 2px 6px rgba(11, 31, 51, 0.18)',
   },
   'standard:retail': {
-    color: '#081521',
+    color: '#0B1F33',
     icon: '🛍️',
     size: 12,
     iconSize: 8,
@@ -111,7 +111,7 @@ const MARKER_CONFIG = {
 
   // Civic
   'civic:default': {
-    color: '#081521',
+    color: '#0B1F33',
     icon: '🏛️',
     size: 14,
     iconSize: 8,

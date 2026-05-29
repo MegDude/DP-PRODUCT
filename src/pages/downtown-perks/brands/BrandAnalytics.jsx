@@ -10,7 +10,7 @@ import AnalyticsAttributionTable from '@/components/analytics/AnalyticsAttributi
 const CAMPAIGN_FORMATS = [
   { id: 'founding', label: 'Founding Partner', icon: '🏆', color: 'from-[#0B1F33] to-[#0B1F33]' },
   { id: 'launch', label: 'Launch Campaign', icon: '🚀', color: 'from-[#0B1F33] to-[#0B1F33]' },
-  { id: 'resident', label: 'Resident Activation', icon: '👥', color: 'from-[#081521] to-[#0B1F33]' },
+  { id: 'resident', label: 'Resident Activation', icon: '👥', color: 'from-[#0B1F33] to-[#0B1F33]' },
   { id: 'event', label: 'Event-Led Campaign', icon: '📍', color: 'from-[#0B1F33] to-[#0B1F33]' },
   { id: 'utility', label: 'Utility Campaign', icon: '✨', color: 'from-indigo-500 to-violet-500' }
 ];
